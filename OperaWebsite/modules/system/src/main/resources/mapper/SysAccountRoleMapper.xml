@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.system.mapper.SysAccountRoleMapper">
+  <resultMap id="BaseResultMap" type="com.opera.system.domain.SysAccountRole">
+    <!--@mbg.generated-->
+    <!--@Table sys_account_role-->
+    <id column="account_role_id" jdbcType="BIGINT" property="accountRoleId" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    account_role_id, account_id, role_id
+  </sql>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.system.mapper.SysMenuItemMapper">
+  <resultMap id="BaseResultMap" type="com.opera.system.domain.SysMenuItem">
+    <!--@mbg.generated-->
+    <!--@Table sys_menu_item-->
+    <id column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="item_remark" jdbcType="VARCHAR" property="itemRemark" />
+    <result column="item_url" jdbcType="VARCHAR" property="itemUrl" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    item_id, item_remark, item_url, is_delete, created_at, updated_at, created_by, updated_by
+  </sql>
+</mapper>

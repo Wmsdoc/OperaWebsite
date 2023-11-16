@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.system.mapper.SysAccountMapper">
+  <resultMap id="BaseResultMap" type="com.opera.system.domain.SysAccount">
+    <!--@mbg.generated-->
+    <!--@Table sys_account-->
+    <id column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="account_username" jdbcType="VARCHAR" property="accountUsername" />
+    <result column="account_password" jdbcType="VARCHAR" property="accountPassword" />
+    <result column="account_statue" jdbcType="INTEGER" property="accountStatue" />
+    <result column="playgoer_id" jdbcType="BIGINT" property="playgoerId" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    account_id, account_username, account_password, account_statue, playgoer_id, is_delete, 
+    created_at, updated_at, created_by, updated_by
+  </sql>
+</mapper>
