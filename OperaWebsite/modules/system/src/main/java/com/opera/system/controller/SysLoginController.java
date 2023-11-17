@@ -1,5 +1,6 @@
 package com.opera.system.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +15,12 @@ public class SysLoginController {
     public SaResult doLogin(String name, String pwd) {
         // 第一步：比对前端提交的账号名称、密码
         if ("zhang".equals(name) && "123456".equals(pwd)) {
-            // 第二步：根据账号id，进行登录
+            // 第1步，先登录上
             StpUtil.login(10001);
-            return SaResult.ok("登录成功");
+            // 第2步，获取 Token  相关参数
+            SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+            // 第3步，返回给前端
+            return SaResult.data(tokenInfo);
         }
         return SaResult.error("登录失败");
     }
