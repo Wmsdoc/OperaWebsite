@@ -12,3 +12,12 @@ the official Tov + Vue + Vite template: the official Tov + Vue + Vite template
 ## 个人配置
 test: test
 user: user
+classify: classify
+ranking: ranking
+upload: upload
+my: my
+Personal Center: Personal Center
+login: login
+register: register
+login/register: login/register
+logout: logout
