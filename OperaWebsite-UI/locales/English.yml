@@ -17,7 +17,11 @@ ranking: ranking
 upload: upload
 my: my
 Personal Center: Personal Center
+Hello Please Login: Hello Please Login
 login: login
 register: register
+back to login: back to login
 login/register: login/register
 logout: logout
+Username: Username
+Password: Password

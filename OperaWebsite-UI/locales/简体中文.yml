@@ -17,7 +17,11 @@ ranking: 排行
 upload: 上传
 my: 我的
 Personal Center: 个人中心
+Hello Please Login: 你好，请登录
 login: 登录
 register: 注册
+back to login: 返回登录
 login/register: 登录/注册
 logout: 退出
+Username: 用户名
+Password: 密&emsp码
