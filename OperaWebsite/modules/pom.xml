@@ -15,6 +15,7 @@
     <url>http://maven.apache.org</url>
     <modules>
         <module>system</module>
+        <module>opera</module>
     </modules>
 
     <properties>
