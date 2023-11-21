@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 /**
@@ -22,7 +23,7 @@ public class OperaType implements Serializable {
     /**
      * 类型编号
      */
-    @TableId(value = "type_id", type = IdType.INPUT)
+    @TableId(value = "type_id", type = IdType.ASSIGN_ID)
     private Long typeId;
 
     /**
@@ -41,12 +42,14 @@ public class OperaType implements Serializable {
      * 创建时间
      */
     @TableField(value = "created_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
 
     /**
      * 更新时间
      */
     @TableField(value = "updated_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;
 
     /**
