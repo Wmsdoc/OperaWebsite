@@ -5,7 +5,14 @@ import { SwitchIcon } from 'vue-dark-switch'
 const { te, t } = useI18n()
 
 const routes = getRoutes()
-	.filter((r) => !r.path.includes('notFound')&&!r.path.includes('user')&&!r.path.includes('login'))
+	.filter(
+		(r) =>
+			!r.path.includes('notFound') &&
+			!r.path.includes('user') &&
+			!r.path.includes('login') &&
+			!r.path.includes('register') &&
+			!r.path.includes('forgetPassword'),
+	)
 	.map((r) => {
 		let { path, name } = r
 		if (path === '/') {
@@ -35,8 +42,8 @@ const routes = getRoutes()
 					{{ te(r.name) ? t(r.name) : r.name }}
 				</RouterLink>
 			</li>
-			<li  class="hidden !block">
-				<UserCenter/>
+			<li class="hidden !block">
+				<UserCenter />
 			</li>
 			<li class="hidden !block">
 				<Dropdown />

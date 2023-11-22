@@ -9,5 +9,5 @@ import java.text.ParseException;
 public interface OperaAudioService extends IService<OperaAudio>{
 
 
-    Page<OperaAudio> selectByPageAndParams(int pageNum,int pageSize,int timeFlag,OperaAudio operaAudio) throws ParseException;
+    Page<OperaAudio> selectByPageAndParams(int pageNum,int pageSize,int typeId,int timeFlag,String filename ) throws ParseException;
 }
