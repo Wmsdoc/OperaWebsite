@@ -1,9 +1,29 @@
 <template>
 	<div>
 		<div>
-			<el-button style="margin-left: 16px" @click="drawer = true">
-				with footer
-			</el-button>
+			<el-row :gutter="50">
+				<el-col :span="200"
+					><el-input
+						v-model="input"
+						class="w-50 m-2"
+						placeholder="请输入文件名称"
+						v-on:keyup.enter="Search"
+						clearable
+					>
+						<template #append>
+							<div class="i-material-symbols:search" @click="Search"></div>
+						</template>
+					</el-input>
+				</el-col>
+				<el-col :span="6"
+					><span class="i-mdi:tag-search-outline" @click="drawer = true"
+						>筛选</span
+					><span @click="drawer = true">打开筛选</span></el-col
+				>
+			</el-row>
+			<!-- <el-button style="margin-left: 16px" @click="drawer = true" class="i-mdi:tag-search-outline">
+				筛选
+			</el-button> -->
 			<el-drawer v-model="drawer" :direction="direction">
 				<template #header>
 					<h4>戏曲筛选</h4>
@@ -52,13 +72,12 @@
 				</template>
 				<template #footer>
 					<div style="flex: auto">
-						<el-button @click="cancelClick">cancel</el-button>
-						<el-button type="primary" @click="confirmClick">confirm</el-button>
+						<el-button @click="cancelClick">重置</el-button>
+						<el-button type="primary" @click="confirmClick">确定</el-button>
 					</div>
 				</template>
 			</el-drawer>
 		</div>
-		<div>这是分类</div>
 		<el-row :gutter="100">
 			<el-col :span="500">
 				<el-card
@@ -78,14 +97,80 @@
 						<el-table-column type="selection" width="55" />
 						<el-table-column property="filename" label="文件名" width="120" />
 						<el-table-column fixed="right" label="操作" width="120">
-							<template #default>
-								<el-button
-									link
-									type="primary"
-									size="small"
-									@click="handleClickVideo"
+							<template #default="scope">
+								<!-- <el-button link type="primary" size="small" @click="handleClickVideo"
 									>详情</el-button
+								> -->
+								<el-popover
+									:width="300"
+									popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
 								>
+									<template #reference>
+										<el-button
+											link
+											type="primary"
+											size="small"
+											@mouseenter="enterVideo(scope.row.videoId)"
+											@click="handleClickVideo(scope.row.videoId)"
+											>详情</el-button
+										>
+									</template>
+									<template #default>
+										<div
+											class="demo-rich-conent"
+											style="display: flex; gap: 16px; flex-direction: column"
+										>
+											<el-avatar
+												:size="60"
+												src="https://avatars.githubusercontent.com/u/72015883?v=4"
+												style="margin-bottom: 8px"
+											/>
+											<div>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													发布者：{{ videoDetails.playgoerName }}
+												</p>
+												<p
+													class="demo-rich-content__mention"
+													style="
+														margin: 0;
+														font-size: 14px;
+														color: var(--el-color-info);
+													"
+												>
+													签名：{{ videoDetails.playgoerInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													音频：{{ videoDetails.typeName }}--{{
+														videoDetails.filename
+													}}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													简介：{{ videoDetails.videoInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													下载量：{{ videoDetails.downloadNum }}
+												</p>
+											</div>
+
+											<p class="demo-rich-content__desc" style="margin: 0">
+												发布时间：{{ videoDetails.createdAt }}
+											</p>
+										</div>
+									</template>
+								</el-popover>
+
 								<el-button link type="primary" size="small">下载</el-button>
 							</template>
 						</el-table-column>
@@ -128,14 +213,75 @@
 						</el-table-column> -->
 						<el-table-column property="filename" label="文件名" width="120" />
 						<el-table-column fixed="right" label="操作" width="120">
-							<template #default>
-								<el-button
-									link
-									type="primary"
-									size="small"
-									@click="handleClickAudio"
-									>详情</el-button
+							<template #default="scope">
+								<el-popover
+									:width="300"
+									popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
 								>
+									<template #reference>
+										<el-button
+											link
+											type="primary"
+											size="small"
+											@mouseenter="enterAudio(scope.row.audioId)"
+											>详情</el-button
+										>
+									</template>
+									<template #default>
+										<div
+											class="demo-rich-conent"
+											style="display: flex; gap: 16px; flex-direction: column"
+										>
+											<el-avatar
+												:size="60"
+												src="https://avatars.githubusercontent.com/u/72015883?v=4"
+												style="margin-bottom: 8px"
+											/>
+											<div>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													发布者：{{ audioDetails.playgoerName }}
+												</p>
+												<p
+													class="demo-rich-content__mention"
+													style="
+														margin: 0;
+														font-size: 14px;
+														color: var(--el-color-info);
+													"
+												>
+													签名：{{ audioDetails.playgoerInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													音频：{{ audioDetails.typeName }}--{{
+														audioDetails.filename
+													}}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													简介：{{ audioDetails.audioInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													下载量：{{ audioDetails.downloadNum }}
+												</p>
+											</div>
+
+											<p class="demo-rich-content__desc" style="margin: 0">
+												发布时间：{{ audioDetails.createdAt }}
+											</p>
+										</div>
+									</template>
+								</el-popover>
 								<el-button link type="primary" size="small">下载</el-button>
 							</template>
 						</el-table-column>
@@ -161,8 +307,10 @@
 </template>
 <script setup lang="ts">
 import { OperaType } from '~/api/types/type'
-import { OperaAudio } from '~/api/types/audio'
-import { OperaVideo } from '~/api/types/video'
+import { OperaAudio, OperaAudioVO } from '~/api/types/audio'
+import { OperaVideo, OperaVideoVO } from '~/api/types/video'
+import router from '~/plugins/router';
+
 const loading = ref(false)
 const drawer = ref(true)
 const direction = 'rtl'
@@ -172,6 +320,8 @@ const radioFormat = ref('0')
 const radioType = ref('0')
 //发布时间
 const radioTime = ref('0')
+//搜索框
+const input = ref('')
 
 //分页
 const currentPageVideo = ref(0)
@@ -186,10 +336,14 @@ const background = ref(false)
 const typeList = ref<OperaType[]>()
 const operaAudioList = ref<OperaAudio[]>()
 const operaVideoList = ref<OperaVideo[]>()
+//详情数据
+const audioDetails = ref<OperaAudioVO>({})
+const videoDetails = ref<OperaVideoVO>({})
+
 const queryParams = {
 	typeId: radioType.value,
 	timeFlag: radioTime.value,
-	filename: null,
+	filename: '',
 	pageSizeAudio: pageSizeAudio.value,
 	pageNumAudio: currentPageAudio.value,
 	pageSizeVideo: pageSizeVideo.value,
@@ -226,12 +380,6 @@ function getOpera(queryParams: any) {
 }
 
 //分页
-const handleClickVideo = () => {
-	console.log('click')
-}
-const handleClickAudio = () => {
-	console.log('click')
-}
 const handleSizeChangeAudio = (val: number) => {
 	console.log(`page size: ${val}`)
 	queryParams.pageSizeAudio = val
@@ -269,11 +417,45 @@ const handleCurrentChangeVideo = (val: number) => {
 	})
 }
 
+//搜索
+const Search = () => {
+	console.log('input', input.value)
+	queryParams.filename = input.value
+	confirmClick()
+}
+
+//鼠标悬浮事件
+const enterVideo = (videoId: number) => {
+	console.log('enterVideo')
+	getVideoDetails(videoId).then((res) => {
+		videoDetails.value = res.data
+		console.log(res.data)
+	})
+}
+const enterAudio = (audioId: number) => {
+	console.log(audioId)
+	getAudioDetails(audioId).then((res) => {
+		audioDetails.value = res.data
+		console.log(res.data)
+	})
+}
+
+//获取详情,页面跳转
+function handleClickVideo(videoId: number) {
+	router.push({ path: '/opera' ,
+		query: {
+			id: videoId,
+			type: 'video',
+		},
+	})
+}
+
 //抽屉
 function cancelClick() {
-	// radioFormat.value = '0'
-	// radioType.value = '0'
-	// radioTime.value = '0'
+	radioFormat.value = '0'
+	radioType.value = '0'
+	radioTime.value = '0'
+	confirmClick()
 	drawer.value = false
 }
 function confirmClick() {

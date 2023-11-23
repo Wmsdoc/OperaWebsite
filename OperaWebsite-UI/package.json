@@ -29,6 +29,8 @@
   },
   "packageManager": "pnpm@8.8.0",
   "devDependencies": {
+    "@iconify-json/material-symbols": "^1.1.63",
+    "@iconify-json/mdi": "^1.1.55",
     "@intlify/unplugin-vue-i18n": "^1.4.0",
     "@types/ityped": "^1.0.1",
     "@types/node": "^18.18.4",

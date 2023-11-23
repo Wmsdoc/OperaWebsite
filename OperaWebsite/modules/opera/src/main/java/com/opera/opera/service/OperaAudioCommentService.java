@@ -2,7 +2,12 @@ package com.opera.opera.service;
 
 import com.opera.opera.domain.OperaAudioComment;
 import com.baomidou.mybatisplus.extension.service.IService;
-public interface OperaAudioCommentService extends IService<OperaAudioComment>{
+import com.opera.opera.domain.vo.OperaAudioCommentVO;
+
+import java.util.List;
+
+public interface OperaAudioCommentService extends IService<OperaAudioComment> {
 
 
+    List<OperaAudioCommentVO> getCommentById(Long audioId);
 }

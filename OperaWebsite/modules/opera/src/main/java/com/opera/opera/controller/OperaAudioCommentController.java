@@ -1,6 +1,8 @@
 package com.opera.opera.controller;
 
+import cn.dev33.satoken.util.SaResult;
 import com.opera.opera.domain.OperaAudioComment;
+import com.opera.opera.service.OperaAudioCommentService;
 import com.opera.opera.service.impl.OperaAudioCommentServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,14 @@ public class OperaAudioCommentController {
      * 服务对象
      */
     @Resource
-    private OperaAudioCommentServiceImpl operaAudioCommentServiceImpl;
+    private OperaAudioCommentService operaAudioCommentService;
 
-
+    /**
+     * 根据id 查询评论信息
+     */
+    @GetMapping("/getComment")
+    public SaResult getComment(@RequestParam("audioId") Long audioId) {
+        return SaResult.data(operaAudioCommentService.getCommentById(audioId));
+    }
 
 }

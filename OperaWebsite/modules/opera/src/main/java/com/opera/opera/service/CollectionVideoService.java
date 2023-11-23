@@ -5,4 +5,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface CollectionVideoService extends IService<CollectionVideo>{
 
 
+    Long countById(Long videoId);
 }

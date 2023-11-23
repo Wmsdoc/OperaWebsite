@@ -18,4 +18,26 @@
     comment_id, playgoer_id, comment_info, is_delete, created_at, updated_at, created_by, 
     updated_by
   </sql>
+
+  <select id="selectCommentById" resultType="com.opera.opera.domain.vo.OperaAudioCommentVO">
+    SELECT
+      comment_id,
+      playgoer.playgoer_id,
+      playgoer_name,
+      playgoer_headpic,
+      comment_info,
+      comm.updated_at
+    FROM
+      playgoer
+        INNER JOIN
+      (SELECT
+         comment_id,
+         playgoer_id,
+         comment_info,
+         updated_at
+       FROM
+         opera_audio_comment
+       WHERE audio_id=#{audioId}) AS comm
+      ON comm.playgoer_id=playgoer.playgoer_id
+  </select>
 </mapper>

@@ -13,6 +13,12 @@ dependencies:
     version: 8.10.5
 
 devDependencies:
+  '@iconify-json/material-symbols':
+    specifier: ^1.1.63
+    version: 1.1.63
+  '@iconify-json/mdi':
+    specifier: ^1.1.55
+    version: 1.1.55
   '@intlify/unplugin-vue-i18n':
     specifier: ^1.4.0
     version: 1.5.0(vue-i18n@9.6.5)
@@ -1743,6 +1749,18 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
+    dev: true
+
+  /@iconify-json/material-symbols@1.1.63:
+    resolution: {integrity: sha512-khNlplaY/iEQtnhVgegAZalH32QPohu7gjQDFK2cChjO1FELzixh3iDwEzOonue4ZZPiCT/EPzxT+rWDrSF0hg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/mdi@1.1.55:
+    resolution: {integrity: sha512-ycnFub+EQx+3D/aDCg6iC7sjexOUa5GzxUNIZFFl0Pq7aDxbmhIludoyYnguEO3REyWf9FcOOmvVcQkdtwKHTw==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify/types@2.0.0:

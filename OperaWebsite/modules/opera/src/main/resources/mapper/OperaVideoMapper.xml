@@ -33,6 +33,7 @@
     <select id="selectById" resultType="com.opera.opera.domain.vo.OperaVideoVO">
         SELECT playgoer_name,
                playgoer_info,
+               playgoer_headpic,
                video_id,
                video_info,
                type_name,

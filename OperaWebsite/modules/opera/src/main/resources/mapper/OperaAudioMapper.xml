@@ -25,6 +25,7 @@
   <select id="selectById" resultType="com.opera.opera.domain.vo.OperaAudioVO">
       SELECT playgoer_name,
              playgoer_info,
+             playgoer_headpic,
              audio_id,
              audio_info,
              type_name,
