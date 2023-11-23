@@ -21,4 +21,42 @@
     audio_id, audio_info, type_id, download_num, filename, is_examine, is_delete, created_at, 
     updated_at, created_by, updated_by
   </sql>
+
+  <select id="selectById" resultType="com.opera.opera.domain.vo.OperaAudioVO">
+      SELECT playgoer_name,
+             playgoer_info,
+             audio_id,
+             audio_info,
+             type_name,
+             download_num,
+             filename,
+             audio.playgoer_id,
+             audio.created_at,
+             audio.created_by,
+             audio.updated_at
+      FROM playgoer
+               INNER JOIN (SELECT playgoer_id,
+                                  audio_id,
+                                  audio_info,
+                                  type_name,
+                                  download_num,
+                                  filename,
+                                  audio.created_at,
+                                  audio.created_by,
+                                  audio.updated_at
+                           FROM sys_account
+                                    INNER JOIN (SELECT audio_id,
+                                                       audio_info,
+                                                       type_name,
+                                                       download_num,
+                                                       filename,
+                                                       opera_audio.created_at,
+                                                       opera_audio.created_by,
+                                                       opera_audio.updated_at
+                                                FROM opera_audio
+                                                         INNER JOIN opera_type ON opera_audio.type_id = opera_type.type_id
+                                                WHERE audio_id = #{audioId}) AS audio
+                                               ON sys_account.account_id = audio.created_by) AS audio
+                          ON playgoer.playgoer_id = audio.playgoer_id
+  </select>
 </mapper>

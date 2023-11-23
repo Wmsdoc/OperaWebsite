@@ -26,13 +26,21 @@ public class OperaAudioController {
     private OperaAudioService operaAudioService;
 
     /**
+     * 根据ID查询音频详情
+     */
+    @GetMapping("getById")
+    public SaResult getById(@RequestParam("audioId") Long audioId) {
+        return SaResult.data(operaAudioService.selectById(audioId));
+    }
+
+    /**
      * 根据前端传入参数，进行筛选
      */
     @GetMapping("getByPageAndParams")
     public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                       @RequestParam(value = "typeId",defaultValue = "0", required = false) Integer typeId,
-                                       @RequestParam(value = "timeFlag",defaultValue = "0", required = false) Integer timeFlag,
+                                       @RequestParam(value = "typeId", defaultValue = "0", required = false) Integer typeId,
+                                       @RequestParam(value = "timeFlag", defaultValue = "0", required = false) Integer timeFlag,
                                        @RequestParam(value = "filename", required = false) String filename) throws ParseException {
         return SaResult.data(operaAudioService.selectByPageAndParams(pageNum, pageSize, typeId, timeFlag, filename));
     }

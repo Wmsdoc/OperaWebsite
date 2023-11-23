@@ -26,6 +26,14 @@ public class OperaVideoController {
     private OperaVideoService operaVideoService;
 
     /**
+     * 根据ID查询视频详情
+     */
+    @GetMapping("getById")
+    public SaResult getById(@RequestParam("videoId") Long videoId) {
+        return SaResult.data(operaVideoService.selectById(videoId));
+    }
+
+    /**
      * 根据前端传入参数，进行筛选
      */
     @GetMapping("getByPageAndParams")

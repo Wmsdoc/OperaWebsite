@@ -10,6 +10,14 @@ export function getAudio(queryParams: any) {
 		},
 	})
 }
+// 根据Id查询戏曲音频详情
+export function getAudioDetails(audioId: any) {
+	return http.get('/opera/audio/getById', {
+		params: {
+			audioId: audioId,
+		},
+	})
+}
 // 查询戏曲视频
 export function getVideo(queryParams: any) {
 	return http.get('/opera/video/getByPageAndParams', {
@@ -19,6 +27,14 @@ export function getVideo(queryParams: any) {
 			filename: queryParams.filename,
 			pageNum: queryParams.pageNumVideo,
 			pageSize: queryParams.pageSizeVideo,
+		},
+	})
+}
+// 根据Id查询戏曲音频详情
+export function getVideoDetails(videoId: any) {
+	return http.get('/opera/video/getById', {
+		params: {
+			videoId: videoId,
 		},
 	})
 }

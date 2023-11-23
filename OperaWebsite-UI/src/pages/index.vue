@@ -21,10 +21,79 @@
 						<el-table-column type="selection" width="55" />
 						<el-table-column property="filename" label="文件名" width="120" />
 						<el-table-column fixed="right" label="操作" width="120">
-							<template #default>
-								<el-button link type="primary" size="small" @click="handleClickVideo"
+							<template #default="scope">
+								<!-- <el-button link type="primary" size="small" @click="handleClickVideo"
 									>详情</el-button
+								> -->
+								<el-popover
+									:width="300"
+									popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
 								>
+									<template #reference>
+										<el-button
+											link
+											type="primary"
+											size="small"
+											@mouseenter="enterVideo(scope.row.videoId)"
+											>详情</el-button
+										>
+									</template>
+									<template #default>
+										<div
+											class="demo-rich-conent"
+											style="display: flex; gap: 16px; flex-direction: column"
+										>
+											<el-avatar
+												:size="60"
+												src="https://avatars.githubusercontent.com/u/72015883?v=4"
+												style="margin-bottom: 8px"
+											/>
+											<div>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													发布者：{{ videoDetails.playgoerName }}
+												</p>
+												<p
+													class="demo-rich-content__mention"
+													style="
+														margin: 0;
+														font-size: 14px;
+														color: var(--el-color-info);
+													"
+												>
+													签名：{{ videoDetails.playgoerInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													音频：{{ videoDetails.typeName }}--{{
+														videoDetails.filename
+													}}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													简介：{{ videoDetails.videoInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													下载量：{{ videoDetails.downloadNum }}
+												</p>
+											</div>
+
+											<p class="demo-rich-content__desc" style="margin: 0">
+												发布时间：{{ videoDetails.createdAt }}
+											</p>
+										</div>
+									</template>
+								</el-popover>
+
 								<el-button link type="primary" size="small">下载</el-button>
 							</template>
 						</el-table-column>
@@ -67,10 +136,75 @@
 						</el-table-column> -->
 						<el-table-column property="filename" label="文件名" width="120" />
 						<el-table-column fixed="right" label="操作" width="120">
-							<template #default>
-								<el-button link type="primary" size="small" @click="handleClickAudio"
-									>详情</el-button
+							<template #default="scope">
+								<el-popover
+									:width="300"
+									popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
 								>
+									<template #reference>
+										<el-button
+											link
+											type="primary"
+											size="small"
+											@mouseenter="enterAudio(scope.row.audioId)"
+											>详情</el-button
+										>
+									</template>
+									<template #default>
+										<div
+											class="demo-rich-conent"
+											style="display: flex; gap: 16px; flex-direction: column"
+										>
+											<el-avatar
+												:size="60"
+												src="https://avatars.githubusercontent.com/u/72015883?v=4"
+												style="margin-bottom: 8px"
+											/>
+											<div>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													发布者：{{ audioDetails.playgoerName }}
+												</p>
+												<p
+													class="demo-rich-content__mention"
+													style="
+														margin: 0;
+														font-size: 14px;
+														color: var(--el-color-info);
+													"
+												>
+													签名：{{ audioDetails.playgoerInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													音频：{{ audioDetails.typeName }}--{{
+														audioDetails.filename
+													}}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													简介：{{ audioDetails.audioInfo }}
+												</p>
+												<p
+													class="demo-rich-content__name"
+													style="margin: 0; font-weight: 500"
+												>
+													下载量：{{ audioDetails.downloadNum }}
+												</p>
+											</div>
+
+											<p class="demo-rich-content__desc" style="margin: 0">
+												发布时间：{{ audioDetails.createdAt }}
+											</p>
+										</div>
+									</template>
+								</el-popover>
 								<el-button link type="primary" size="small">下载</el-button>
 							</template>
 						</el-table-column>
@@ -95,8 +229,8 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { OperaAudio } from '~/api/types/audio'
-import { OperaVideo } from '~/api/types/video'
+import { OperaAudio, OperaAudioVO } from '~/api/types/audio'
+import { OperaVideo, OperaVideoVO } from '~/api/types/video'
 // import { getAudio } from '~/api/index'
 
 const loading = ref(false)
@@ -113,6 +247,10 @@ const background = ref(false)
 
 const operaAudioList = ref<OperaAudio[]>()
 const operaVideoList = ref<OperaVideo[]>()
+//详情数据
+const audioDetails = ref<OperaAudioVO>({})
+const videoDetails = ref<OperaVideoVO>({})
+
 const queryParams = {
 	filename: null,
 	pageSizeAudio: pageSizeAudio.value,
@@ -128,7 +266,6 @@ function getOpera(queryParams: any) {
 			totalVideo.value = res.data.total
 			pageSizeVideo.value = res.data.size
 			currentPageVideo.value = res.data.current
-			console.log(res.data)
 		})
 		.then(() => {
 			getAudio(queryParams).then((res) => {
@@ -136,6 +273,7 @@ function getOpera(queryParams: any) {
 				totalAudio.value = res.data.total
 				pageSizeAudio.value = res.data.size
 				currentPageAudio.value = res.data.current
+				console.log(res.data)
 			})
 		})
 		.finally(() => {
@@ -143,12 +281,6 @@ function getOpera(queryParams: any) {
 		})
 }
 
-const handleClickVideo = () => {
-	console.log('click')
-}
-const handleClickAudio = () => {
-	console.log('click')
-}
 const handleSizeChangeAudio = (val: number) => {
 	console.log(`page size: ${val}`)
 	queryParams.pageSizeAudio = val
@@ -183,6 +315,23 @@ const handleCurrentChangeVideo = (val: number) => {
 		operaVideoList.value = res.data.records
 		pageSizeVideo.value = res.data.size
 		currentPageVideo.value = res.data.current
+	})
+}
+
+//鼠标悬浮事件
+const enterVideo = (videoId: number) => {
+	console.log('enterVideo')
+	getVideoDetails(videoId).then((res) => {
+		videoDetails.value = res.data
+		console.log(res.data)
+	})
+
+}
+const enterAudio = (audioId: number) => {
+	console.log(audioId)
+	getAudioDetails(audioId).then((res) => {
+		audioDetails.value = res.data
+		console.log(res.data)
 	})
 }
 

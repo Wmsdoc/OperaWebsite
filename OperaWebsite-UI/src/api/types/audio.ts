@@ -19,7 +19,7 @@ export interface OperaAudio {
 	 */
 	downloadNum?: number
 	/**
-	 * 视频文件名称
+	 * 文件名称
 	 */
 	filename?: string
 	/**
@@ -46,4 +46,55 @@ export interface OperaAudio {
 	 * 修改人
 	 */
 	updatedBy?: number
+}
+
+export interface OperaAudioVO {
+	/**
+	 * 戏曲编号
+	 */
+	audioId?: number
+	/**
+	 * 戏曲简介
+	 */
+	audioInfo?: string
+	/**
+	 * 创建时间
+	 */
+	createdAt?: Date
+	/**
+	 * 创建人
+	 */
+	createdBy?: number
+	/**
+	 * 戏曲音频下载量
+	 */
+	downloadNum?: number
+	/**
+	 * 文件名称
+	 */
+	filename?: string
+	/**
+	 * 用户头像
+	 */
+	playgoerAvatar?: string
+	/**
+	 * 用户昵称
+	 */
+	playgoerName?: string
+	/**
+	 * 用户编号
+	 */
+	playgoerId?: number
+	/**
+	 * 用户简介
+	 */
+	playgoerInfo?: string
+	/**
+	 * 戏曲类型
+	 */
+	typeName?: string
+	/**
+	 * 更新时间
+	 */
+	updatedAt?: Date
 }
