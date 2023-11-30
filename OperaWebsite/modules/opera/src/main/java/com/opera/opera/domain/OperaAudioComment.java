@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 /**
-    * 戏曲音频评论表
-    */
+ * 戏曲音频评论表
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +25,12 @@ public class OperaAudioComment implements Serializable {
      */
     @TableId(value = "comment_id", type = IdType.ASSIGN_ID)
     private Long commentId;
+
+    /**
+     * 戏曲音频编号
+     */
+    @TableField(value = "audio_id")
+    private Long audioId;
 
     /**
      * 评论者

@@ -273,7 +273,6 @@ function getOpera(queryParams: any) {
 				totalAudio.value = res.data.total
 				pageSizeAudio.value = res.data.size
 				currentPageAudio.value = res.data.current
-				console.log(res.data)
 			})
 		})
 		.finally(() => {
@@ -282,7 +281,6 @@ function getOpera(queryParams: any) {
 }
 
 const handleSizeChangeAudio = (val: number) => {
-	console.log(`page size: ${val}`)
 	queryParams.pageSizeAudio = val
 	getAudio(queryParams).then((res) => {
 		operaAudioList.value = res.data.records
@@ -320,7 +318,6 @@ const handleCurrentChangeVideo = (val: number) => {
 
 //鼠标悬浮事件
 const enterVideo = (videoId: number) => {
-	console.log('enterVideo')
 	getVideoDetails(videoId).then((res) => {
 		videoDetails.value = res.data
 		console.log(res.data)

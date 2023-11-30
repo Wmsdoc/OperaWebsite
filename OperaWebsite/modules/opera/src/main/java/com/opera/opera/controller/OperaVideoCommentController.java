@@ -1,9 +1,7 @@
 package com.opera.opera.controller;
 
 import cn.dev33.satoken.util.SaResult;
-import com.opera.opera.domain.OperaVideoComment;
 import com.opera.opera.service.OperaVideoCommentService;
-import com.opera.opera.service.impl.OperaVideoCommentServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * @author xxxxx
  */
 @RestController
-@RequestMapping("/opera_video_comment")
+@RequestMapping("/video/comment")
 public class OperaVideoCommentController {
     /**
      * 服务对象
@@ -26,8 +24,15 @@ public class OperaVideoCommentController {
      * 根据id 查询评论信息
      */
     @GetMapping("/getComment")
-    public SaResult getComment(@RequestParam("videoId") Long videoId) {
-        return SaResult.data(operaVideoCommentService.getCommentById(videoId));
+    public SaResult getComment(@RequestParam("videoId") Long videoId, @RequestParam("page") Integer page) {
+        return SaResult.data(operaVideoCommentService.getCommentById(videoId, page));
     }
 
+    /**
+     * 根据id新增评论
+     */
+    @PostMapping("/insert/{videoId}/{content}")
+    public SaResult insert(@PathVariable("videoId") Long videoId, @PathVariable("content") String content) {
+        return SaResult.data(operaVideoCommentService.insert(videoId, content));
+    }
 }

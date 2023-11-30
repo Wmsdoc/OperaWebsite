@@ -16,6 +16,7 @@
     <modules>
         <module>system</module>
         <module>opera</module>
+        <module>file</module>
     </modules>
 
     <properties>

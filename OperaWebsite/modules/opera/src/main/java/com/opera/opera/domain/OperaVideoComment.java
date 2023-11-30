@@ -27,6 +27,13 @@ public class OperaVideoComment implements Serializable {
     private Long commentId;
 
     /**
+     * 戏曲音频编号
+     */
+    @TableField(value = "video_id")
+    private Long videoId;
+
+
+    /**
      * 评论者
      */
     @TableField(value = "playgoer_id")

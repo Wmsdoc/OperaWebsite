@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @author xxxxx
  */
 @RestController
-@RequestMapping("/opera_audio_comment")
+@RequestMapping("/audio/comment")
 public class OperaAudioCommentController {
     /**
      * 服务对象
@@ -26,8 +26,16 @@ public class OperaAudioCommentController {
      * 根据id 查询评论信息
      */
     @GetMapping("/getComment")
-    public SaResult getComment(@RequestParam("audioId") Long audioId) {
-        return SaResult.data(operaAudioCommentService.getCommentById(audioId));
+    public SaResult getComment(@RequestParam("audioId") Long audioId,@RequestParam("page") Integer page) {
+        return SaResult.data(operaAudioCommentService.getCommentById(audioId,page));
+    }
+
+    /**
+     * 根据id新增评论
+     */
+    @PostMapping("/insert/{audioId}/{content}")
+    public SaResult insert(@PathVariable("audioId") Long audioId,@PathVariable("content") String content) {
+        return SaResult.data(operaAudioCommentService.insert(audioId,content));
     }
 
 }

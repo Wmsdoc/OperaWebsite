@@ -9,5 +9,7 @@ import java.util.List;
 public interface OperaVideoCommentService extends IService<OperaVideoComment>{
 
 
-    List<OperaVideoCommentVO> getCommentById(Long videoId);
+    List<OperaVideoCommentVO> getCommentById(Long videoId,Integer page);
+
+    Boolean insert(Long videoId, String content);
 }

@@ -1,11 +1,10 @@
 package com.opera.opera.controller;
 
+import cn.dev33.satoken.util.SaResult;
 import com.opera.opera.service.CollectionAudioService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xxxxx
  */
 @RestController
-@RequestMapping("/collection_audio")
+@RequestMapping("/audio/collection")
 public class CollectionAudioController {
     /**
      * 服务对象
@@ -25,9 +24,32 @@ public class CollectionAudioController {
     /**
      * 根据id统计收藏数
      */
-    @GetMapping("/count")
-    public Long count(@RequestParam("audioId") Long audioId) {
-        return collectionAudioService.countById(audioId);
+    @GetMapping("/count/{audioId}")
+    public SaResult count(@PathVariable Long audioId) {
+        return SaResult.data(collectionAudioService.countById(audioId));
     }
 
+    /**
+     * 根据id判断是否收藏
+     */
+    @GetMapping("/isCollection")
+    public SaResult isCollection(@RequestParam("audioId") Long audioId, @RequestParam("playgoerId") Long playgoerId) {
+        return SaResult.data(collectionAudioService.isCollection(audioId, playgoerId));
+    }
+
+    /**
+     * 根据id收藏音频
+     */
+    @PostMapping("/insert/{audioId}/{playgoerId}")
+    public SaResult collection(@PathVariable("audioId") Long audioId, @PathVariable("playgoerId") Long playgoerId) {
+        return SaResult.data(collectionAudioService.insert(audioId, playgoerId));
+    }
+
+    /**
+     * 根据id取消收藏音频
+     */
+    @DeleteMapping("/delete")
+    public SaResult delete(@RequestParam("audioId") Long audioId, @RequestParam("playgoerId") Long playgoerId) {
+        return SaResult.data(collectionAudioService.delete(audioId, playgoerId));
+    }
 }

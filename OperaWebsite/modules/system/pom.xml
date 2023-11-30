@@ -67,6 +67,12 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.opera</groupId>
+            <artifactId>common-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 </project>

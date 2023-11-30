@@ -39,7 +39,13 @@
                      comment_info,
                      updated_at
               FROM opera_video_comment
-              WHERE video_id = #{videoId}) AS comm
+              WHERE video_id = #{videoId}
+        limit
+        <if test="page != 0">
+            #{page},
+        </if>
+        10) AS comm
              ON comm.playgoer_id = playgoer.playgoer_id
+       ORDER BY comm.updated_at DESC
     </select>
 </mapper>

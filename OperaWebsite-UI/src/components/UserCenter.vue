@@ -5,19 +5,27 @@
 	</div>
 </template>
 <script setup lang="ts">
-const { t } = useI18n()
-let flag = false
+// import { getUserStorage } from '~/api/user'
+import { islogin } from '~/api/user'
 
-function isLogin(): void {
-	// localStorage.setItem('token', '123456')
-	console.log(localStorage.getItem('token'))
+const { t } = useI18n()
+const flag = ref(false)
+
+function getIsLogin() {
 	//判断用户是否登录
-	console.log('isLogin')
 	const token = localStorage.getItem('token')
-	if (token != null) {
-		flag = true
+	if (token === null || token === '' || token === undefined) {
+		return
+	} else {
+		islogin().then((res) => {
+			flag.value = res.data
+			if (!res.data) {
+				localStorage.removeItem('token')
+				localStorage.removeItem('playgoerId')
+			}
+		})
 	}
 }
 
-isLogin()
+getIsLogin()
 </script>

@@ -7,11 +7,11 @@
 			<div>
 				<el-form :model="form" label-width="120px">
 					<h3 class="title">戏曲网-登录</h3>
-					<el-form-item label="Username">
+					<el-form-item label="用户名">
 						<!-- <el-icon><User /></el-icon> -->
 						<el-input v-model="form.username" type="text" />
 					</el-form-item>
-					<el-form-item label="Password">
+					<el-form-item label="密&emsp;码">
 						<!-- <el-icon><Unlock /></el-icon> -->
 						<el-input v-model="form.password" type="password" />
 					</el-form-item>
@@ -29,9 +29,10 @@
 
 <script setup lang="ts">
 import router from '~/plugins/router'
+import { login } from '~/api/user'
 
 const { t } = useI18n()
-const form = reactive({
+const form = ref({
 	username: '',
 	password: '',
 })
@@ -39,8 +40,33 @@ const form = reactive({
  * 登录
  */
 function handleLogin() {
-	console.log('handleLogin')
-	return true
+	if (form.value.username == '') {
+		toast.warning('请输入用户名')
+		return
+	} else if (form.value.password == '') {
+		toast.warning('请输入密码')
+		return
+	}
+	let data = JSON.stringify(form.value)
+	login(data).then((res) => {
+		if (res.data == null) {
+			toast.error('登录失败,请检查用户名或密码是否正确')
+			form.value.password = ''
+		} else {
+			console.log(res.data)
+			// 登录成功后将用户信息存入localStorage
+			localStorage.setItem('token', res.data.tokenValue)
+			localStorage.setItem('playgoerId', res.data.loginId)
+			toast.success("登录成功!!!");
+			// 有上一页则返回
+			if (window.history.state.back) {
+				router.back()
+			} else {
+				// 没有上一页则返回到首页
+				router.replace({ path: '/' })
+			}
+		}
+	})
 }
 
 function handleRegister(): void {

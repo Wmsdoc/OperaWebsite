@@ -20,4 +20,28 @@ public class CollectionVideoServiceImpl extends ServiceImpl<CollectionVideoMappe
         queryWrapper.eq("video_id", videoId);
         return baseMapper.selectCount(queryWrapper);
     }
+
+    @Override
+    public Boolean isCollection(Long videoId, Long playgoerId) {
+        QueryWrapper<CollectionVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("video_id", videoId);
+        queryWrapper.eq("playgoer_id", playgoerId);
+        return baseMapper.selectCount(queryWrapper) > 0;
+    }
+
+    @Override
+    public Boolean insert(Long videoId, Long playgoerId) {
+        CollectionVideo collectionVideo = new CollectionVideo();
+        collectionVideo.setVideoId(videoId);
+        collectionVideo.setPlaygoerId(playgoerId);
+        return baseMapper.insert(collectionVideo) > 0;
+    }
+
+    @Override
+    public Boolean delete(Long videoId, Long playgoerId) {
+        QueryWrapper<CollectionVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("video_id", videoId);
+        queryWrapper.eq("playgoer_id", playgoerId);
+        return baseMapper.delete(queryWrapper) > 0;
+    }
 }

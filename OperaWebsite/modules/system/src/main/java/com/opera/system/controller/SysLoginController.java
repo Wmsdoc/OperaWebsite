@@ -3,23 +3,28 @@ package com.opera.system.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.opera.system.domain.SysAccount;
+import com.opera.system.domain.form.LoginBody;
+import com.opera.system.service.SysAccountService;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/system")
 public class SysLoginController {
 
+    @Resource
+    private SysAccountService sysAccountService;
+
     // 会话登录接口
-    @RequestMapping("/doLogin")
-    public SaResult doLogin(String name, String pwd) {
-        // 第一步：比对前端提交的账号名称、密码
-        if ("zhang".equals(name) && "123456".equals(pwd)) {
-            // 第1步，先登录上
-            StpUtil.login(10001);
-            // 第2步，获取 Token  相关参数
+    @PostMapping("/doLogin")
+    public SaResult doLogin(@RequestBody LoginBody loginBody) {
+        //进行数据库验证
+        SysAccount account = sysAccountService.dologin(loginBody.getUsername(), loginBody.getPassword());
+        if (account != null) {
+            StpUtil.login(account.getAccountId());
             SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-            // 第3步，返回给前端
+            //修改登录的id为个人资料的id
+            tokenInfo.setLoginId(account.getPlaygoerId());
             return SaResult.data(tokenInfo);
         }
         return SaResult.error("登录失败");
@@ -29,14 +34,13 @@ public class SysLoginController {
     @RequestMapping("/logout")
     public SaResult logout() {
         StpUtil.logout();
-        return SaResult.ok();
+        return SaResult.data("退出成功");
     }
 
     // 会话校验接口
     @RequestMapping("/isLogin")
     public SaResult isLogin() {
         // 获取当前会话是否已经登录，返回true=已登录，false=未登录
-        //StpUtil.isLogin();
-        return SaResult.ok("当前会话登录状态：" + StpUtil.isLogin(10001));
+        return SaResult.data(StpUtil.isLogin());
     }
 }

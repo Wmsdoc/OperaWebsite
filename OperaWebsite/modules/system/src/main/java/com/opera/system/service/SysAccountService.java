@@ -5,4 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SysAccountService extends IService<SysAccount>{
 
 
+    SysAccount dologin(String username, String password);
+
+    Long getPlaygoerIdByAccountId(Long accountId);
 }

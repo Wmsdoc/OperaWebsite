@@ -9,5 +9,7 @@ import java.util.List;
 public interface OperaAudioCommentService extends IService<OperaAudioComment> {
 
 
-    List<OperaAudioCommentVO> getCommentById(Long audioId);
+    List<OperaAudioCommentVO> getCommentById(Long audioId,Integer page);
+
+    Boolean insert(Long audioId, String content);
 }

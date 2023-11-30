@@ -6,4 +6,10 @@ public interface CollectionVideoService extends IService<CollectionVideo>{
 
 
     Long countById(Long videoId);
+
+    Boolean isCollection(Long videoId, Long playgoerId);
+
+    Boolean insert(Long videoId, Long playgoerId);
+
+    Boolean delete(Long videoId, Long playgoerId);
 }

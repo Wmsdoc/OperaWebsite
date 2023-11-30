@@ -1,5 +1,5 @@
 /**
- * 戏曲视频
+ * 戏曲音频
  */
 export interface OperaAudio {
 	/**

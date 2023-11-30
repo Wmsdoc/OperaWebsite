@@ -11,7 +11,8 @@
 						clearable
 					>
 						<template #append>
-							<div class="i-material-symbols:search" @click="Search"></div>
+							<button class="i-material-symbols:search" @click="Search"></button>
+							<!-- <div class="i-material-symbols:search" @click="Search"></div> -->
 						</template>
 					</el-input>
 				</el-col>
@@ -224,6 +225,7 @@
 											type="primary"
 											size="small"
 											@mouseenter="enterAudio(scope.row.audioId)"
+											@click="handleClickAudio(scope.row.audioId)"
 											>详情</el-button
 										>
 									</template>
@@ -351,9 +353,8 @@ const queryParams = {
 }
 
 function getAllOperaType() {
-	http.get('/opera/type/getAllOperaType').then((res) => {
+	getAllType().then((res) => {
 		typeList.value = res.data
-		console.log(typeList.value)
 	})
 }
 
@@ -364,7 +365,6 @@ function getOpera(queryParams: any) {
 			totalVideo.value = res.data.total
 			pageSizeVideo.value = res.data.size
 			currentPageVideo.value = res.data.current
-			console.log(res.data)
 		})
 		.then(() => {
 			getAudio(queryParams).then((res) => {
@@ -381,7 +381,6 @@ function getOpera(queryParams: any) {
 
 //分页
 const handleSizeChangeAudio = (val: number) => {
-	console.log(`page size: ${val}`)
 	queryParams.pageSizeAudio = val
 	getAudio(queryParams).then((res) => {
 		operaAudioList.value = res.data.records
@@ -390,7 +389,6 @@ const handleSizeChangeAudio = (val: number) => {
 	})
 }
 const handleSizeChangeVideo = (val: number) => {
-	console.log(`page size: ${val}`)
 	queryParams.pageSizeVideo = val
 	getVideo(queryParams).then((res) => {
 		operaVideoList.value = res.data.records
@@ -399,7 +397,6 @@ const handleSizeChangeVideo = (val: number) => {
 	})
 }
 const handleCurrentChangeAudio = (val: number) => {
-	console.log(`current page: ${val}`)
 	queryParams.pageNumAudio = val
 	getAudio(queryParams).then((res) => {
 		operaAudioList.value = res.data.records
@@ -408,7 +405,6 @@ const handleCurrentChangeAudio = (val: number) => {
 	})
 }
 const handleCurrentChangeVideo = (val: number) => {
-	console.log(`current page: ${val}`)
 	queryParams.pageNumVideo = val
 	getVideo(queryParams).then((res) => {
 		operaVideoList.value = res.data.records
@@ -419,24 +415,19 @@ const handleCurrentChangeVideo = (val: number) => {
 
 //搜索
 const Search = () => {
-	console.log('input', input.value)
 	queryParams.filename = input.value
 	confirmClick()
 }
 
 //鼠标悬浮事件
 const enterVideo = (videoId: number) => {
-	console.log('enterVideo')
 	getVideoDetails(videoId).then((res) => {
 		videoDetails.value = res.data
-		console.log(res.data)
 	})
 }
 const enterAudio = (audioId: number) => {
-	console.log(audioId)
 	getAudioDetails(audioId).then((res) => {
 		audioDetails.value = res.data
-		console.log(res.data)
 	})
 }
 
@@ -446,6 +437,14 @@ function handleClickVideo(videoId: number) {
 		query: {
 			id: videoId,
 			type: 'video',
+		},
+	})
+}
+function handleClickAudio(audioId: number) {
+	router.push({ path: '/opera' ,
+		query: {
+			id: audioId,
+			type: 'audio',
 		},
 	})
 }
@@ -476,7 +475,6 @@ function confirmClick() {
 			totalVideo.value = res.data.total
 			pageSizeVideo.value = res.data.size
 			currentPageVideo.value = res.data.current
-			console.log(res.data)
 		})
 	} else if (radioFormat.value === '2') {
 		//重置分页条件
