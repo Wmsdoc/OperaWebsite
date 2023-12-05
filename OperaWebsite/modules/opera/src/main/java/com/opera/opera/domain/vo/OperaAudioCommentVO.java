@@ -15,5 +15,5 @@ public class OperaAudioCommentVO extends OperaAudioComment {
     // 评论者
     private String playgoerInfo;
     // 戏曲上传者头像
-    private Long playgoerHeadPic;
+    private String playgoerAvatar;
 }

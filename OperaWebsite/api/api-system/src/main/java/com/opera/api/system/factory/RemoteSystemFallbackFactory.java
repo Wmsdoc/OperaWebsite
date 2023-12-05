@@ -1,7 +1,7 @@
-package com.opera.system.api.factory;
+package com.opera.api.system.factory;
 
 import com.opera.common.core.domain.R;
-import com.opera.system.api.RemoteSystemService;
+import com.opera.api.system.RemoteSystemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;

@@ -1,0 +1,207 @@
+<template>
+	<div>
+		<el-card>
+			<template #header>
+				<div class="card-header">
+					<span>戏曲活动</span>
+				</div>
+			</template>
+			<!-- <el-empty description="暂无数据" /> -->
+			<el-table ref="multipleTableRef" :data="activityList" style="width: 100%">
+				<!-- <el-table-column type="selection" width="55" /> -->
+				<el-table-column property="activityName" label="活动名称" width="120" />
+				<el-table-column
+					property="activityAddress"
+					label="活动地址"
+					width="120"
+				/>
+				<el-table-column
+					property="startTime"
+					label="活动开始时间"
+					width="150"
+				/>
+
+				<el-table-column fixed="right" label="操作" width="120">
+					<template #default="scope">
+						<el-popover
+							:width="300"
+							popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+						>
+							<template #reference>
+								<el-button
+									link
+									type="primary"
+									size="small"
+									@mouseenter="enter(scope.row.activityId)"
+									>详情</el-button
+								>
+							</template>
+							<template #default>
+								<div
+									class="demo-rich-conent"
+									style="display: flex; gap: 16px; flex-direction: column"
+								>
+									<p class="demo-rich-content__desc" style="margin: 0">
+										最新更新：{{ activityDetails.updatedAt }}
+									</p>
+									<el-avatar
+										:size="60"
+										:src="activityDetails.playgoerAvatar"
+										style="margin-bottom: 8px"
+									/>
+									<div>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											发布者：{{ activityDetails.playgoerName }}
+										</p>
+										<p
+											class="demo-rich-content__mention"
+											style="
+												margin: 0;
+												font-size: 14px;
+												color: var(--el-color-info);
+											"
+										>
+											签名：{{ activityDetails.playgoerInfo }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											活动：{{ activityDetails.activityName }}--{{
+												activityDetails.activityAddress
+											}}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											简介：{{ activityDetails.activityInfo }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											活动剩余名额：{{ activityDetails.activityQuota }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											活动开始时间：{{ activityDetails.startTime }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											活动结束时间：{{ activityDetails.endTime }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											活动总人数：{{ activityDetails.activityNum }}
+										</p>
+									</div>
+
+									<p class="demo-rich-content__desc" style="margin: 0">
+										发布时间：{{ activityDetails.createdAt }}
+									</p>
+								</div>
+							</template>
+						</el-popover>
+
+						<el-button
+							link
+							type="primary"
+							size="small"
+							@click="insert(scope.row.activityId)"
+							>报名</el-button
+						>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-divider />
+			<div class="demo-pagination-block">
+				<el-pagination
+					v-model:current-page="currentPage"
+					v-model:page-size="pageSize"
+					:page-sizes="[5, 10, 15, 20]"
+					:small="small"
+					:background="background"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="total"
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+				/>
+			</div>
+		</el-card>
+	</div>
+</template>
+<script setup lang="ts">
+import { Activity, ActivityVO } from '~/api/types/activity'
+
+//分页
+const currentPage = ref(0)
+const pageSize = ref(5)
+const total = ref(0)
+const small = ref(true)
+const background = ref(false)
+
+//活动列表
+const activityList = ref<Activity[]>()
+//活动详情
+const activityDetails = ref<ActivityVO>({})
+//条件查询
+const queryParams = reactive({
+	activityName: '',
+	activityAddress: '',
+	pageSize: pageSize.value,
+	pageNum: currentPage.value,
+})
+
+const insert = (activityId: any) => {
+	if (!localStorage.getItem('playgoerId')) {
+		toast.warning('请先登录')
+		return
+	}
+	let playgoerId = localStorage.getItem('playgoerId')
+
+	let formData = new FormData()
+	formData.append('activityId', activityId)
+	formData.append('playgoerId', playgoerId as string)
+	insertPlaygoerActivity(formData).then((res) => {
+		toast.success(res.data)
+	})
+}
+
+getActivities(queryParams).then((res) => {
+	activityList.value = res.data.records
+	total.value = res.data.total
+})
+
+const handleSizeChange = (val: number) => {
+	queryParams.pageSize = val
+	getActivities(queryParams).then((res) => {
+		activityList.value = res.data.records
+		console.log(activityList.value)
+		total.value = res.data.total
+	})
+}
+const handleCurrentChange = (val: number) => {
+	queryParams.pageNum = val
+	getActivities(queryParams).then((res) => {
+		activityList.value = res.data.records
+		console.log(activityList.value)
+		total.value = res.data.total
+	})
+}
+//鼠标悬浮事件
+const enter = (id: number) => {
+	getActivityDetails(id).then((res) => {
+		activityDetails.value = res.data
+	})
+}
+</script>

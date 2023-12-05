@@ -8,6 +8,7 @@
         <result column="video_info" jdbcType="VARCHAR" property="videoInfo"/>
         <result column="type_id" jdbcType="BIGINT" property="typeId"/>
         <result column="download_num" jdbcType="INTEGER" property="downloadNum"/>
+        <result column="download_url" jdbcType="VARCHAR" property="downloadUrl"/>
         <result column="filename" jdbcType="VARCHAR" property="filename"/>
         <result column="is_examine" jdbcType="INTEGER" property="isExamine"/>
         <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
@@ -22,6 +23,7 @@
         video_info,
         type_id,
         download_num,
+        download_url,
         filename,
         is_examine,
         is_delete,
@@ -33,11 +35,12 @@
     <select id="selectById" resultType="com.opera.opera.domain.vo.OperaVideoVO">
         SELECT playgoer_name,
                playgoer_info,
-               playgoer_headpic,
+               playgoer_avatar,
                video_id,
                video_info,
                type_name,
                download_num,
+               download_url,
                filename,
                video.playgoer_id,
                video.created_at,
@@ -49,6 +52,7 @@
                                     video_info,
                                     type_name,
                                     download_num,
+                                    download_url,
                                     filename,
                                     video.created_at,
                                     video.created_by,
@@ -58,6 +62,7 @@
                                                          video_info,
                                                          type_name,
                                                          download_num,
+                                                         download_url,
                                                          filename,
                                                          opera_video.created_at,
                                                          opera_video.created_by,

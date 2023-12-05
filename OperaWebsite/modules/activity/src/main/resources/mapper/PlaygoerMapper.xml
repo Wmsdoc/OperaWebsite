@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.activity.mapper.PlaygoerMapper">
+  <resultMap id="BaseResultMap" type="com.opera.activity.domain.Playgoer">
+    <!--@mbg.generated-->
+    <!--@Table playgoer-->
+    <id column="playgoer_id" jdbcType="BIGINT" property="playgoerId" />
+    <result column="playgoer_name" jdbcType="VARCHAR" property="playgoerName" />
+    <result column="playgoer_info" jdbcType="VARCHAR" property="playgoerInfo" />
+    <result column="playgoer_sex" jdbcType="INTEGER" property="playgoerSex" />
+    <result column="playgoer_birthday" jdbcType="DATE" property="playgoerBirthday" />
+    <result column="playgoer_avatar" jdbcType="VARCHAR" property="playgoerAvatar" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    playgoer_id, playgoer_name, playgoer_info, playgoer_sex, playgoer_birthday, playgoer_avatar, 
+    is_delete, created_at, updated_at, created_by, updated_by
+  </sql>
+</mapper>

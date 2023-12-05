@@ -5,7 +5,7 @@ export interface OperaAudio {
 	/**
 	 * 戏曲编号
 	 */
-	audioId?: number
+	audioId?: string
 	/**
 	 * 戏曲简介
 	 */
@@ -13,11 +13,15 @@ export interface OperaAudio {
 	/**
 	 * 类型编号
 	 */
-	typeId?: number
+	typeId?: string
 	/**
 	 * 戏曲音频下载量
 	 */
 	downloadNum?: number
+	/**
+	 * 戏曲音频下载路径
+	 */
+	downloadUrl?: string
 	/**
 	 * 文件名称
 	 */
@@ -52,7 +56,7 @@ export interface OperaAudioVO {
 	/**
 	 * 戏曲编号
 	 */
-	audioId?: number
+	audioId?: string
 	/**
 	 * 戏曲简介
 	 */
@@ -70,6 +74,10 @@ export interface OperaAudioVO {
 	 */
 	downloadNum?: number
 	/**
+	 * 戏曲音频下载路径
+	 */
+	downloadUrl?: string
+	/**
 	 * 文件名称
 	 */
 	filename?: string
@@ -84,7 +92,7 @@ export interface OperaAudioVO {
 	/**
 	 * 用户编号
 	 */
-	playgoerId?: number
+	playgoerId?: string
 	/**
 	 * 用户简介
 	 */

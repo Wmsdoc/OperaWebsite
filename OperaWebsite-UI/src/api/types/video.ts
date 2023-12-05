@@ -2,7 +2,7 @@ export interface OperaVideo {
 	/**
 	 * 戏曲编号
 	 */
-	videoId?: number
+	videoId?: string
 	/**
 	 * 戏曲简介
 	 */
@@ -10,11 +10,15 @@ export interface OperaVideo {
 	/**
 	 * 类型编号
 	 */
-	typeId?: number
+	typeId?: string
 	/**
 	 * 戏曲音频下载量
 	 */
 	downloadNum?: number
+	/**
+	 * 戏曲音频下载路径
+	 */
+	downloadUrl?: string
 	/**
 	 * 视频文件名称
 	 */
@@ -38,18 +42,18 @@ export interface OperaVideo {
 	/**
 	 * 创建人
 	 */
-	createdBy?: number
+	createdBy?: string
 	/**
 	 * 修改人
 	 */
-	updatedBy?: number
+	updatedBy?: string
 }
 
 export interface OperaVideoVO {
 	/**
 	 * 戏曲编号
 	 */
-	videoId?: number
+	videoId?: string
 	/**
 	 * 戏曲简介
 	 */
@@ -61,11 +65,15 @@ export interface OperaVideoVO {
 	/**
 	 * 创建人
 	 */
-	createdBy?: number
+	createdBy?: string
 	/**
 	 * 戏曲音频下载量
 	 */
 	downloadNum?: number
+	/**
+	 * 戏曲音频下载路径
+	 */
+	downloadUrl?: string
 	/**
 	 * 文件名称
 	 */
@@ -81,7 +89,7 @@ export interface OperaVideoVO {
 	/**
 	 * 用户编号
 	 */
-	playgoerId?: number
+	playgoerId?: string
 	/**
 	 * 用户简介
 	 */

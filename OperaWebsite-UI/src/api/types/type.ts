@@ -5,7 +5,7 @@ export interface OperaType {
 	/**
 	 * 类型编号
 	 */
-	typeId?: number
+	typeId?: string
 	/**
 	 * 类型名称
 	 */

@@ -1,12 +1,10 @@
 package com.opera.opera.controller;
 
 import cn.dev33.satoken.util.SaResult;
+import com.opera.common.core.domain.R;
 import com.opera.opera.service.OperaAudioService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
@@ -45,4 +43,13 @@ public class OperaAudioController {
         return SaResult.data(operaAudioService.selectByPageAndParams(pageNum, pageSize, typeId, timeFlag, filename));
     }
 
+    /**
+     * 远程调用 新增音频
+     */
+    @PostMapping("insert")
+    public R<Boolean> insert(@RequestParam("accountId") Long accountId, @RequestParam("filename") String filename,
+                    @RequestParam("audioInfo") String audioInfo, @RequestParam("audioUrl") String audioUrl,
+                    @RequestParam("typeId") Long typeId) {
+        return R.ok(operaAudioService.insert(accountId, filename, audioInfo, audioUrl, typeId));
+    }
 }

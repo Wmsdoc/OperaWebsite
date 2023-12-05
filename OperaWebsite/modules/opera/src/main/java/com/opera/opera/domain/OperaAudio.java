@@ -40,6 +40,12 @@ public class OperaAudio implements Serializable {
     private Long typeId;
 
     /**
+     * 戏曲音频下载路径
+     */
+    @TableField(value = "download_url")
+    private String downloadUrl;
+
+    /**
      * 戏曲音频下载量
      */
     @TableField(value = "download_num")

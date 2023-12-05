@@ -10,8 +10,10 @@ import java.text.SimpleDateFormat;
  * @param <T>
  */
 public class QueryOpera<T> {
+
     public QueryWrapper<T> structure( int typeId, int timeFlag, String filename) throws ParseException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
+        //构造查询条件
         if (filename != null) {
             queryWrapper.like("filename", filename);
         }
@@ -54,6 +56,8 @@ public class QueryOpera<T> {
                     queryWrapper.lt("created_at", sdf.parse(endTime));
             }
         }
+        //根据修改时间降序排列
+        queryWrapper.orderByDesc("updated_at");
         return queryWrapper;
     }
 }

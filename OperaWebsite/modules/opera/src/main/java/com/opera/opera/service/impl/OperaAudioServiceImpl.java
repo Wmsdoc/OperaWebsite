@@ -22,7 +22,7 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
     @Override
     public Page<OperaAudio> selectByPageAndParams(int pageNum, int pageSize, int typeId, int timeFlag, String filename) throws ParseException {
         QueryWrapper<OperaAudio> queryWrapper = new QueryOpera<OperaAudio>().structure(typeId, timeFlag, filename);
-        queryWrapper.select( "audio_id","filename");
+        queryWrapper.select("audio_id", "filename");
         Page<OperaAudio> page = new Page<>(pageNum, pageSize);
         return baseMapper.selectPage(page, queryWrapper);
     }
@@ -30,5 +30,16 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
     @Override
     public OperaAudioVO selectById(Long audioId) {
         return operaAudioMapper.selectById(audioId);
+    }
+
+    @Override
+    public Boolean insert(Long accountId, String filename, String audioInfo, String audioUrl, Long typeId) {
+        OperaAudio operaAudio = new OperaAudio();
+        operaAudio.setCreatedBy(accountId);
+        operaAudio.setFilename(filename);
+        operaAudio.setAudioInfo(audioInfo);
+        operaAudio.setDownloadUrl(audioUrl);
+        operaAudio.setTypeId(typeId);
+        return baseMapper.insert(operaAudio) > 0;
     }
 }

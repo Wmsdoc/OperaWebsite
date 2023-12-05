@@ -18,7 +18,7 @@
 						:data="operaVideoList"
 						style="width: 100%"
 					>
-						<el-table-column type="selection" width="55" />
+						<!-- <el-table-column type="selection" width="55" /> -->
 						<el-table-column property="filename" label="文件名" width="120" />
 						<el-table-column fixed="right" label="操作" width="120">
 							<template #default="scope">
@@ -35,6 +35,7 @@
 											type="primary"
 											size="small"
 											@mouseenter="enterVideo(scope.row.videoId)"
+											@click="handleClickVideo(scope.row.videoId)"
 											>详情</el-button
 										>
 									</template>
@@ -45,7 +46,7 @@
 										>
 											<el-avatar
 												:size="60"
-												src="https://avatars.githubusercontent.com/u/72015883?v=4"
+												:src=videoDetails.playgoerAvatar
 												style="margin-bottom: 8px"
 											/>
 											<div>
@@ -130,7 +131,7 @@
 						:data="operaAudioList"
 						style="width: 100%"
 					>
-						<el-table-column type="selection" width="55" />
+						<!-- <el-table-column type="selection" width="55" /> -->
 						<!-- <el-table-column label="Date" width="120">
 							<template #default="scope">{{ scope.row.date }}</template>
 						</el-table-column> -->
@@ -147,6 +148,7 @@
 											type="primary"
 											size="small"
 											@mouseenter="enterAudio(scope.row.audioId)"
+											@click="handleClickAudio(scope.row.audioId)"
 											>详情</el-button
 										>
 									</template>
@@ -157,7 +159,7 @@
 										>
 											<el-avatar
 												:size="60"
-												src="https://avatars.githubusercontent.com/u/72015883?v=4"
+												:src=audioDetails.playgoerAvatar
 												style="margin-bottom: 8px"
 											/>
 											<div>
@@ -231,6 +233,7 @@
 <script setup lang="ts">
 import { OperaAudio, OperaAudioVO } from '~/api/types/audio'
 import { OperaVideo, OperaVideoVO } from '~/api/types/video'
+import router from '~/plugins/router';
 // import { getAudio } from '~/api/index'
 
 const loading = ref(false)
@@ -329,6 +332,23 @@ const enterAudio = (audioId: number) => {
 	getAudioDetails(audioId).then((res) => {
 		audioDetails.value = res.data
 		console.log(res.data)
+	})
+}
+//获取详情,页面跳转
+function handleClickVideo(videoId: number) {
+	router.push({ path: '/opera' ,
+		query: {
+			id: videoId,
+			type: 'video',
+		},
+	})
+}
+function handleClickAudio(audioId: number) {
+	router.push({ path: '/opera' ,
+		query: {
+			id: audioId,
+			type: 'audio',
+		},
 	})
 }
 

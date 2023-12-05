@@ -2,13 +2,12 @@ package com.opera.opera.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.opera.api.system.RemoteSystemService;
 import com.opera.opera.domain.OperaAudioComment;
 import com.opera.opera.domain.vo.OperaAudioCommentVO;
 import com.opera.opera.mapper.OperaAudioCommentMapper;
 import com.opera.opera.service.OperaAudioCommentService;
-import com.opera.system.api.RemoteSystemService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

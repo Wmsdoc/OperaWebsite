@@ -68,7 +68,7 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.opera.opera</groupId>
+            <groupId>com.opera.api</groupId>
             <artifactId>api-system</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

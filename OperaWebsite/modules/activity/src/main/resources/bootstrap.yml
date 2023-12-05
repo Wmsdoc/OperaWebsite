@@ -1,0 +1,29 @@
+# Tomcat
+server:
+  port: 5030
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: activity
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+        namespace: c8006e2e-adb7-48e2-9b4f-1f3ce2d61d5d
+        group: DEFAULT_GROUP
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        namespace: c8006e2e-adb7-48e2-9b4f-1f3ce2d61d5d
+        group: DEFAULT_GROUP
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

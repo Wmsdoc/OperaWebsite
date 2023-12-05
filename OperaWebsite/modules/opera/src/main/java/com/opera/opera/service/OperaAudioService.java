@@ -13,4 +13,6 @@ public interface OperaAudioService extends IService<OperaAudio>{
     Page<OperaAudio> selectByPageAndParams(int pageNum,int pageSize,int typeId,int timeFlag,String filename ) throws ParseException;
 
     OperaAudioVO selectById(Long audioId);
+
+    Boolean insert(Long accountId, String filename, String audioInfo, String audioUrl, Long typeId);
 }

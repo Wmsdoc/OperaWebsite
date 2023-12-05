@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients({"com.opera.system.api"})
+@EnableFeignClients({"com.opera.api.*"})
 public class OperaApplication {
 
     public static void main(String[] args) {

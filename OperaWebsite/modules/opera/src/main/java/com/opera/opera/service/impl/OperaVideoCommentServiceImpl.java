@@ -2,11 +2,11 @@ package com.opera.opera.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.opera.api.system.RemoteSystemService;
 import com.opera.opera.domain.OperaVideoComment;
 import com.opera.opera.domain.vo.OperaVideoCommentVO;
 import com.opera.opera.mapper.OperaVideoCommentMapper;
 import com.opera.opera.service.OperaVideoCommentService;
-import com.opera.system.api.RemoteSystemService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

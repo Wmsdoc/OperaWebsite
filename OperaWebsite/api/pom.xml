@@ -14,6 +14,8 @@
     <url>http://maven.apache.org</url>
     <modules>
         <module>api-system</module>
+        <module>api-opera</module>
+        <module>api-activity</module>
     </modules>
 
     <properties>

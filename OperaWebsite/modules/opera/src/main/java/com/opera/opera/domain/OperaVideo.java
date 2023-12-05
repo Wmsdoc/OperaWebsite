@@ -45,6 +45,12 @@ public class OperaVideo implements Serializable {
     private Integer downloadNum;
 
     /**
+     * 戏曲音频下载路径
+     */
+    @TableField(value = "download_url")
+    private String downloadUrl;
+
+    /**
      * 视频文件名称
      */
     @TableField(value = "filename")

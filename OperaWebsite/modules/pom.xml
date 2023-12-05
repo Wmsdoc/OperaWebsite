@@ -17,6 +17,7 @@
         <module>system</module>
         <module>opera</module>
         <module>file</module>
+        <module>activity</module>
     </modules>
 
     <properties>

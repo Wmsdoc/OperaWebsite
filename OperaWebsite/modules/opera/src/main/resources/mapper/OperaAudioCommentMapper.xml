@@ -29,7 +29,7 @@
         SELECT comment_id,
                playgoer.playgoer_id,
                playgoer_name,
-               playgoer_headpic,
+               playgoer_avatar,
                comment_info,
                comm.updated_at
         FROM
@@ -41,6 +41,7 @@
                 updated_at
          FROM opera_audio_comment
          WHERE audio_id = #{audioId}
+            AND is_delete = 0
         limit
         <if test="page != 0">
             #{page},

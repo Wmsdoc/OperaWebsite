@@ -16,5 +16,5 @@ public class OperaAudioVO extends OperaAudio {
     // 戏曲上传者简介
     private String playgoerInfo;
     // 戏曲上传者头像
-    private Long playgoerHeadPic;
+    private String playgoerAvatar;
 }

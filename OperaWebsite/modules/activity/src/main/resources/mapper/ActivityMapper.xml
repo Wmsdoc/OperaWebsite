@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.activity.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="com.opera.activity.domain.Activity">
+    <!--@mbg.generated-->
+    <!--@Table activity-->
+    <id column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="activity_info" jdbcType="VARCHAR" property="activityInfo" />
+    <result column="activity_address" jdbcType="VARCHAR" property="activityAddress" />
+    <result column="playgoer_id" jdbcType="BIGINT" property="playgoerId" />
+    <result column="activity_num" jdbcType="INTEGER" property="activityNum" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    activity_id, activity_info, activity_address, playgoer_id, activity_num, start_time, 
+    end_time, is_delete, created_at, updated_at, created_by, updated_by
+  </sql>
+
+  <select id="selectById" resultType="com.opera.activity.domain.vo.ActivityVO">
+      SELECT playgoer.playgoer_id,
+             playgoer_name,
+             playgoer_info,
+             playgoer_avatar,
+             activity_name,
+             activity_info,
+             activity_address,
+             activity_quota,
+             activity_num,
+             start_time,
+             end_time,
+             ac.created_at,
+             ac.updated_at
+      FROM playgoer
+               INNER JOIN (SELECT a.activity_id,
+                                  a.activity_name,
+                                  a.activity_info,
+                                  a.activity_address,
+                                  a.playgoer_id,
+                                  a.activity_num,
+                                  a.start_time,
+                                  a.end_time,
+                                  a.created_at,
+                                  a.updated_at,
+                                  a.activity_num - IFNULL(pa.num, 0) AS activity_quota
+                           FROM activity AS a
+                                    LEFT JOIN (SELECT activity_id, COUNT(*) AS num
+                                               FROM playgoer_activity
+                                               WHERE activity_id = #{activityId}
+                                                 AND is_delete = 0) AS pa
+                                              ON a.activity_id = pa.activity_id
+                           WHERE a.activity_id = #{activityId}) AS ac
+                          ON playgoer.playgoer_id = ac.playgoer_id
+      ORDER BY ac.updated_at DESC
+  </select>
+</mapper>

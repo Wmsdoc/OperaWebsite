@@ -31,4 +31,15 @@ public class OperaVideoServiceImpl extends ServiceImpl<OperaVideoMapper, OperaVi
     public OperaVideoVO selectById(Long videoId) {
         return operaVideoMapper.selectById(videoId);
     }
+
+    @Override
+    public Boolean insert(Long accountId, String filename, String videoInfo, String videoUrl, Long typeId) {
+        OperaVideo operaVideo = new OperaVideo();
+        operaVideo.setCreatedBy(accountId);
+        operaVideo.setFilename(filename);
+        operaVideo.setVideoInfo(videoInfo);
+        operaVideo.setDownloadUrl(videoUrl);
+        operaVideo.setTypeId(typeId);
+        return baseMapper.insert(operaVideo) > 0;
+    }
 }

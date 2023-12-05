@@ -15,4 +15,6 @@ public interface OperaVideoService extends IService<OperaVideo>{
     Page<OperaVideo> selectByPageAndParams(int pageNum,int pageSize,int typeId,int timeFlag,String filename ) throws ParseException;
 
     OperaVideoVO selectById(Long videoId);
+
+    Boolean insert(Long accountId, String filename, String videoInfo, String videoUrl, Long typeId);
 }

@@ -8,7 +8,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.opera.opera</groupId>
+    <groupId>com.opera.api</groupId>
     <artifactId>api-system</artifactId>
     <packaging>jar</packaging>
 
