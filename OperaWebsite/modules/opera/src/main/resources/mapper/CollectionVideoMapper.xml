@@ -18,4 +18,23 @@
     collection_id, playgoer_id, video_id, is_delete, created_at, updated_at, created_by, 
     updated_by
   </sql>
+
+  <select id="getCollectByPlaygoerId" resultType="com.opera.opera.domain.vo.CollectionVideoVO">
+      SELECT video.video_id,
+             video.collection_id,
+             video.created_at,
+             video.filename,
+             ot.type_name
+      FROM opera_type AS ot
+               RIGHT JOIN (SELECT cv.collection_id,
+                                  cv.video_id,
+                                  cv.created_at,
+                                  ov.filename,
+                                  ov.type_id
+                           FROM collection_video AS cv
+                                    INNER JOIN opera_video AS ov ON cv.video_id = ov.video_id
+                           WHERE playgoer_id = #{playgoerId}
+                             AND cv.is_delete = 0) AS video ON video.type_id = ot.type_id
+        ORDER BY video.created_at DESC
+  </select>
 </mapper>

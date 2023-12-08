@@ -1,4 +1,4 @@
-package com.opera.system.config;
+package com.opera.common.core.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;

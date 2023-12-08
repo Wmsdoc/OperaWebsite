@@ -1,9 +1,7 @@
 package com.opera.activity.controller;
 
 import cn.dev33.satoken.util.SaResult;
-import com.opera.activity.domain.PlaygoerActivity;
 import com.opera.activity.service.PlaygoerActivityService;
-import com.opera.activity.service.impl.PlaygoerActivityServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,4 +28,20 @@ public class PlaygoerActivityController {
         return SaResult.data(playgoerActivityService.insert(playgoerId, activityId));
     }
 
+    /**
+     * 根据token获取用户参与的活动
+     */
+    @PostMapping("/getActivityByPlaygoerId/{pageNum}/{pageSize}")
+    public SaResult getCollectByPlaygoerId(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        return SaResult.data(playgoerActivityService.getActivityByPlaygoerId(pageNum, pageSize));
+    }
+
+    /**
+     * 取消用户收藏
+     */
+    @DeleteMapping("/delete")
+    public SaResult deletePlaygoerActivity(@RequestParam("activityId") Long activityId,
+                                           @RequestParam("playgoerId") Long playgoerId) {
+        return SaResult.data(playgoerActivityService.deletePlaygoerActivityByPlaygoerId(activityId, playgoerId));
+    }
 }

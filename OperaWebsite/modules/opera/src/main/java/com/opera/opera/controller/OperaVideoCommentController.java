@@ -35,4 +35,28 @@ public class OperaVideoCommentController {
     public SaResult insert(@PathVariable("videoId") Long videoId, @PathVariable("content") String content) {
         return SaResult.data(operaVideoCommentService.insert(videoId, content));
     }
+
+    /**
+     * 根据id删除评论
+     */
+    @DeleteMapping("/delete/{commentId}")
+    public SaResult delete(@PathVariable Long commentId) {
+        return SaResult.data(operaVideoCommentService.delete(commentId));
+    }
+
+    /**
+     * 根据id删除评论
+     */
+    @PutMapping("/update")
+    public SaResult update(@RequestParam("commentId") Long commentId,@RequestParam("commentInfo")String commentInfo) {
+        return SaResult.data(operaVideoCommentService.update(commentId,commentInfo));
+    }
+
+    /**
+     * 获取用户Id 获取戏曲音频 列表
+     */
+    @PostMapping("/getCommentByPlaygoerId/{playgoerId}/{pageNum}/{pageSize}")
+    public SaResult getCommentByPlaygoerId(@PathVariable Long playgoerId, @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        return SaResult.data(operaVideoCommentService.getCommentByPlaygoerId(playgoerId, pageNum, pageSize));
+    }
 }

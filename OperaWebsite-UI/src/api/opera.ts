@@ -54,7 +54,7 @@ export const videoIsCollection = (videoId: number, playgoerId: any) => {
 	})
 }
 
-export const deleteAudioCollection = (audioId: number, playgoerId: any) => {
+export const deleteAudioCollection = (audioId: any, playgoerId: any) => {
 	return http.delete('/opera/audio/collection/delete', {
 		params: {
 			audioId,

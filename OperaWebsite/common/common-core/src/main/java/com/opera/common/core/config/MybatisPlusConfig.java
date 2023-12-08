@@ -1,4 +1,4 @@
-package com.opera.opera.config;
+package com.opera.common.core.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//Spring boot方式
 @EnableTransactionManagement
 @Configuration
 public class MybatisPlusConfig {

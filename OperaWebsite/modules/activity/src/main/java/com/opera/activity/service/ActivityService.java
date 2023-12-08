@@ -13,4 +13,9 @@ public interface ActivityService extends IService<Activity>{
     Page<Activity> selectByPageAndParams(Integer pageNum, Integer pageSize, String activityName, String activityAddress);
 
     ActivityVO selectById(Long activityId);
+
+    /**
+     * 根据 id 统计剩余名额
+     */
+    Integer quota(Long activityId);
 }

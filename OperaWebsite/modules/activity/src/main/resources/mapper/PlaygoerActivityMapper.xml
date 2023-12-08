@@ -18,4 +18,17 @@
     playgoer_activity_id, activity_id, playgoer_id, is_delete, created_at, updated_at, 
     created_by, updated_by
   </sql>
+
+  <select id="getCollectByPlaygoerId" resultType="com.opera.activity.domain.vo.PlaygoerActivityVO">
+      SELECT pa.activity_id,
+             activity_name,
+             start_time,
+             activity_address
+      FROM activity
+               INNER JOIN (SELECT activity_id
+                           FROM playgoer_activity
+                           WHERE is_delete = 0 AND playgoer_id = #{playgoerId}) AS pa
+                          ON activity.activity_id = pa.activity_id
+      ORDER BY activity.created_at DESC
+  </select>
 </mapper>

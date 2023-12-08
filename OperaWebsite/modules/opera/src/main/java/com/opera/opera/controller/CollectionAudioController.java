@@ -46,10 +46,18 @@ public class CollectionAudioController {
     }
 
     /**
-     * 根据id取消收藏音频
+     * 根据戏曲id和用户id取消收藏音频
      */
     @DeleteMapping("/delete")
     public SaResult delete(@RequestParam("audioId") Long audioId, @RequestParam("playgoerId") Long playgoerId) {
         return SaResult.data(collectionAudioService.delete(audioId, playgoerId));
+    }
+
+    /**
+     * 根据token获取用户收藏的戏曲
+     */
+    @PostMapping("/getCollectByPlaygoerId/{pageNum}/{pageSize}")
+    public SaResult getCollectByPlaygoerId(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        return SaResult.data(collectionAudioService.getCollectByPlaygoerId(pageNum, pageSize));
     }
 }

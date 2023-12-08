@@ -2,16 +2,13 @@ package com.opera.activity.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.opera.activity.domain.vo.ActivityVO;
-import org.springframework.stereotype.Service;
-import jakarta.annotation.Resource;
-
-import java.util.List;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.opera.activity.mapper.ActivityMapper;
 import com.opera.activity.domain.Activity;
+import com.opera.activity.domain.vo.ActivityVO;
+import com.opera.activity.mapper.ActivityMapper;
 import com.opera.activity.service.ActivityService;
+import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements ActivityService {
@@ -36,5 +33,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     @Override
     public ActivityVO selectById(Long activityId) {
         return activityMapper.selectById(activityId);
+    }
+
+    @Override
+    public Integer quota(Long activityId) {
+        return activityMapper.quota(activityId);
     }
 }

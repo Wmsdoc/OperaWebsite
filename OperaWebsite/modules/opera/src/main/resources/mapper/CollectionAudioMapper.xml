@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.opera.opera.mapper.CollectionAudioMapper">
-  <resultMap id="BaseResultMap" type="com.opera.opera.domain.CollectionAudio">
-    <!--@mbg.generated-->
-    <!--@Table collection_audio-->
-    <id column="collection_id" jdbcType="BIGINT" property="collectionId" />
-    <result column="playgoer_id" jdbcType="BIGINT" property="playgoerId" />
-    <result column="audio_id" jdbcType="BIGINT" property="audioId" />
-    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
-    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    collection_id, playgoer_id, audio_id, is_delete, created_at, updated_at, created_by, 
-    updated_by
-  </sql>
+    <resultMap id="BaseResultMap" type="com.opera.opera.domain.CollectionAudio">
+        <!--@mbg.generated-->
+        <!--@Table collection_audio-->
+        <id column="collection_id" jdbcType="BIGINT" property="collectionId"/>
+        <result column="playgoer_id" jdbcType="BIGINT" property="playgoerId"/>
+        <result column="audio_id" jdbcType="BIGINT" property="audioId"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        collection_id,
+        playgoer_id,
+        audio_id,
+        is_delete,
+        created_at,
+        updated_at,
+        created_by,
+        updated_by
+    </sql>
+
+    <select id="getCollectByPlaygoerId" resultType="com.opera.opera.domain.vo.CollectionAudioVO">
+        SELECT audio.audio_id,
+               audio.collection_id,
+               audio.created_at,
+               audio.filename,
+               ot.type_name
+        FROM opera_type AS ot
+                 RIGHT JOIN (SELECT ca.collection_id,
+                                    ca.audio_id,
+                                    ca.created_at,
+                                    oa.filename,
+                                    oa.type_id
+                             FROM collection_audio AS ca
+                                      INNER JOIN opera_audio AS oa ON ca.audio_id = oa.audio_id
+                             WHERE playgoer_id = #{playgoerId}
+                               AND ca.is_delete = 0) AS audio ON audio.type_id = ot.type_id
+        ORDER BY audio.created_at DESC
+    </select>
 </mapper>

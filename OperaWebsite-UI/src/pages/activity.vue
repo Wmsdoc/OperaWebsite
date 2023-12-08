@@ -117,7 +117,7 @@
 							link
 							type="primary"
 							size="small"
-							@click="insert(scope.row.activityId)"
+							@click="insert(scope.row.activityId, scope.row.activityQuota)"
 							>报名</el-button
 						>
 					</template>
@@ -162,9 +162,13 @@ const queryParams = reactive({
 	pageNum: currentPage.value,
 })
 
-const insert = (activityId: any) => {
+const insert = (activityId: any, activityQuota: number) => {
 	if (!localStorage.getItem('playgoerId')) {
 		toast.warning('请先登录')
+		return
+	}
+	if (activityQuota <= 0) {
+		toast.warning('人数已满')
 		return
 	}
 	let playgoerId = localStorage.getItem('playgoerId')

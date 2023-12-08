@@ -20,3 +20,12 @@ export function insertPlaygoerActivity(formData: any) {
 		},
 	})
 }
+//用户取消收藏
+export const deletePlaygoerActivity = (activityId: any, playgoerId: any) => {
+	return http.delete(`/activity/playgoerActivity/delete`, {
+		params: {
+			activityId,
+			playgoerId,
+		},
+	})
+}

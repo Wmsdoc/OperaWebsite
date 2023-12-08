@@ -53,4 +53,12 @@ public class CollectionVideoController {
     public SaResult delete(@RequestParam("videoId") Long videoId, @RequestParam("playgoerId") Long playgoerId) {
         return SaResult.data(collectionVideoService.delete(videoId, playgoerId));
     }
+
+    /**
+     * 根据token获取用户收藏的戏曲
+     */
+    @PostMapping("/getCollectByPlaygoerId/{pageNum}/{pageSize}")
+    public SaResult getCollectByPlaygoerId(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        return SaResult.data(collectionVideoService.getCollectByPlaygoerId(pageNum, pageSize));
+    }
 }

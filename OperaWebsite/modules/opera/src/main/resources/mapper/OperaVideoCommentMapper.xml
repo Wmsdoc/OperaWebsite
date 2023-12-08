@@ -49,4 +49,28 @@
              ON comm.playgoer_id = playgoer.playgoer_id
        ORDER BY comm.updated_at DESC
     </select>
+
+    <select id="selectCommentByPlaygoerId" resultType="com.opera.opera.domain.vo.UserVideoCommentVO">
+        SELECT com.video_id,
+               com.comment_id,
+               com.comment_info,
+               com.filename,
+               com.updated_at,
+               opera_type.type_name
+        FROM opera_type
+                 INNER JOIN (SELECT ov.video_id,
+                                    type_id,
+                                    filename,
+                                    comment_id,
+                                    comment_info,
+                                    ovc.updated_at
+                             FROM opera_video AS ov
+                                      INNER JOIN (SELECT comment_id, video_id, comment_info, updated_at
+                                                  FROM opera_video_comment
+                                                  WHERE is_delete = 0
+                                                    AND playgoer_id = #{playgoerId}) AS ovc
+                                                 ON ov.video_id = ovc.video_id) AS com
+                            ON opera_type.type_id = com.type_id
+        ORDER BY com.updated_at DESC
+    </select>
 </mapper>
