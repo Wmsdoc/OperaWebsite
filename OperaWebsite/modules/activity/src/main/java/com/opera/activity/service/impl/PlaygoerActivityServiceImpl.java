@@ -40,7 +40,7 @@ public class PlaygoerActivityServiceImpl extends ServiceImpl<PlaygoerActivityMap
         if (playgoerActivity != null) {
             return "已经报名过了";
         }
-        // 判断人数是否已满,根据Id查询活动
+        // 判断人数是否已满,根据Id查询活动，获取余额
         Integer quota = activityService.quota(activityId);
         if (quota > 0) {
             PlaygoerActivity playgoerActivity1 = new PlaygoerActivity();

@@ -44,12 +44,36 @@ public class OperaAudioController {
     }
 
     /**
+     * 获取音频下载排行
+     */
+    @GetMapping("getDownloadRank")
+    public SaResult getDownloadRank(@RequestParam("time") String time) {
+        return SaResult.data(operaAudioService.getDownloadRank(time));
+    }
+
+    /**
+     * 获取音频评论排行
+     */
+    @GetMapping("getCommentRank")
+    public SaResult getCommentRank(@RequestParam("time") String time) {
+        return SaResult.data(operaAudioService.getCommentRank(time));
+    }
+
+    /**
      * 远程调用 新增音频
      */
     @PostMapping("insert")
     public R<Boolean> insert(@RequestParam("accountId") Long accountId, @RequestParam("filename") String filename,
-                    @RequestParam("audioInfo") String audioInfo, @RequestParam("audioUrl") String audioUrl,
-                    @RequestParam("typeId") Long typeId) {
+                             @RequestParam("audioInfo") String audioInfo, @RequestParam("audioUrl") String audioUrl,
+                             @RequestParam("typeId") Long typeId) {
         return R.ok(operaAudioService.insert(accountId, filename, audioInfo, audioUrl, typeId));
+    }
+
+    /**
+     * 新增下载量
+     */
+    @PostMapping("addDownloadNum/{audioId}")
+    public Boolean addDownloadNum(@PathVariable("audioId") Long audioId) {
+        return operaAudioService.addDownloadNum(audioId);
     }
 }

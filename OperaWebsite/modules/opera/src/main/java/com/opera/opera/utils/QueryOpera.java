@@ -1,17 +1,19 @@
 package com.opera.opera.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.opera.common.core.util.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * @description: 查询条件构造器,由于查询戏曲
  * @param <T>
+ * @description: 查询条件构造器, 由于查询戏曲
  */
 public class QueryOpera<T> {
 
-    public QueryWrapper<T> structure( int typeId, int timeFlag, String filename) throws ParseException {
+
+    public QueryWrapper<T> structure(int typeId, int timeFlag, String filename) throws ParseException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         //构造查询条件
         if (filename != null) {
@@ -29,35 +31,59 @@ public class QueryOpera<T> {
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     break;
                 case 2:
-                    endTime= "2022-01-01";
+                    endTime = "2022-01-01";
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     queryWrapper.lt("created_at", sdf.parse(stateTime));
                     break;
                 case 3:
                     stateTime = "2022-01-01";
-                    endTime= "2021-01-01";
+                    endTime = "2021-01-01";
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     queryWrapper.lt("created_at", sdf.parse(stateTime));
                     break;
                 case 4:
                     stateTime = "2021-01-01";
-                    endTime= "2020-01-01";
+                    endTime = "2020-01-01";
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     queryWrapper.lt("created_at", sdf.parse(stateTime));
                     break;
                 case 5:
                     stateTime = "2020-01-01";
-                    endTime= "2016-01-01";
+                    endTime = "2016-01-01";
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     queryWrapper.lt("created_at", sdf.parse(stateTime));
                     break;
                 case 6:
-                    endTime= "2016-01-01";
+                    endTime = "2016-01-01";
                     queryWrapper.lt("created_at", sdf.parse(endTime));
             }
         }
         //根据修改时间降序排列
         queryWrapper.orderByDesc("updated_at");
+        return queryWrapper;
+    }
+
+    //构造 一周 一月 一年的 查询条件
+    public QueryWrapper<T> temporalConstructs(QueryWrapper<T> queryWrapper, String time) {
+        switch (time) {
+            case "week":
+                //过去一周
+                String week = DateUtil.getWeek();
+                queryWrapper.ge("updated_at", week);
+                break;
+            case "month":
+                //过去一月
+                String mon = DateUtil.getMonth();
+                queryWrapper.ge("updated_at", mon);
+                break;
+            case "year":
+                //过去一年
+                String year = DateUtil.getYear();
+                queryWrapper.ge("updated_at", year);
+                break;
+            default:
+                break;
+        }
         return queryWrapper;
     }
 }

@@ -189,6 +189,7 @@
 											width="200"
 										/>
 										<el-table-column
+											v-if="flag"
 											fixed="right"
 											label="Operations"
 											width="120"
@@ -198,7 +199,12 @@
 													link
 													type="primary"
 													size="small"
-													@click="updateAudioComment(scope.row.commentId, scope.row.commentInfo)"
+													@click="
+														updateAudioComment(
+															scope.row.commentId,
+															scope.row.commentInfo,
+														)
+													"
 												>
 													修改
 												</el-button>
@@ -246,6 +252,7 @@
 											width="200"
 										/>
 										<el-table-column
+											v-if="flag"
 											fixed="right"
 											label="Operations"
 											width="120"
@@ -255,7 +262,12 @@
 													link
 													type="primary"
 													size="small"
-													@click="updateVideoComment(scope.row.commentId, scope.row.commentInfo)"
+													@click="
+														updateVideoComment(
+															scope.row.commentId,
+															scope.row.commentInfo,
+														)
+													"
 												>
 													修改
 												</el-button>
@@ -507,7 +519,7 @@ const handleCommentChange = (val: any) => {
 		//查询用户视频评论
 		getPlaygoerVideoComment(playgoerId, pageNum.value, pageSize.value).then(
 			(res) => {
-				console.log(res.data);
+				console.log(res.data)
 
 				commentList.value = res.data.records
 				if (res.data.total <= pageNum.value * pageSize.value) {
@@ -615,7 +627,7 @@ const delVideoCollection = (videoId: any) => {
 }
 
 //修改音频评论
-const updateAudioComment = (commentId: any,commentInfo:any) => {
+const updateAudioComment = (commentId: any, commentInfo: any) => {
 	ElMessageBox.prompt('请输入评论内容', '提示', {
 		inputValue: commentInfo,
 		inputPattern: /\S/,
@@ -643,7 +655,7 @@ const updateAudioComment = (commentId: any,commentInfo:any) => {
 	})
 }
 //修改视频评论
-const updateVideoComment = (commentId: any,commentInfo: any) => {
+const updateVideoComment = (commentId: any, commentInfo: any) => {
 	ElMessageBox.prompt('请输入评论内容', '提示', {
 		inputValue: commentInfo,
 		inputPattern: /\S/,

@@ -39,16 +39,16 @@ public class OperaVideo implements Serializable {
     private Long typeId;
 
     /**
-     * 戏曲视频下载量
-     */
-    @TableField(value = "download_num")
-    private Integer downloadNum;
-
-    /**
-     * 戏曲音频下载路径
+     * 戏曲下载路径
      */
     @TableField(value = "download_url")
     private String downloadUrl;
+
+    /**
+     * 戏曲下载量
+     */
+    @TableField(value = "download_num")
+    private Integer downloadNum;
 
     /**
      * 视频文件名称

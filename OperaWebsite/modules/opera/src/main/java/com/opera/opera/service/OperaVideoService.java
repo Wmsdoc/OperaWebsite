@@ -1,13 +1,13 @@
 package com.opera.opera.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.opera.opera.domain.OperaAudio;
-import com.opera.opera.domain.OperaVideo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.opera.opera.domain.vo.OperaAudioVO;
+import com.opera.opera.domain.OperaVideo;
+import com.opera.opera.domain.vo.OperaVideoRankVo;
 import com.opera.opera.domain.vo.OperaVideoVO;
 
 import java.text.ParseException;
+import java.util.List;
 
 public interface OperaVideoService extends IService<OperaVideo>{
 
@@ -17,4 +17,10 @@ public interface OperaVideoService extends IService<OperaVideo>{
     OperaVideoVO selectById(Long videoId);
 
     Boolean insert(Long accountId, String filename, String videoInfo, String videoUrl, Long typeId);
+
+    List<OperaVideo> getDownloadRank(String time);
+
+    List<OperaVideoRankVo> getCommentRank(String time);
+
+    Boolean addDownloadNum(Long videoId);
 }

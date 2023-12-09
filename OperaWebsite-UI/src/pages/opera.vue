@@ -22,7 +22,7 @@
 					type="primary"
 					>收藏</el-button
 				>
-				<el-button type="primary">下载</el-button>
+				<el-button type="primary" @click="downloadAudio(audioDetails.audioId, audioDetails.downloadUrl)">下载</el-button>
 			</template>
 			<el-descriptions-item>
 				<template #label>
@@ -97,7 +97,7 @@
 					type="primary"
 					>收藏</el-button
 				>
-				<el-button type="primary">下载</el-button>
+				<el-button type="primary" @click="downloadVideo(videoDetails.videoId, videoDetails.downloadUrl)">下载</el-button>
 			</template>
 			<el-descriptions-item>
 				<template #label>
@@ -264,6 +264,13 @@ function insertComment() {
 }
 
 function deleteCollection(flag: string, id: any) {
+	//判断用户是否登录
+	const token = localStorage.getItem('token')
+	if (token === null || token === '' || token === undefined) {
+		//未登录
+		toast.warning('请先登录')
+		return
+	}
 	//删除收藏
 	const playgoerId = localStorage.getItem('playgoerId')
 	if (flag === 'audio') {
@@ -287,6 +294,13 @@ function deleteCollection(flag: string, id: any) {
 	}
 }
 function insertCollection(flag: string, id: any) {
+	//判断用户是否登录
+	const token = localStorage.getItem('token')
+	if (token === null || token === '' || token === undefined) {
+		//未登录
+		toast.warning('请先登录')
+		return
+	}
 	//添加收藏
 	const playgoerId = localStorage.getItem('playgoerId')
 	if (flag === 'audio') {
@@ -419,6 +433,30 @@ function checkLogin() {
 	}
 }
 
+//下载
+const downloadVideo = (videoId: any, downloadUrl: any) => {
+	if (downloadUrl === null) {
+		toast.warning('暂无下载链接')
+		return
+	}
+	addVideoDownloadNum(videoId).then((res) => {
+		if (res) {
+			window.location.href = downloadUrl
+		}
+	})
+}
+const downloadAudio = (audioId: any, downloadUrl: any) => {
+	if (downloadUrl === null) {
+		toast.warning('暂无下载链接')
+		return
+	}
+	addAudioDownloadNum(audioId).then((res) => {
+		if (res) {
+			console.log(downloadUrl)
+			window.location.href = downloadUrl
+		}
+	})
+}
 getOperaDetails(Route)
 getComment(page.value)
 isCollection()

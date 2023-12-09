@@ -106,3 +106,6 @@ export interface OperaAudioVO {
 	 */
 	updatedAt?: Date
 }
+export interface OperaAudioRankVO extends OperaAudio {
+	commentNum?: number
+}

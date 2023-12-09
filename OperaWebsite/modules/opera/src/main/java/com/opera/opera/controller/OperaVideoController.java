@@ -44,6 +44,22 @@ public class OperaVideoController {
     }
 
     /**
+     *  获取视频下载排行
+     */
+    @GetMapping("getDownloadRank")
+    public SaResult getDownloadRank(@RequestParam("time")String time) {
+        return SaResult.data(operaVideoService.getDownloadRank(time));
+    }
+
+    /**
+     * 获取视频评论排行
+     */
+    @GetMapping("getCommentRank")
+    public SaResult getCommentRank(@RequestParam("time")String time) {
+        return SaResult.data(operaVideoService.getCommentRank(time));
+    }
+
+    /**
      * 远程调用 新增视频
      */
     @PostMapping("insert")
@@ -51,5 +67,13 @@ public class OperaVideoController {
                              @RequestParam("videoInfo") String videoInfo, @RequestParam("videoUrl") String videoUrl,
                              @RequestParam("typeId") Long typeId) {
         return R.ok(operaVideoService.insert(accountId, filename, videoInfo, videoUrl, typeId));
+    }
+
+    /**
+     * 新增下载量
+     */
+    @PostMapping("addDownloadNum/{videoId}")
+    public Boolean addDownloadNum(@PathVariable("videoId") Long videoId) {
+        return operaVideoService.addDownloadNum(videoId);
     }
 }

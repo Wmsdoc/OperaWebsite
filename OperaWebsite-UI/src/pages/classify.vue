@@ -172,7 +172,7 @@
 									</template>
 								</el-popover>
 
-								<el-button link type="primary" size="small">下载</el-button>
+								<el-button link type="primary" @click="downloadVideo(scope.row.videoId, scope.row.downloadUrl)" size="small">下载</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -284,7 +284,7 @@
 										</div>
 									</template>
 								</el-popover>
-								<el-button link type="primary" size="small">下载</el-button>
+								<el-button link type="primary" @click="downloadAudio(scope.row.audioId, scope.row.downloadUrl)" size="small">下载</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -487,6 +487,30 @@ function confirmClick() {
 		})
 	}
 	drawer.value = false
+}
+//下载
+const downloadVideo = (videoId: any, downloadUrl: any) => {
+	if (downloadUrl === null) {
+		toast.warning('暂无下载链接')
+		return
+	}
+	addVideoDownloadNum(videoId).then((res) => {
+		if (res) {
+			window.location.href = downloadUrl
+		}
+	})
+}
+const downloadAudio = (audioId: any, downloadUrl: any) => {
+	if (downloadUrl === null) {
+		toast.warning('暂无下载链接')
+		return
+	}
+	addAudioDownloadNum(audioId).then((res) => {
+		if (res) {
+			console.log(downloadUrl)
+			window.location.href = downloadUrl
+		}
+	})
 }
 
 getOpera(queryParams)

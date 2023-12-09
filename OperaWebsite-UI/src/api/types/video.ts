@@ -103,3 +103,6 @@ export interface OperaVideoVO {
 	 */
 	updatedAt?: Date
 }
+export interface OperaVideoRankVO extends OperaVideo {
+	commentNum?: number
+}
