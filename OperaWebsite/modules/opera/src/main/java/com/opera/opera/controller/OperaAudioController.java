@@ -28,11 +28,12 @@ public class OperaAudioController {
      */
     @GetMapping("getById")
     public SaResult getById(@RequestParam("audioId") Long audioId) {
-        return SaResult.data(operaAudioService.selectById(audioId));
+        return SaResult.data(operaAudioService.selectVOById(audioId));
     }
 
     /**
-     * 根据前端传入参数，进行筛选
+     * @Role("admin")
+     * @Role("user") 根据前端传入参数，进行筛选
      */
     @GetMapping("getByPageAndParams")
     public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -75,5 +76,33 @@ public class OperaAudioController {
     @PostMapping("addDownloadNum/{audioId}")
     public Boolean addDownloadNum(@PathVariable("audioId") Long audioId) {
         return operaAudioService.addDownloadNum(audioId);
+    }
+
+    /**
+     * @Role("admin") 修改
+     */
+    @PutMapping("/update")
+    public SaResult update(@RequestParam("audioId") Long audioId,
+                           @RequestParam(value = "filename",required  = false) String filename,
+                           @RequestParam(value = "audioInfo",required = false) String audioInfo,
+                           @RequestParam(value = "typeId",required = false) Long typeId,
+                           @RequestParam(value = "isExamine" ,required = false) Integer isExamine) {
+        return SaResult.data(operaAudioService.update(audioId, filename,audioInfo,typeId, isExamine));
+    }
+
+    /**
+     * 根据id删除音频
+     */
+    @DeleteMapping("/delete/{audioId}")
+    public SaResult delete(@PathVariable Long audioId) {
+        return SaResult.data(operaAudioService.removeById(audioId));
+    }
+
+    /**
+     * @Role("user") 用户查询自己上传的音频
+     */
+    @GetMapping("getAudioByCreated")
+    public SaResult getAudioByCreated(@RequestParam("pageNum")Integer pageNum,@RequestParam("pageSize")Integer pageSize){
+        return SaResult.data(operaAudioService.getAudioByCreated(pageNum,pageSize));
     }
 }

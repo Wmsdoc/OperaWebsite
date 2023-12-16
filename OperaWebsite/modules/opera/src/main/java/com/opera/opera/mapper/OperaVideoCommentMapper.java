@@ -12,7 +12,10 @@ import java.util.List;
 
 @Mapper
 public interface OperaVideoCommentMapper extends BaseMapper<OperaVideoComment> {
-    List<OperaVideoCommentVO> getCommentById(@Param("videoId") Long videoId,@Param("page") Integer page);
+    List<OperaVideoCommentVO> getCommentById(@Param("videoId") Long videoId, @Param("page") Integer page);
 
     Page<UserVideoCommentVO> selectCommentByPlaygoerId(Page<UserVideoCommentVO> page, @Param("playgoerId") Long playgoerId);
+
+    Page<OperaVideoCommentVO> selectByPageAndParams(Page<OperaVideoCommentVO> page, @Param("filename") String filename,
+                                                    @Param("playgoerName") String playgoerName, @Param("typeId") Long typeId);
 }

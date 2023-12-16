@@ -1,15 +1,9 @@
 package com.opera.opera.controller;
 
 import cn.dev33.satoken.util.SaResult;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
-import com.opera.opera.domain.OperaType;
 import com.opera.opera.service.OperaTypeService;
-import com.opera.opera.service.impl.OperaTypeServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 /**
@@ -32,5 +26,31 @@ public class OperaTypeController {
     @GetMapping("/getAllOperaType")
     public SaResult getAllOperaType() {
         return SaResult.data(operaTypeService.selectAllOperaType());
+    }
+
+    /**
+     * @Role("admin") 根据前端传入参数，进行筛选
+     */
+    @GetMapping("getByPageAndParams")
+    public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                       @RequestParam(value = "typeName", required = false) String typeName) {
+        return SaResult.data(operaTypeService.selectByPageAndParams(pageNum, pageSize, typeName));
+    }
+
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    public SaResult update(@RequestParam("typeId") Long typeId, @RequestParam("typeName") String typeName) {
+        return SaResult.data(operaTypeService.update(typeId, typeName));
+    }
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("/delete/{typeId}")
+    public SaResult delete(@PathVariable Long typeId) {
+        return SaResult.data(operaTypeService.removeById(typeId));
     }
 }

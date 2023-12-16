@@ -7,12 +7,11 @@
 						v-model="input"
 						class="w-50 m-2"
 						placeholder="请输入文件名称"
-						v-on:keyup.enter="Search"
+						@keyup.enter="Search"
 						clearable
 					>
 						<template #append>
 							<button class="i-material-symbols:search" @click="Search"></button>
-							<!-- <div class="i-material-symbols:search" @click="Search"></div> -->
 						</template>
 					</el-input>
 				</el-col>

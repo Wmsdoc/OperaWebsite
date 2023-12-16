@@ -69,7 +69,7 @@
 							accordion
 							@change="handleCollectChange"
 						>
-							<el-collapse-item title="收藏的音频" name="1">
+							<el-collapse-item title="收藏的音频" name="audio-collect">
 								<div>
 									<el-table
 										:data="collectList"
@@ -113,7 +113,7 @@
 									>
 								</div>
 							</el-collapse-item>
-							<el-collapse-item title="收藏的视频" name="2">
+							<el-collapse-item title="收藏的视频" name="video-collect">
 								<div>
 									<el-table
 										:data="collectList"
@@ -165,7 +165,7 @@
 							accordion
 							@change="handleCommentChange"
 						>
-							<el-collapse-item title="音频评论" name="1">
+							<el-collapse-item title="音频评论" name="audio-comment">
 								<div>
 									<el-table
 										:data="commentList"
@@ -228,7 +228,7 @@
 									>
 								</div>
 							</el-collapse-item>
-							<el-collapse-item title="视频评论" name="2">
+							<el-collapse-item title="视频评论" name="video-comment">
 								<div>
 									<el-table
 										:data="commentList"
@@ -293,7 +293,163 @@
 							</el-collapse-item>
 						</el-collapse>
 					</el-collapse-item>
-					<el-collapse-item v-if="flag" title="我的活动" name="3">
+					<el-collapse-item v-if="flag" title="我的上传" name="3">
+						<el-collapse
+							v-model="activeCollect"
+							accordion
+							@change="handleUploadChange"
+						>
+							<el-collapse-item title="音频上传" name="audio-upload">
+								<div>
+									<el-table
+										:data="uploadList"
+										style="width: 100%"
+										max-height="250"
+									>
+										<el-table-column
+											prop="isExamine"
+											label="审核状态"
+											width="100"
+										>
+											<template #default="scope">
+												<el-tag class="ml-2" v-if="scope.row.isExamine === 1"
+													>已通过</el-tag
+												>
+												<el-tag
+													class="ml-2"
+													type="warning"
+													v-if="scope.row.isExamine === 0"
+													>审核中</el-tag
+												>
+											</template>
+										</el-table-column>
+										<el-table-column
+											prop="filename"
+											label="音频名称"
+											width="120"
+										/>
+										<el-table-column prop="typeName" label="类型" width="80" />
+										<el-table-column
+											prop="audioInfo"
+											label="音频简介"
+											width="200"
+										/>
+										<el-table-column
+											prop="createdAt"
+											label="上传时间"
+											width="200"
+										/>
+										<el-table-column
+											fixed="right"
+											label="Operations"
+											width="120"
+										>
+											<template #default="scope">
+												<el-button
+													link
+													type="primary"
+													size="small"
+													@click="updateAudioDialog(scope.row)"
+												>
+													修改
+												</el-button>
+												<el-button
+													link
+													type="primary"
+													size="small"
+													@click="delAudio(scope.row.audioId)"
+												>
+													删除
+												</el-button>
+											</template>
+										</el-table-column>
+									</el-table>
+									<el-button
+										v-if="nextFlag"
+										class="mt-4"
+										style="width: 100%"
+										@click="onAddAudio"
+										>更多</el-button
+									>
+								</div>
+							</el-collapse-item>
+							<el-collapse-item title="视频上传" name="video-upload">
+								<div>
+									<el-table
+										:data="uploadList"
+										style="width: 100%"
+										max-height="250"
+									>
+										<el-table-column
+											prop="isExamine"
+											label="审核状态"
+											width="100"
+										>
+											<template #default="scope">
+												<el-tag class="ml-2" v-if="scope.row.isExamine === 1"
+													>已通过</el-tag
+												>
+												<el-tag
+													class="ml-2"
+													type="warning"
+													v-if="scope.row.isExamine === 0"
+													>审核中</el-tag
+												>
+											</template>
+										</el-table-column>
+										<el-table-column
+											prop="filename"
+											label="视频名称"
+											width="120"
+										/>
+										<el-table-column prop="typeName" label="类型" width="80" />
+										<el-table-column
+											prop="videoInfo"
+											label="视频简介"
+											width="200"
+										/>
+										<el-table-column
+											prop="createdAt"
+											label="上传时间"
+											width="200"
+										/>
+										<el-table-column
+											fixed="right"
+											label="Operations"
+											width="120"
+										>
+											<template #default="scope">
+												<el-button
+													link
+													type="primary"
+													size="small"
+													@click="updateVideoDialog(scope.row)"
+												>
+													修改
+												</el-button>
+												<el-button
+													link
+													type="primary"
+													size="small"
+													@click="delVideo(scope.row.videoId)"
+												>
+													删除
+												</el-button>
+											</template>
+										</el-table-column>
+									</el-table>
+									<el-button
+										v-if="nextFlag"
+										class="mt-4"
+										style="width: 100%"
+										@click="onAddVideo"
+										>更多</el-button
+									>
+								</div>
+							</el-collapse-item>
+						</el-collapse>
+					</el-collapse-item>
+					<el-collapse-item v-if="flag" title="我的活动" name="4">
 						<div>
 							<el-table
 								:data="activityList"
@@ -369,7 +525,7 @@
 					<el-radio-group v-model="updateForm.playgoerSex">
 						<el-radio :label="0">保密</el-radio>
 						<el-radio :label="1">男</el-radio>
-						<el-radio :label="3">女</el-radio>
+						<el-radio :label="2">女</el-radio>
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="生日">
@@ -412,6 +568,99 @@
 				</template>
 			</el-upload>
 		</el-dialog>
+
+		<el-dialog
+			v-model="dialogForAudio"
+			title="编辑戏曲音频"
+			width="30%"
+			:before-close="handleClose"
+		>
+			<el-form :model="updateAudioForm" label-width="80px">
+				<el-form-item label="文件名">
+					<el-input v-model="updateAudioForm.filename" type="text" />
+				</el-form-item>
+				<el-form-item label="音频简介">
+					<el-input
+						v-model="updateAudioForm.audioInfo"
+						:rows="2"
+						autosize
+						maxlength="200"
+						show-word-limit
+						type="textarea"
+					/>
+				</el-form-item>
+				<el-form-item label="音频类型">
+					<el-select
+						v-model="updateAudioForm.typeName"
+						class="m-2"
+						placeholder="Select"
+						@focus="getAllOperaType"
+						@change="updateAudioForm.typeId = $event"
+					>
+						<el-option
+							v-for="item in options"
+							:key="item.typeId"
+							:label="item.typeName"
+							:value="(item.typeId as string)"
+						/>
+					</el-select>
+				</el-form-item>
+			</el-form>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button @click="dialogForAudio = false">取消</el-button>
+					<el-button type="primary" @click="handleAudioUpdate(updateAudioForm)">
+						提交
+					</el-button>
+				</span>
+			</template>
+		</el-dialog>
+		<el-dialog
+			v-model="dialogForVideo"
+			title="编辑戏曲视频"
+			width="30%"
+			:before-close="handleClose"
+		>
+			<el-form :model="updateVideoForm" label-width="80px">
+				<el-form-item label="文件名">
+					<el-input v-model="updateVideoForm.filename" type="text" />
+				</el-form-item>
+				<el-form-item label="视频简介">
+					<el-input
+						v-model="updateVideoForm.videoInfo"
+						:rows="2"
+						autosize
+						maxlength="200"
+						show-word-limit
+						type="textarea"
+					/>
+				</el-form-item>
+				<el-form-item label="视频类型">
+					<el-select
+						v-model="updateVideoForm.typeName"
+						class="m-2"
+						placeholder="Select"
+						@focus="getAllOperaType"
+						@change="updateVideoForm.typeId = $event"
+					>
+						<el-option
+							v-for="item in options"
+							:key="item.typeId"
+							:label="item.typeName"
+							:value="item.typeId as string"
+						/>
+					</el-select>
+				</el-form-item>
+			</el-form>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button @click="dialogForVideo = false">取消</el-button>
+					<el-button type="primary" @click="handleVideoUpdate(updateVideoForm)">
+						提交
+					</el-button>
+				</span>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 <script setup lang="ts">
@@ -419,6 +668,7 @@ import { logout } from '~/api/user'
 import router from '~/plugins/router'
 import { Playgoer } from '~/api/types/user'
 import { UploadRequestOptions } from 'element-plus'
+import { OperaType } from '~/api/types/type'
 
 const size = 'large'
 
@@ -437,14 +687,32 @@ const updateForm = reactive({
 	playgoerSex: '',
 	playgoerBirthday: '',
 })
+const options = ref<OperaType[]>()
+const updateAudioForm = reactive({
+	audioId: '',
+	audioInfo: '',
+	filename: '',
+	typeName: '',
+	typeId: '',
+})
+const updateVideoForm = reactive({
+	videoId: '',
+	videoInfo: '',
+	filename: '',
+	typeName: '',
+	typeId: '',
+})
 
 const Route = useRoute() //获取到值
 
 const dialogVisible = ref(false)
 const dialogForAvatar = ref(false)
+const dialogForAudio = ref(false)
+const dialogForVideo = ref(false)
 
 const collectList = ref([])
 const commentList = ref([])
+const uploadList = ref([])
 const activityList = ref([])
 
 //折叠面板
@@ -453,10 +721,12 @@ const activeCollect = ref('0')
 const handleChange = (val: any) => {
 	console.log(val)
 	if (val === '1') {
-		//查询用户收藏
+		//查询用户收藏 handleCollectChange
 	} else if (val === '2') {
-		//查询用户评论
+		//查询用户评论 handleCommentChange
 	} else if (val === '3') {
+		//查询我的上传 handleUploadChange
+	} else if (val === '4') {
 		//还原分页信息
 		pageNum.value = 1
 		pageSize.value = 5
@@ -476,7 +746,7 @@ const handleCollectChange = (val: any) => {
 	pageNum.value = 1
 	pageSize.value = 5
 	collectList.value = []
-	if (val === '1') {
+	if (val === 'audio-collect') {
 		//查询用户音频收藏
 		getPlaygoerAudioCollect(pageNum.value, pageSize.value).then((res) => {
 			collectList.value = res.data.records
@@ -486,7 +756,7 @@ const handleCollectChange = (val: any) => {
 				nextFlag.value = true
 			}
 		})
-	} else if (val === '2') {
+	} else if (val === 'video-collect') {
 		//查询用户视频收藏
 		getPlaygoerVideoCollect(pageNum.value, pageSize.value).then((res) => {
 			collectList.value = res.data.records
@@ -503,7 +773,7 @@ const handleCommentChange = (val: any) => {
 	pageNum.value = 1
 	pageSize.value = 5
 	commentList.value = []
-	if (val === '1') {
+	if (val === 'audio-comment') {
 		//查询用户音频评论
 		getPlaygoerAudioComment(playgoerId, pageNum.value, pageSize.value).then(
 			(res) => {
@@ -515,12 +785,10 @@ const handleCommentChange = (val: any) => {
 				}
 			},
 		)
-	} else if (val === '2') {
+	} else if (val === 'video-comment') {
 		//查询用户视频评论
 		getPlaygoerVideoComment(playgoerId, pageNum.value, pageSize.value).then(
 			(res) => {
-				console.log(res.data)
-
 				commentList.value = res.data.records
 				if (res.data.total <= pageNum.value * pageSize.value) {
 					nextFlag.value = false
@@ -531,6 +799,34 @@ const handleCommentChange = (val: any) => {
 		)
 	}
 }
+const handleUploadChange = (val: any) => {
+	//还原分页信息
+	pageNum.value = 1
+	pageSize.value = 5
+	uploadList.value = []
+	if (val === 'audio-upload') {
+		getPlaygoerAudioUpload(pageNum.value, pageSize.value).then((res) => {
+			console.log(res)
+
+			uploadList.value = res.data.records
+			if (res.data.total <= pageNum.value * pageSize.value) {
+				nextFlag.value = false
+			} else {
+				nextFlag.value = true
+			}
+		})
+	} else if (val === 'video-upload') {
+		getPlaygoerVideoUpload(pageNum.value, pageSize.value).then((res) => {
+			uploadList.value = res.data.records
+			if (res.data.total <= pageNum.value * pageSize.value) {
+				nextFlag.value = false
+			} else {
+				nextFlag.value = true
+			}
+		})
+	}
+}
+
 //分页查询用户收藏的音频
 const onAddAudioCollect = () => {
 	pageNum.value++
@@ -590,6 +886,28 @@ const onAddVideoComment = () => {
 			}
 		},
 	)
+}
+const onAddAudio = () => {
+	pageNum.value++
+	getPlaygoerAudioUpload(pageNum.value, pageSize.value).then((res) => {
+		uploadList.value = uploadList.value.concat(res.data.records)
+		if (res.data.total <= pageNum.value * pageSize.value) {
+			nextFlag.value = false
+		} else {
+			nextFlag.value = true
+		}
+	})
+}
+const onAddVideo = () => {
+	pageNum.value++
+	getPlaygoerVideoUpload(pageNum.value, pageSize.value).then((res) => {
+		uploadList.value = uploadList.value.concat(res.data.records)
+		if (res.data.total <= pageNum.value * pageSize.value) {
+			nextFlag.value = false
+		} else {
+			nextFlag.value = true
+		}
+	})
 }
 
 //取消收藏
@@ -682,6 +1000,21 @@ const updateVideoComment = (commentId: any, commentInfo: any) => {
 		})
 	})
 }
+//修改音频上传
+const updateAudioDialog = (row: any) => {
+	updateAudioForm.audioId = row.audioId
+	updateAudioForm.audioInfo = row.audioInfo
+	updateAudioForm.filename = row.filename
+	updateAudioForm.typeName = row.typeName
+	dialogForAudio.value = true
+}
+const updateVideoDialog = (row: any) => {
+	updateVideoForm.videoId = row.videoId
+	updateVideoForm.videoInfo = row.videoInfo
+	updateVideoForm.filename = row.filename
+	updateVideoForm.typeName = row.typeName
+	dialogForVideo.value = true
+}
 
 //删除音频评论
 const delAudioComment = (commentId: any) => {
@@ -702,7 +1035,6 @@ const delAudioComment = (commentId: any) => {
 		)
 	})
 }
-
 //删除视频评论
 const delVideoComment = (commentId: any) => {
 	deleteVideoComment(commentId).then((res) => {
@@ -722,7 +1054,24 @@ const delVideoComment = (commentId: any) => {
 		)
 	})
 }
-
+//删除音频
+const delAudio = (audioId: any) => {
+	deleteAudioUpload(audioId).then((res) => {
+		if (res.data === true) {
+			toast.success('删除成功')
+			handleUploadChange('audio-upload')
+		}
+	})
+}
+//删除视频
+const delVideo = (videoId: any) => {
+	deleteVideoUpload(videoId).then((res) => {
+		if (res.data === true) {
+			toast.success('删除成功')
+			handleUploadChange('video-upload')
+		}
+	})
+}
 //取消活动
 const delActivity = (activityId: any) => {
 	deletePlaygoerActivity(activityId, playgoerId).then((res) => {
@@ -741,6 +1090,14 @@ const delActivity = (activityId: any) => {
 	})
 }
 
+function getAllOperaType() {
+	if (options.value !== undefined) return
+
+	getAllType().then((res) => {
+		options.value = res.data
+	})
+}
+
 function getPlaygoerById() {
 	if (
 		Route.query.id === null ||
@@ -749,8 +1106,12 @@ function getPlaygoerById() {
 	) {
 		flag.value = true
 	} else {
-		playgoerId = Route.query.id as string
-		flag.value = false
+		if (Route.query.id === playgoerId) {
+			flag.value = true
+		} else {
+			playgoerId = Route.query.id as string
+			flag.value = false
+		}
 	}
 	if (playgoerId === null || playgoerId === undefined || playgoerId === '') {
 		flag.value = false
@@ -789,6 +1150,40 @@ function handleUpdate(updateForm: any) {
 		getPlaygoer(playgoerId).then((res) => {
 			playgoer.value = res.data
 		})
+	})
+}
+
+function handleAudioUpdate(updateAudioForm: any) {
+	console.log(updateAudioForm)
+	let formData = new FormData()
+	formData.append('audioId', updateAudioForm.audioId)
+	formData.append('audioInfo', updateAudioForm.audioInfo)
+	formData.append('filename', updateAudioForm.filename)
+	formData.append('typeId', updateAudioForm.typeId)
+	updateAudioUploadInfo(formData).then((res) => {
+		if (res.data === true) {
+			toast.success('修改成功，请等待审核')
+			handleUploadChange('audio-upload')
+			dialogForAudio.value = false
+		} else {
+			toast.error('修改失败')
+		}
+	})
+}
+function handleVideoUpdate(updateVideoForm: any) {
+	let formData = new FormData()
+	formData.append('videoId', updateVideoForm.videoId)
+	formData.append('videoInfo', updateVideoForm.videoInfo)
+	formData.append('filename', updateVideoForm.filename)
+	formData.append('typeId', updateVideoForm.typeId)
+	updateVideoUploadInfo(formData).then((res) => {
+		if (res.data === true) {
+			toast.success('修改成功，请等待审核')
+			handleUploadChange('video-upload')
+			dialogForVideo.value = false
+		} else {
+			toast.error('修改失败')
+		}
 	})
 }
 

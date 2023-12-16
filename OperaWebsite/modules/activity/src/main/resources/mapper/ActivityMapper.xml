@@ -33,8 +33,8 @@
         WHERE a.activity_id = #{activityId}
     </sql>
 
-  <select id="selectById" resultType="com.opera.activity.domain.vo.ActivityVO">
-      SELECT playgoer.playgoer_id,
+  <select id="selectVOById" resultType="com.opera.activity.domain.vo.ActivityVO">
+      SELECT ac.playgoer_id,
              playgoer_name,
              playgoer_info,
              playgoer_avatar,
@@ -48,19 +48,31 @@
              ac.created_at,
              ac.updated_at
       FROM playgoer
+          INNER JOIN (SELECT sa.playgoer_id,
+                             activity_name,
+                             activity_info,
+                             activity_address,
+                             activity_quota,
+                             activity_num,
+                             start_time,
+                             end_time,
+                             ac.created_at,
+                             ac.updated_at
+      FROM sys_account AS sa
           INNER JOIN (SELECT a.activity_id,
                              a.activity_name,
                              a.activity_info,
                              a.activity_address,
-                             a.playgoer_id,
                              a.activity_num,
                              a.start_time,
                              a.end_time,
                              a.created_at,
                              a.updated_at,
+                             a.created_by,
                              a.activity_num - IFNULL(pa.num, 0) AS activity_quota
       <include refid="get_quota">
       </include>) AS ac
+                ON sa.account_id = ac.created_by) AS ac
                 ON playgoer.playgoer_id = ac.playgoer_id
   ORDER BY ac.updated_at DESC
   </select>

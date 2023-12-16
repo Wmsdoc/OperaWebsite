@@ -8,4 +8,6 @@ public interface SysAccountService extends IService<SysAccount>{
     SysAccount dologin(String username, String password);
 
     Long getPlaygoerIdByAccountId(Long accountId);
+
+    Boolean updateAccountStatue(Long playgoerId);
 }

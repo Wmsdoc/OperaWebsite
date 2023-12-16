@@ -33,21 +33,21 @@
                comment_info,
                comm.updated_at
         FROM playgoer
-                 INNER JOIN
-             (SELECT comment_id,
-                     playgoer_id,
-                     comment_info,
-                     updated_at
-              FROM opera_video_comment
-              WHERE video_id = #{videoId}
-                AND is_delete = 0
+            INNER JOIN
+        (SELECT comment_id,
+                playgoer_id,
+                comment_info,
+                updated_at
+         FROM opera_video_comment
+         WHERE video_id = #{videoId}
+           AND is_delete = 0
         limit
         <if test="page != 0">
             #{page},
         </if>
         10) AS comm
-             ON comm.playgoer_id = playgoer.playgoer_id
-       ORDER BY comm.updated_at DESC
+        ON comm.playgoer_id = playgoer.playgoer_id
+        ORDER BY comm.updated_at DESC
     </select>
 
     <select id="selectCommentByPlaygoerId" resultType="com.opera.opera.domain.vo.UserVideoCommentVO">
@@ -71,6 +71,43 @@
                                                     AND playgoer_id = #{playgoerId}) AS ovc
                                                  ON ov.video_id = ovc.video_id) AS com
                             ON opera_type.type_id = com.type_id
+        ORDER BY com.updated_at DESC
+    </select>
+
+    <select id="selectByPageAndParams" resultType="com.opera.opera.domain.vo.OperaVideoCommentVO">
+        SELECT com.playgoer_id,
+               playgoer_name,
+               playgoer_avatar,
+               com.video_id,
+               com.filename,
+               com.comment_id,
+               com.comment_info,
+               com.created_at,
+               com.updated_at
+        FROM playgoer
+            INNER JOIN (SELECT oa.video_id,
+                               oa.filename,
+                               com.comment_id,
+                               com.comment_info,
+                               com.playgoer_id,
+                               com.created_at,
+                               com.updated_at
+        FROM opera_video_comment AS com
+            INNER JOIN (SELECT video_id, filename
+                        FROM opera_video AS oa
+                                 INNER JOIN opera_type AS ot ON oa.type_id = ot.type_id
+        WHERE oa.is_delete = 0
+        <if test="filename != null and filename != ''">
+            AND filename LIKE CONCAT('%', #{filename}, '%')
+        </if>
+        <if test="typeId != null and typeId != ''">
+            AND ot.type_id = #{typeId}
+        </if>
+        ) AS oa ON com.video_id = oa.video_id
+        WHERE com.is_delete = 0) AS com ON playgoer.playgoer_id = com.playgoer_id
+        <if test="playgoerName != null and playgoerName != ''">
+            WHERE playgoer_name LIKE CONCAT('%', #{playgoerName}, '%')
+        </if>
         ORDER BY com.updated_at DESC
     </select>
 </mapper>

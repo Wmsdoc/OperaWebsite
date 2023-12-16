@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface OperaVideoCommentService extends IService<OperaVideoComment>{
 
+    Page<OperaVideoCommentVO> selectByPageAndParams(Integer pageNum, Integer pageSize,
+                                                    String filename, String playgoerName, Long typeId);
 
     List<OperaVideoCommentVO> getCommentById(Long videoId,Integer page);
 
@@ -20,4 +22,5 @@ public interface OperaVideoCommentService extends IService<OperaVideoComment>{
     Boolean update(Long commentId, String commentInfo);
 
     Page<UserVideoCommentVO> getCommentByPlaygoerId(Long playgoerId, Integer pageNum, Integer pageSize);
+
 }

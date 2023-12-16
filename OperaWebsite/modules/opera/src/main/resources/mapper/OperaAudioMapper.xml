@@ -33,7 +33,7 @@
         updated_by
     </sql>
 
-    <select id="selectById" resultType="com.opera.opera.domain.vo.OperaAudioVO">
+    <select id="selectVOById" resultType="com.opera.opera.domain.vo.OperaAudioVO">
         SELECT playgoer_name,
                playgoer_info,
                playgoer_avatar,
@@ -80,7 +80,7 @@
                oa.filename,
                oa.download_num,
                IFNULL(oc.num, 0) AS commentNum,
-               updated_at
+               created_at
         FROM opera_audio AS oa
                  LEFT JOIN (SELECT audio_id, COUNT(*) AS num
                             FROM opera_audio_comment
@@ -88,15 +88,40 @@
                             GROUP BY audio_id) AS oc ON oa.audio_id = oc.audio_id
         WHERE is_delete = 0
         <if test="time == 'week'">
-            AND updated_at BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()
+            AND created_at BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()
         </if>
         <if test="time == 'month'">
-            AND updated_at BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
+            AND created_at BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
         </if>
         <if test="time == 'year'">
-            AND updated_at BETWEEN DATE_SUB(NOW(), INTERVAL 365 DAY) AND NOW()
+            AND created_at BETWEEN DATE_SUB(NOW(), INTERVAL 365 DAY) AND NOW()
         </if>
         ORDER BY oc.num DESC
         LIMIT 10
+    </select>
+
+    <select id="getAudioByCreated" resultType="com.opera.opera.domain.vo.OperaAudioVO">
+        SELECT audio_id,
+               audio_info,
+               audio.type_id,
+               opera_type.type_name,
+               download_num,
+               download_url,
+               filename,
+               is_examine,
+               audio.created_at
+        FROM (SELECT audio_id,
+                     audio_info,
+                     type_id,
+                     download_num,
+                     download_url,
+                     filename,
+                     is_examine,
+                     created_at
+              FROM opera_audio
+              WHERE is_delete = 0
+                AND created_by = #{accountId}) AS audio
+                 INNER JOIN opera_type ON audio.type_id = opera_type.type_id
+        ORDER BY audio.created_at DESC
     </select>
 </mapper>

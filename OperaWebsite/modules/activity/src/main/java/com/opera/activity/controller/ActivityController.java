@@ -1,6 +1,7 @@
 package com.opera.activity.controller;
 
 import cn.dev33.satoken.util.SaResult;
+import com.opera.activity.domain.Activity;
 import com.opera.activity.service.ActivityService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,39 @@ public class ActivityController {
      */
     @GetMapping("getById")
     public SaResult getById(@RequestParam(value = "activityId") Long activityId) {
-        return SaResult.data(activityService.selectById(activityId));
+        return SaResult.data(activityService.selectVOById(activityId));
+    }
+
+    /**
+     * @Role("admin") 根据活动id查询活动详情
+     */
+    @GetMapping("getActivityById")
+    public SaResult getActivityById(@RequestParam(value = "activityId") Long activityId) {
+        return SaResult.data(activityService.getById(activityId));
+    }
+
+    /**
+     * 修改活动
+     */
+    @PostMapping("insert")
+    public SaResult insert(@RequestBody Activity activity) {
+        return SaResult.data(activityService.insert(activity));
+    }
+
+    /**
+     * 修改活动
+     */
+    @PutMapping("update")
+    public SaResult update(@RequestBody Activity activity) {
+        return SaResult.data(activityService.update(activity));
+    }
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("delete/{activityId}")
+    public SaResult delete(@PathVariable String activityId) {
+        return SaResult.data(activityService.removeById(activityId));
     }
 
 }

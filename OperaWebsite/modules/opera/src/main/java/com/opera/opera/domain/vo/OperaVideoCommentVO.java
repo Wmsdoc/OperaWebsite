@@ -17,4 +17,6 @@ public class OperaVideoCommentVO extends OperaVideoComment {
     private String playgoerInfo;
     // 戏曲上传者头像
     private String playgoerAvatar;
+    //戏曲文件名称
+    private String filename;
 }

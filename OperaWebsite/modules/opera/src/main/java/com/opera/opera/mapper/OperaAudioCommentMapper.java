@@ -17,4 +17,7 @@ public interface OperaAudioCommentMapper extends BaseMapper<OperaAudioComment> {
     List<OperaAudioCommentVO> selectCommentById(@Param("audioId") Long audioId,@Param("page") Integer page);
 
     Page<UserAudioCommentVO> selectCommentByPlaygoerId(Page<UserAudioCommentVO> page,@Param("playgoerId") Long playgoerId);
+
+    Page<OperaAudioCommentVO> selectByPageAndParams(Page<OperaAudioCommentVO> page,@Param("filename") String filename,
+                                                    @Param("playgoerName") String playgoerName,@Param("typeId") Long typeId);
 }

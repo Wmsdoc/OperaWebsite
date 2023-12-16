@@ -1,5 +1,7 @@
 package com.opera.opera.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -18,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAudio> implements OperaAudioService {
@@ -28,14 +31,14 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
     @Override
     public Page<OperaAudio> selectByPageAndParams(int pageNum, int pageSize, int typeId, int timeFlag, String filename) throws ParseException {
         QueryWrapper<OperaAudio> queryWrapper = new QueryOpera<OperaAudio>().structure(typeId, timeFlag, filename);
-        queryWrapper.select("audio_id", "filename", "download_url");
+        queryWrapper.select("audio_id", "filename", "download_url", "is_examine");
         Page<OperaAudio> page = new Page<>(pageNum, pageSize);
         return baseMapper.selectPage(page, queryWrapper);
     }
 
     @Override
-    public OperaAudioVO selectById(Long audioId) {
-        return operaAudioMapper.selectById(audioId);
+    public OperaAudioVO selectVOById(Long audioId) {
+        return operaAudioMapper.selectVOById(audioId);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
     @Override
     public List<OperaAudio> getDownloadRank(String time) {
         QueryWrapper<OperaAudio> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("audio_id", "filename", "download_num", "download_url", "updated_at");
+        queryWrapper.select("audio_id", "filename", "download_num", "download_url", "created_at");
         //构造时间查询条件
         queryWrapper = new QueryOpera<OperaAudio>().temporalConstructs(queryWrapper, time);
         queryWrapper.orderByDesc("download_num");
@@ -71,4 +74,26 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
         operaAudio.setDownloadNum(operaAudio.getDownloadNum() + 1);
         return baseMapper.updateById(operaAudio) > 0;
     }
+
+    @Override
+    public Boolean update(Long audioId, String filename, String audioInfo,Long typeId, Integer isExamine) {
+        OperaAudio operaAudio = new OperaAudio();
+        operaAudio.setAudioId(audioId);
+        operaAudio.setFilename(filename);
+        operaAudio.setAudioInfo(audioInfo);
+        operaAudio.setTypeId(typeId);
+        //TODO 添加管理员权限 修改审核状态 if null -> 0 未审核
+        operaAudio.setIsExamine(Objects.requireNonNullElse(isExamine, 0));
+        //获取修改人 ID
+        operaAudio.setUpdatedBy(StpUtil.getLoginIdAsLong());
+        return baseMapper.updateById(operaAudio) > 0;
+    }
+
+    @Override
+    public Page<OperaAudioVO> getAudioByCreated(Integer pageNum, Integer pageSize) {
+        Long accountId = StpUtil.getLoginIdAsLong();
+        Page<OperaAudio> page = new Page<>(pageNum, pageSize);
+        return operaAudioMapper.getAudioByCreated(page, accountId);
+    }
+
 }

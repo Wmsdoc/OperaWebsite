@@ -5,6 +5,8 @@ import com.opera.opera.service.OperaAudioCommentService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 
 /**
  * 戏曲音频评论表(opera_audio_comment)表控制层
@@ -19,6 +21,18 @@ public class OperaAudioCommentController {
      */
     @Resource
     private OperaAudioCommentService operaAudioCommentService;
+
+    /**
+     * @Role("admin") 根据前端传入参数，进行筛选
+     */
+    @GetMapping("getByPageAndParams")
+    public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                       @RequestParam(value = "filename", required = false) String filename,
+                                       @RequestParam(value = "playgoerName", required = false) String playgoerName,
+                                       @RequestParam(value = "typeId",required = false) Long typeId) {
+        return SaResult.data(operaAudioCommentService.selectByPageAndParams(pageNum, pageSize, filename,playgoerName,typeId));
+    }
 
     /**
      * 根据 音频id 分页查询评论信息
@@ -45,11 +59,11 @@ public class OperaAudioCommentController {
     }
 
     /**
-     * 根据id删除评论
+     * 修改
      */
     @PutMapping("/update")
-    public SaResult update(@RequestParam("commentId") Long commentId,@RequestParam("commentInfo")String commentInfo) {
-        return SaResult.data(operaAudioCommentService.update(commentId,commentInfo));
+    public SaResult update(@RequestParam("commentId") Long commentId, @RequestParam("commentInfo") String commentInfo) {
+        return SaResult.data(operaAudioCommentService.update(commentId, commentInfo));
     }
 
     /**

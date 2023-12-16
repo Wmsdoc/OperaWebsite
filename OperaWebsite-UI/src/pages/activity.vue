@@ -1,5 +1,29 @@
 <template>
 	<div>
+		<el-input
+			v-model="queryParams.activityName"
+			style="width: 200px"
+			placeholder="请输入活动地址"
+			clearable
+			@keyup.enter="Search"
+		>
+			<template #append>
+				<button class="i-material-symbols:search" @click="Search"></button>
+			</template>
+		</el-input>
+		<el-divider direction="vertical" />
+		<el-input
+			v-model="queryParams.activityAddress"
+			style="width: 200px"
+			placeholder="请输入活动地址"
+			clearable
+			@keyup.enter="Search"
+		>
+			<template #append>
+				<button class="i-material-symbols:search" @click="Search"></button>
+			</template>
+		</el-input>
+		<el-divider />
 		<el-card>
 			<template #header>
 				<div class="card-header">
@@ -181,10 +205,14 @@ const insert = (activityId: any, activityQuota: number) => {
 	})
 }
 
-getActivities(queryParams).then((res) => {
-	activityList.value = res.data.records
-	total.value = res.data.total
-})
+const Search = () => {
+	activityList.value = []
+	currentPage.value = 1
+	pageSize.value = 5
+	console.log(queryParams)
+
+	getActivity()
+}
 
 const handleSizeChange = (val: number) => {
 	queryParams.pageSize = val
@@ -208,4 +236,12 @@ const enter = (id: number) => {
 		activityDetails.value = res.data
 	})
 }
+function getActivity() {
+	getActivities(queryParams).then((res) => {
+		console.log(res)
+		activityList.value = res.data.records
+		total.value = res.data.total
+	})
+}
+getActivity()
 </script>

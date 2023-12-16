@@ -36,7 +36,6 @@ public class SysAccount implements Serializable {
 
     /**
      * 戏迷登录密码（4-16位）
-
      */
     @TableField(value = "account_password")
     private String accountPassword;

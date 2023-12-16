@@ -47,12 +47,6 @@ public class Activity implements Serializable {
     private String activityAddress;
 
     /**
-     * 活动发起人
-     */
-    @TableField(value = "playgoer_id")
-    private Long playgoerId;
-
-    /**
      * 活动人数
      */
     @TableField(value = "activity_num")

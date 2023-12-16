@@ -24,6 +24,12 @@ public class OperaVideoCommentServiceImpl extends ServiceImpl<OperaVideoCommentM
     private RemoteSystemService remoteSystemService;
 
     @Override
+    public Page<OperaVideoCommentVO> selectByPageAndParams(Integer pageNum, Integer pageSize, String filename, String playgoerName, Long typeId) {
+        Page<OperaVideoCommentVO> page = new Page<>(pageNum, pageSize);
+        return operaVideoCommentMapper.selectByPageAndParams(page, filename, playgoerName, typeId);
+    }
+
+    @Override
     public List<OperaVideoCommentVO> getCommentById(Long videoId, Integer page) {
         return operaVideoCommentMapper.getCommentById(videoId, page);
     }
@@ -57,4 +63,5 @@ public class OperaVideoCommentServiceImpl extends ServiceImpl<OperaVideoCommentM
         Page<UserVideoCommentVO> page = new Page<>(pageNum, pageSize);
         return operaVideoCommentMapper.selectCommentByPlaygoerId(page, playgoerId);
     }
+
 }

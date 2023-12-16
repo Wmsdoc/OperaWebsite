@@ -74,4 +74,41 @@
                             ON opera_type.type_id = com.type_id
         ORDER BY com.updated_at DESC
     </select>
+
+    <select id="selectByPageAndParams" resultType="com.opera.opera.domain.vo.OperaAudioCommentVO">
+        SELECT com.playgoer_id,
+               playgoer_name,
+               playgoer_avatar,
+               com.audio_id,
+               com.filename,
+               com.comment_id,
+               com.comment_info,
+               com.created_at,
+               com.updated_at
+        FROM playgoer
+            INNER JOIN (SELECT oa.audio_id,
+                               oa.filename,
+                               com.comment_id,
+                               com.comment_info,
+                               com.playgoer_id,
+                               com.created_at,
+                               com.updated_at
+        FROM opera_audio_comment AS com
+            INNER JOIN (SELECT audio_id, filename
+                        FROM opera_audio AS oa
+                                 INNER JOIN opera_type AS ot ON oa.type_id = ot.type_id
+        WHERE oa.is_delete = 0
+        <if test="filename != null and filename != ''">
+            AND filename LIKE CONCAT('%', #{filename}, '%')
+        </if>
+        <if test="typeId != null and typeId != ''">
+            AND ot.type_id = #{typeId}
+        </if>
+        ) AS oa ON com.audio_id = oa.audio_id
+        WHERE com.is_delete = 0) AS com ON playgoer.playgoer_id = com.playgoer_id
+        <if test="playgoerName != null and playgoerName != ''">
+            WHERE playgoer_name LIKE CONCAT('%', #{playgoerName}, '%')
+        </if>
+        ORDER BY com.updated_at DESC
+    </select>
 </mapper>

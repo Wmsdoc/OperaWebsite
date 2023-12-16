@@ -14,7 +14,7 @@ public interface OperaVideoService extends IService<OperaVideo>{
 
     Page<OperaVideo> selectByPageAndParams(int pageNum,int pageSize,int typeId,int timeFlag,String filename ) throws ParseException;
 
-    OperaVideoVO selectById(Long videoId);
+    OperaVideoVO selectVOById(Long videoId);
 
     Boolean insert(Long accountId, String filename, String videoInfo, String videoUrl, Long typeId);
 
@@ -23,4 +23,8 @@ public interface OperaVideoService extends IService<OperaVideo>{
     List<OperaVideoRankVo> getCommentRank(String time);
 
     Boolean addDownloadNum(Long videoId);
+
+    Boolean update(Long videoId, String filename, String videoInfo,Long typeId, Integer isExamine);
+
+    Page<OperaVideoVO> getVideoByCreated(Integer pageNum, Integer pageSize);
 }

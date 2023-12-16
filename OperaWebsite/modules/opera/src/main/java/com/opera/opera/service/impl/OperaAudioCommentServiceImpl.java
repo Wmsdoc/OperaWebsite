@@ -25,6 +25,13 @@ public class OperaAudioCommentServiceImpl extends ServiceImpl<OperaAudioCommentM
     private RemoteSystemService remoteSystemService;
 
     @Override
+    public Page<OperaAudioCommentVO> selectByPageAndParams(Integer pageNum, Integer pageSize,
+                                                           String filename,String playgoerName,Long typeId) {
+        Page<OperaAudioCommentVO> page = new Page<>(pageNum, pageSize);
+        return operaAudioCommentMapper.selectByPageAndParams(page, filename,playgoerName,typeId);
+    }
+
+    @Override
     public List<OperaAudioCommentVO> getCommentById(Long audioId, Integer page) {
         return operaAudioCommentMapper.selectCommentById(audioId, page);
     }
@@ -55,6 +62,7 @@ public class OperaAudioCommentServiceImpl extends ServiceImpl<OperaAudioCommentM
     @Override
     public Boolean update(Long commentId, String commentInfo) {
         OperaAudioComment comment = new OperaAudioComment();
+        comment.setUpdatedBy(StpUtil.getLoginIdAsLong());
         comment.setCommentId(commentId);
         comment.setCommentInfo(commentInfo);
         return baseMapper.updateById(comment) > 0;

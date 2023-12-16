@@ -16,7 +16,7 @@ public class SysLoginController {
     private SysAccountService sysAccountService;
 
     // 会话登录接口
-    @PostMapping("/doLogin")
+    @PostMapping("/login")
     public SaResult doLogin(@RequestBody LoginBody loginBody) {
         //进行数据库验证
         SysAccount account = sysAccountService.dologin(loginBody.getUsername(), loginBody.getPassword());

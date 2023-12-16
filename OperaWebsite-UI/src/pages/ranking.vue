@@ -16,14 +16,14 @@
 			style="width: 100%"
 		>
 			<el-table-column property="filename" label="文件名" width="120" />
-			<el-table-column property="downloadNum" label="下载量" width="120" />
+			<el-table-column property="downloadNum" label="下载量" width="80" />
 			<el-table-column
 				v-if="commentFlag"
 				property="commentNum"
 				label="评论量"
 				width="120"
 			/>
-			<el-table-column property="updateAt" label="上传时间" width="120" />
+			<el-table-column property="createdAt" label="上传时间" width="180" />
 			<el-table-column fixed="right" label="操作" width="120">
 				<template #default="scope">
 					<el-popover
@@ -324,6 +324,9 @@ const audioDetails = ref<OperaAudioVO>({})
 const videoDetails = ref<OperaVideoVO>({})
 
 const onChange = (value: any) => {
+	noDataFlag.value = true
+	audioFlag.value = false
+	videoFlag.value = false
 	//进行字符串分割
 	let splitted: string[] = value.value.split('-')
 	//取第二位位并判断

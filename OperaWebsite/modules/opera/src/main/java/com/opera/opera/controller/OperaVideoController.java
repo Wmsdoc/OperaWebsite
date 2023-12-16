@@ -28,11 +28,12 @@ public class OperaVideoController {
      */
     @GetMapping("getById")
     public SaResult getById(@RequestParam("videoId") Long videoId) {
-        return SaResult.data(operaVideoService.selectById(videoId));
+        return SaResult.data(operaVideoService.selectVOById(videoId));
     }
 
     /**
-     * 根据前端传入参数，进行筛选
+     * @Role("admin")
+     * @Role("user") 根据前端传入参数，进行筛选
      */
     @GetMapping("getByPageAndParams")
     public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -44,10 +45,10 @@ public class OperaVideoController {
     }
 
     /**
-     *  获取视频下载排行
+     * 获取视频下载排行
      */
     @GetMapping("getDownloadRank")
-    public SaResult getDownloadRank(@RequestParam("time")String time) {
+    public SaResult getDownloadRank(@RequestParam("time") String time) {
         return SaResult.data(operaVideoService.getDownloadRank(time));
     }
 
@@ -55,7 +56,7 @@ public class OperaVideoController {
      * 获取视频评论排行
      */
     @GetMapping("getCommentRank")
-    public SaResult getCommentRank(@RequestParam("time")String time) {
+    public SaResult getCommentRank(@RequestParam("time") String time) {
         return SaResult.data(operaVideoService.getCommentRank(time));
     }
 
@@ -75,5 +76,33 @@ public class OperaVideoController {
     @PostMapping("addDownloadNum/{videoId}")
     public Boolean addDownloadNum(@PathVariable("videoId") Long videoId) {
         return operaVideoService.addDownloadNum(videoId);
+    }
+
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    public SaResult update(@RequestParam("videoId") Long videoId,
+                           @RequestParam(value = "filename", required = false) String filename,
+                           @RequestParam(value = "videoInfo", required = false) String videoInfo,
+                           @RequestParam(value = "typeId", required = false) Long typeId,
+                           @RequestParam(value = "isExamine", required = false) Integer isExamine) {
+        return SaResult.data(operaVideoService.update(videoId, filename, videoInfo,typeId, isExamine));
+    }
+
+    /**
+     * 根据id删除音频
+     */
+    @DeleteMapping("/delete/{videoId}")
+    public SaResult delete(@PathVariable Long videoId) {
+        return SaResult.data(operaVideoService.removeById(videoId));
+    }
+
+    /**
+     * @Role("user") 用户查询自己上传的音频
+     */
+    @GetMapping("getVideoByCreated")
+    public SaResult getVideoByCreated(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        return SaResult.data(operaVideoService.getVideoByCreated(pageNum, pageSize));
     }
 }

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ActivityMapper extends BaseMapper<Activity> {
-    ActivityVO selectById(Long activityId);
+    ActivityVO selectVOById(Long activityId);
 
     Integer quota(Long activityId);
 

@@ -3,6 +3,8 @@ export function getActivities(queryParams: any) {
 		params: {
 			pageSize: queryParams.pageSize,
 			pageNum: queryParams.pageNum,
+			activityName: queryParams.activityName,
+			activityAddress: queryParams.activityAddress,
 		},
 	})
 }

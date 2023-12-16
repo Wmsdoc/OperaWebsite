@@ -2,7 +2,7 @@
  * 登录
  */
 export const login = (data: any) => {
-	return http.post(`/system/doLogin`, data, {
+	return http.post(`/system/login`, data, {
 		// headers: {
 		// 	'content-type': 'application/x-www-form-urlencoded',
 		// },
@@ -132,6 +132,62 @@ export const deleteAudioComment = (commentId: any) => {
 //删除用户视频评论
 export const deleteVideoComment = (commentId: any) => {
 	return http.delete(`/opera/video/comment/delete/` + commentId, {
+		headers: {
+			satoken: localStorage.getItem('token'),
+		},
+	})
+}
+//获取用户的戏曲音频上传
+export const getPlaygoerAudioUpload = (pageNum: any, pageSize: any) => {
+	return http.get(`/opera/audio/getAudioByCreated`, {
+		params: {
+			pageNum: pageNum,
+			pageSize: pageSize,
+		},
+		headers: {
+			satoken: localStorage.getItem('token'),
+		},
+	})
+}
+//获取用户的戏曲视频上传
+export const getPlaygoerVideoUpload = (pageNum: any, pageSize: any) => {
+	return http.get(`/opera/video/getVideoByCreated`, {
+		params: {
+			pageNum: pageNum,
+			pageSize: pageSize,
+		},
+		headers: {
+			satoken: localStorage.getItem('token'),
+		},
+	})
+}
+//修改用户音频上传
+export const updateAudioUploadInfo = (formData: any) => {
+	return http.put('/opera/audio/update', formData, {
+		headers: {
+			satoken: localStorage.getItem('token'),
+		},
+	})
+}
+//修改用户视频上传
+export const updateVideoUploadInfo = (formData: any) => {
+	return http.put('/opera/video/update', formData, {
+		headers: {
+			satoken: localStorage.getItem('token'),
+		},
+	})
+}
+//删除用户音频上传
+export const deleteAudioUpload = (audioId: any) => {
+	return http.delete(`/opera/audio/delete/` + audioId, {
+		headers: {
+			satoken: localStorage.getItem('token'),
+		},
+	})
+}
+//删除用户视频上传
+export const deleteVideoUpload = (videoId: any) => {
+	return http.delete(`/opera/video/delete/` + videoId, {
 		headers: {
 			satoken: localStorage.getItem('token'),
 		},

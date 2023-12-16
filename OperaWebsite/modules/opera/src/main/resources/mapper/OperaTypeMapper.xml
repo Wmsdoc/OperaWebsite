@@ -16,4 +16,32 @@
     <!--@mbg.generated-->
     type_id, type_name, is_delete, created_at, updated_at, created_by, updated_by
   </sql>
+
+  <select id="selectByPageAndParams" resultType="com.opera.opera.domain.vo.OperaTypeVO">
+      SELECT ot.type_id,
+             ot.type_name,
+             ot.created_at,
+             ot.updated_at,
+             ot.audio_count,
+             IFNULL(ov.video_count, 0) AS video_count
+      FROM (SELECT ot.type_id,
+                   ot.type_name,
+                   ot.created_at,
+                   ot.updated_at,
+                   IFNULL(oa.audio_count, 0) AS audio_count
+            FROM opera_type AS ot
+                     LEFT JOIN (SELECT COUNT(*) AS audio_count, type_id
+                                FROM opera_audio
+                                WHERE is_delete = 0
+                                GROUP BY type_id) AS oa ON ot.type_id = oa.type_id
+      WHERE ot.is_delete = 0
+      <if test="typeName != null and typeName != ''">
+          AND ot.type_name LIKE CONCAT('%', #{typeName}, '%')
+      </if>
+      ) AS ot
+          LEFT JOIN (SELECT COUNT(*) AS video_count, type_id
+                     FROM opera_video
+                     WHERE is_delete = 0
+                     GROUP BY type_id) AS ov ON ot.type_id = ov.type_id
+  </select>
 </mapper>

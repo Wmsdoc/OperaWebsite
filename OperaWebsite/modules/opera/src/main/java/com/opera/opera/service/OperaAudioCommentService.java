@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface OperaAudioCommentService extends IService<OperaAudioComment> {
 
+    Page<OperaAudioCommentVO> selectByPageAndParams(Integer pageNum, Integer pageSize,
+                                                    String filename,String playgoerName,Long typeId);
 
     List<OperaAudioCommentVO> getCommentById(Long audioId,Integer page);
 

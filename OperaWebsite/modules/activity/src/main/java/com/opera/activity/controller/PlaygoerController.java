@@ -7,6 +7,8 @@ import com.opera.common.core.domain.R;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 
 /**
  * 戏迷个人信息表(playgoer)表控制层
@@ -21,6 +23,18 @@ public class PlaygoerController {
      */
     @Resource
     private PlaygoerService playgoerService;
+
+    /**
+     * @Role("admin")
+     * 根据前端传入参数，进行筛选
+     */
+    @GetMapping("/getByPageAndParams")
+    public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                       @RequestParam(value = "accountUsername", required = false) String accountUsername,
+                                       @RequestParam(value = "playgoerName", required = false) String playgoerName)  {
+        return SaResult.data(playgoerService.selectByPageAndParams(pageNum, pageSize, accountUsername, playgoerName));
+    }
 
     /**
      * 远程调用修改用户头像

@@ -21,6 +21,18 @@ public class OperaVideoCommentController {
     private OperaVideoCommentService operaVideoCommentService;
 
     /**
+     * @Role("admin") 根据前端传入参数，进行筛选
+     */
+    @GetMapping("getByPageAndParams")
+    public SaResult getByPageAndParams(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                       @RequestParam(value = "filename", required = false) String filename,
+                                       @RequestParam(value = "playgoerName", required = false) String playgoerName,
+                                       @RequestParam(value = "typeId",required = false) Long typeId) {
+        return SaResult.data(operaVideoCommentService.selectByPageAndParams(pageNum, pageSize, filename,playgoerName,typeId));
+    }
+
+    /**
      * 根据id 查询评论信息
      */
     @GetMapping("/getComment")

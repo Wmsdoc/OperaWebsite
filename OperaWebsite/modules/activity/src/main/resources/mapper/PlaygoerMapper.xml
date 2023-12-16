@@ -1,24 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.opera.activity.mapper.PlaygoerMapper">
-  <resultMap id="BaseResultMap" type="com.opera.activity.domain.Playgoer">
-    <!--@mbg.generated-->
-    <!--@Table playgoer-->
-    <id column="playgoer_id" jdbcType="BIGINT" property="playgoerId" />
-    <result column="playgoer_name" jdbcType="VARCHAR" property="playgoerName" />
-    <result column="playgoer_info" jdbcType="VARCHAR" property="playgoerInfo" />
-    <result column="playgoer_sex" jdbcType="INTEGER" property="playgoerSex" />
-    <result column="playgoer_birthday" jdbcType="DATE" property="playgoerBirthday" />
-    <result column="playgoer_avatar" jdbcType="VARCHAR" property="playgoerAvatar" />
-    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
-    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    playgoer_id, playgoer_name, playgoer_info, playgoer_sex, playgoer_birthday, playgoer_avatar, 
-    is_delete, created_at, updated_at, created_by, updated_by
-  </sql>
+    <resultMap id="BaseResultMap" type="com.opera.activity.domain.Playgoer">
+        <!--@mbg.generated-->
+        <!--@Table playgoer-->
+        <id column="playgoer_id" jdbcType="BIGINT" property="playgoerId"/>
+        <result column="playgoer_name" jdbcType="VARCHAR" property="playgoerName"/>
+        <result column="playgoer_info" jdbcType="VARCHAR" property="playgoerInfo"/>
+        <result column="playgoer_sex" jdbcType="INTEGER" property="playgoerSex"/>
+        <result column="playgoer_birthday" jdbcType="DATE" property="playgoerBirthday"/>
+        <result column="playgoer_avatar" jdbcType="VARCHAR" property="playgoerAvatar"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        playgoer_id,
+        playgoer_name,
+        playgoer_info,
+        playgoer_sex,
+        playgoer_birthday,
+        playgoer_avatar,
+        is_delete,
+        created_at,
+        updated_at,
+        created_by,
+        updated_by
+    </sql>
+
+    <select id="selectByPageAndParams" resultType="com.opera.activity.domain.vo.PlaygoerVO">
+        SELECT playgoer.playgoer_id,
+               playgoer_name,
+               playgoer_info,
+               playgoer_sex,
+               playgoer_avatar,
+               playgoer_birthday,
+               playgoer.created_at,
+               sa.account_username,
+               sa.account_statue
+        FROM playgoer
+                 INNER JOIN (SELECT playgoer_id, account_username, account_statue
+                             FROM sys_account
+                             WHERE is_delete = 0) AS sa
+                            ON playgoer.playgoer_id = sa.playgoer_id
+        WHERE is_delete = 0
+        <if test="accountUsername != null and accountUsername != ''">
+            AND sa.account_username LIKE CONCAT('%', #{accountUsername}, '%')
+        </if>
+        <if test="playgoerName != null and playgoerName != ''">
+            AND playgoer.playgoer_name LIKE CONCAT('%', #{playgoerName}, '%')
+        </if>
+        ORDER BY playgoer.created_at DESC
+    </select>
 </mapper>

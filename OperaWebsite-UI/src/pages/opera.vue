@@ -188,7 +188,7 @@
 
 		<ul v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
 			<li v-for="item in operaComments" class="infinite-list-item">
-				<el-avatar :src="item.playgoerAvatar as string" />
+				<el-avatar @click="commentClick(item.playgoerId)" :src="(item.playgoerAvatar as string)" />
 				{{ item.playgoerName }}:
 				{{ item.commentInfo }}
 				{{ item.updatedAt }}
@@ -457,6 +457,10 @@ const downloadAudio = (audioId: any, downloadUrl: any) => {
 		}
 	})
 }
+const commentClick=(playgoerId : any)=>{
+	router.push({ path: '/user', query: { id: playgoerId } })
+}
+
 getOperaDetails(Route)
 getComment(page.value)
 isCollection()
