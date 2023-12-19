@@ -23,7 +23,7 @@
 				v-for="item in typeList"
 				:key="item.typeId"
 				:label="item.typeName"
-				:value="(item.typeId as string)"
+				:value="item.typeId as string"
 			/>
 		</el-select>
 		<el-input
@@ -48,7 +48,7 @@
 			<div class="el-upload__text">
 				Drop file here or <em>click to upload</em>
 			</div>
-			 <!-- <template #trigger>
+			<!-- <template #trigger>
 				<el-button type="primary">select file</el-button>
 			</template>
 			<el-button class="ml-3" type="success" @click="submitUpload">
@@ -69,10 +69,7 @@
 <script setup lang="ts">
 import { OperaType } from '~/api/types/type'
 import { ref } from 'vue'
-import type {
-	UploadInstance,
-	UploadRequestOptions,
-} from 'element-plus'
+import type { UploadInstance, UploadRequestOptions } from 'element-plus'
 import router from '~/plugins/router';
 
 const value = ref('')
@@ -114,20 +111,27 @@ function getAllOperaType() {
 	})
 }
 
-
 const toUpload = (param: UploadRequestOptions) => {
 	isLogin()
 	// debugger
 	const file = param.file
-	const formData = new FormData();
+	const formData = new FormData()
 	formData.append('file', file)
 	formData.append('fileType', value.value)
 	formData.append('operaType', type.value)
 	formData.append('textarea', textarea.value)
 
+	const loading = ElLoading.service({
+    lock: true,
+    text: 'Loading',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
+	loading.lock.value=true
 	fileUpload(formData).then((res) => {
 		console.log(res)
-		router.replace('/upload')
+		toast.success('上传成功')
+		loading.close()
+		router.replace({ path: '/empty', query: { path: 'upload' } })
 	})
 	return Promise.resolve()
 }

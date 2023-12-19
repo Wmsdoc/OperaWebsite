@@ -14,6 +14,8 @@ public interface OperaAudioService extends IService<OperaAudio>{
 
     Page<OperaAudio> selectByPageAndParams(int pageNum,int pageSize,int typeId,int timeFlag,String filename ) throws ParseException;
 
+    Page<OperaAudio> getByPageAndParamsByUser(Integer pageNum, Integer pageSize, Integer typeId, Integer timeFlag, String filename) throws ParseException;
+
     OperaAudioVO selectVOById(Long audioId);
 
     Boolean insert(Long accountId, String filename, String audioInfo, String audioUrl, Long typeId);
@@ -27,4 +29,5 @@ public interface OperaAudioService extends IService<OperaAudio>{
     Boolean update(Long audioId, String filename, String audioInfo,Long typeId,Integer isExamine);
 
     Page<OperaAudioVO> getAudioByCreated(Integer pageNum,Integer pageSize);
+
 }

@@ -10,4 +10,6 @@ public interface SysAccountService extends IService<SysAccount>{
     Long getPlaygoerIdByAccountId(Long accountId);
 
     Boolean updateAccountStatue(Long playgoerId);
+
+    SysAccount register(String username, String password);
 }

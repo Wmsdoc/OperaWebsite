@@ -1,6 +1,6 @@
-package com.opera.api.opera.factory;
+package com.opera.api.file.factory;
 
-import com.opera.api.opera.RemoteOperaService;
+import com.opera.api.file.RemoteOperaService;
 import com.opera.common.core.domain.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

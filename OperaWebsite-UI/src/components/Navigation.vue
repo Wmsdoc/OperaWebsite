@@ -12,7 +12,8 @@ const routes = getRoutes()
 			!r.path.includes('login') &&
 			!r.path.includes('register') &&
 			!r.path.includes('forgetPassword')&&
-			!r.path.includes('opera'),
+			!r.path.includes('opera') &&
+			!r.path.includes('empty'),
 	)
 	.map((r) => {
 		let { path, name } = r

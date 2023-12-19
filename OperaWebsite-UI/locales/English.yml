@@ -25,3 +25,4 @@ login/register: login/register
 logout: logout
 Username: Username
 Password: Password
+community: community

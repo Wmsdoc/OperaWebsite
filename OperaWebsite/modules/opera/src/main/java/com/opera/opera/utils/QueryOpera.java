@@ -69,17 +69,17 @@ public class QueryOpera<T> {
             case "week":
                 //过去一周
                 String week = DateUtil.getWeek();
-                queryWrapper.ge("updated_at", week);
+                queryWrapper.ge("created_at", week);
                 break;
             case "month":
                 //过去一月
                 String mon = DateUtil.getMonth();
-                queryWrapper.ge("updated_at", mon);
+                queryWrapper.ge("created_at", mon);
                 break;
             case "year":
                 //过去一年
                 String year = DateUtil.getYear();
-                queryWrapper.ge("updated_at", year);
+                queryWrapper.ge("created_at", year);
                 break;
             default:
                 break;

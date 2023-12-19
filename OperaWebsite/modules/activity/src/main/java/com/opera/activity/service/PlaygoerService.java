@@ -15,4 +15,6 @@ public interface PlaygoerService extends IService<Playgoer>{
     Playgoer selectById(Long playgoerId);
 
     Page<PlaygoerVO> selectByPageAndParams(Integer pageNum, Integer pageSize, String accountUsername, String playgoerName);
+
+    Playgoer insert();
 }

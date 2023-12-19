@@ -22,7 +22,7 @@ public class SysRoleMenu implements Serializable {
     /**
      * 角色权限编号
      */
-    @TableId(value = "role_menu_id", type = IdType.INPUT)
+    @TableId(value = "role_menu_id", type = IdType.ASSIGN_ID)
     private Long roleMenuId;
 
     /**

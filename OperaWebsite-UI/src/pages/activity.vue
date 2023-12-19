@@ -3,7 +3,7 @@
 		<el-input
 			v-model="queryParams.activityName"
 			style="width: 200px"
-			placeholder="请输入活动地址"
+			placeholder="请输入活动名称"
 			clearable
 			@keyup.enter="Search"
 		>

@@ -25,7 +25,7 @@ public class SysAccount implements Serializable {
     /**
      * 账号编号
      */
-    @TableId(value = "account_id", type = IdType.INPUT)
+    @TableId(value = "account_id", type = IdType.ASSIGN_ID)
     private Long accountId;
 
     /**

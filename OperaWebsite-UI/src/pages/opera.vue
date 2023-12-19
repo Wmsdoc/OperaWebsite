@@ -22,7 +22,12 @@
 					type="primary"
 					>收藏</el-button
 				>
-				<el-button type="primary" @click="downloadAudio(audioDetails.audioId, audioDetails.downloadUrl)">下载</el-button>
+				<el-button
+					type="primary"
+					@click="downloadAudio(audioDetails.audioId, audioDetails.downloadUrl)"
+					>下载</el-button
+				>
+				<br />
 			</template>
 			<el-descriptions-item>
 				<template #label>
@@ -97,7 +102,11 @@
 					type="primary"
 					>收藏</el-button
 				>
-				<el-button type="primary" @click="downloadVideo(videoDetails.videoId, videoDetails.downloadUrl)">下载</el-button>
+				<el-button
+					type="primary"
+					@click="downloadVideo(videoDetails.videoId, videoDetails.downloadUrl)"
+					>下载</el-button
+				>
 			</template>
 			<el-descriptions-item>
 				<template #label>
@@ -188,7 +197,10 @@
 
 		<ul v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
 			<li v-for="item in operaComments" class="infinite-list-item">
-				<el-avatar @click="commentClick(item.playgoerId)" :src="(item.playgoerAvatar as string)" />
+				<el-avatar
+					@click="commentClick(item.playgoerId)"
+					:src="item.playgoerAvatar as string"
+				/>
 				{{ item.playgoerName }}:
 				{{ item.commentInfo }}
 				{{ item.updatedAt }}
@@ -457,9 +469,10 @@ const downloadAudio = (audioId: any, downloadUrl: any) => {
 		}
 	})
 }
-const commentClick=(playgoerId : any)=>{
+const commentClick = (playgoerId: any) => {
 	router.push({ path: '/user', query: { id: playgoerId } })
 }
+
 
 getOperaDetails(Route)
 getComment(page.value)

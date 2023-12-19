@@ -11,6 +11,19 @@ export const login = (data: any) => {
 		},
 	})
 }
+/**
+ * 注册
+ */
+export const register = (data: any) => {
+	return http.post(`/system/register`, data, {
+		// headers: {
+		// 	'content-type': 'application/x-www-form-urlencoded',
+		// },
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
 //判断用户是否登录
 export const islogin = () => {
 	return http.post(`/system/isLogin`)

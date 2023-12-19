@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommonPage title="戏曲视频评论">
+    <CommonPage title="戏曲类型管理">
       <!-- 查询 -->
       <n-space>
         <n-input

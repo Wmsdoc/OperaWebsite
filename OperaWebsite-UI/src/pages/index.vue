@@ -1,7 +1,27 @@
 <template>
 	<div>
-		<!-- <div>这是首页</div> -->
-
+		<el-row>
+			<el-card style="width: 900px">
+				<el-carousel :interval="4000" type="card" height="200px">
+					<el-carousel-item v-for="item in advertList" :key="item.advertId">
+						<el-image style="width: 100%; height: 100%" :src="item.imgUrl" lazy @click="handleLink(item.linkUrl)"/>
+						<span style="position: absolute; bottom: 0; left: 0"
+							>{{ item.advertContent }}</span
+						>
+					</el-carousel-item>
+				</el-carousel>
+				<div class="card-header">
+					<h5>网站公告</h5>
+					<br />
+					<el-row class="mt-4" v-for="item in noticeList">
+						<el-tag class="ml-2" type="success">
+							{{ item.noticeContent }} -- {{ item.noticeCreatedAt }}<br />
+						</el-tag>
+					</el-row>
+				</div>
+			</el-card>
+		</el-row>
+		<el-divider />
 		<el-row :gutter="100">
 			<el-col :span="500">
 				<el-card
@@ -46,7 +66,7 @@
 										>
 											<el-avatar
 												:size="60"
-												:src=videoDetails.playgoerAvatar
+												:src="videoDetails.playgoerAvatar"
 												style="margin-bottom: 8px"
 											/>
 											<div>
@@ -95,7 +115,15 @@
 									</template>
 								</el-popover>
 
-								<el-button link type="primary" @click="downloadVideo(scope.row.videoId, scope.row.downloadUrl)" size="small">下载</el-button>
+								<el-button
+									link
+									type="primary"
+									@click="
+										downloadVideo(scope.row.videoId, scope.row.downloadUrl)
+									"
+									size="small"
+									>下载</el-button
+								>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -159,7 +187,7 @@
 										>
 											<el-avatar
 												:size="60"
-												:src=audioDetails.playgoerAvatar
+												:src="audioDetails.playgoerAvatar"
 												style="margin-bottom: 8px"
 											/>
 											<div>
@@ -207,7 +235,15 @@
 										</div>
 									</template>
 								</el-popover>
-								<el-button link type="primary" @click="downloadAudio(scope.row.audioId, scope.row.downloadUrl)" size="small">下载</el-button>
+								<el-button
+									link
+									type="primary"
+									@click="
+										downloadAudio(scope.row.audioId, scope.row.downloadUrl)
+									"
+									size="small"
+									>下载</el-button
+								>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -233,9 +269,12 @@
 <script setup lang="ts">
 import { OperaAudio, OperaAudioVO } from '~/api/types/audio'
 import { OperaVideo, OperaVideoVO } from '~/api/types/video'
-import router from '~/plugins/router';
+import { Notice,Advert } from '~/api/types/website'
+import router from '~/plugins/router'
 // import { getAudio } from '~/api/index'
 
+const url =
+	'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const loading = ref(false)
 
 //分页
@@ -253,6 +292,11 @@ const operaVideoList = ref<OperaVideo[]>()
 //详情数据
 const audioDetails = ref<OperaAudioVO>({})
 const videoDetails = ref<OperaVideoVO>({})
+const noticeList = ref<Notice[]>()
+const advertList = ref<Advert[]>()
+
+//首页走马灯
+const carouselList = ref()
 
 const queryParams = {
 	filename: null,
@@ -325,7 +369,6 @@ const enterVideo = (videoId: number) => {
 		videoDetails.value = res.data
 		console.log(res.data)
 	})
-
 }
 const enterAudio = (audioId: number) => {
 	console.log(audioId)
@@ -336,7 +379,8 @@ const enterAudio = (audioId: number) => {
 }
 //获取详情,页面跳转
 function handleClickVideo(videoId: number) {
-	router.push({ path: '/opera' ,
+	router.push({
+		path: '/opera',
 		query: {
 			id: videoId,
 			type: 'video',
@@ -344,7 +388,8 @@ function handleClickVideo(videoId: number) {
 	})
 }
 function handleClickAudio(audioId: number) {
-	router.push({ path: '/opera' ,
+	router.push({
+		path: '/opera',
 		query: {
 			id: audioId,
 			type: 'audio',
@@ -375,29 +420,43 @@ const downloadAudio = (audioId: any, downloadUrl: any) => {
 	})
 }
 
+//获取网站公告
+function getNotice() {
+	getNoticeList().then((res) => {
+		console.log(res.data)
+		noticeList.value = res.data.records
+	})
+}
+//获取网站广告
+function getAdvert() {
+	getAdvertList().then((res) => {
+		console.log(res.data)
+		advertList.value = res.data.records
+	})
+}
+const handleLink = (linkUrl:string) => {
+	window.open(linkUrl, '_blank');
+}
+
+getNotice()
+getAdvert()
 getOpera(queryParams)
 </script>
 
 <style>
-a {
-	color: rgba(37, 99, 235);
+.el-carousel__item h3 {
+	color: #475669;
+	opacity: 0.75;
+	line-height: 200px;
+	margin: 0;
+	text-align: center;
 }
 
-p {
-	padding: 0 10px;
+.el-carousel__item:nth-child(2n) {
+	background-color: #99a9bf;
 }
 
-.logo {
-	width: 10em;
-	height: 10em;
-	padding: 1.5rem;
-	will-change: filter;
-	transition: filter 300ms;
-}
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-	filter: drop-shadow(0 0 2em #42b883aa);
+.el-carousel__item:nth-child(2n + 1) {
+	background-color: #d3dce6;
 }
 </style>

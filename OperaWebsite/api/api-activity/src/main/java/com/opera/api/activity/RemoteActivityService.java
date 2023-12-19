@@ -1,6 +1,7 @@
 package com.opera.api.activity;
 
 
+import com.opera.activity.domain.Playgoer;
 import com.opera.api.activity.factory.RemoteAvtivityFallbackFactory;
 import com.opera.common.core.constant.ServiceNameConstants;
 import com.opera.common.core.domain.R;
@@ -21,4 +22,9 @@ public interface RemoteActivityService {
     public R<Boolean> updateAvatar(@RequestParam("accountId") Long accountId, @RequestParam("playgoerId") Long playgoerId,
                                    @RequestParam("avatar") String avatar);
 
+    /**
+     * 远程调用新增用户信息
+     */
+    @GetMapping("/playgoer/insert")
+    public R<Playgoer> insert();
 }

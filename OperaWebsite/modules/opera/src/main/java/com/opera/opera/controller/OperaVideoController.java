@@ -45,6 +45,19 @@ public class OperaVideoController {
     }
 
     /**
+     * @Role("admin")
+     * @Role("user") 根据前端传入参数，进行筛选
+     */
+    @GetMapping("getByPageAndParamsByUser")
+    public SaResult getByPageAndParamsByUser(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                       @RequestParam(value = "typeId", defaultValue = "0", required = false) Integer typeId,
+                                       @RequestParam(value = "timeFlag", defaultValue = "0", required = false) Integer timeFlag,
+                                       @RequestParam(value = "filename", required = false) String filename) throws ParseException {
+        return SaResult.data(operaVideoService.getByPageAndParamsByUser(pageNum, pageSize, typeId, timeFlag, filename));
+    }
+
+    /**
      * 获取视频下载排行
      */
     @GetMapping("getDownloadRank")

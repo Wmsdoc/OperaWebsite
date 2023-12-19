@@ -343,6 +343,7 @@ const onChange = (value: any) => {
 				}
 			})
 		} else if (splitted[0] === 'video') {
+			reset()
 			getVideoDownloadRank(splitted[2]).then((res) => {
 				operaVideoList.value = res.data
 				console.log(res.data)

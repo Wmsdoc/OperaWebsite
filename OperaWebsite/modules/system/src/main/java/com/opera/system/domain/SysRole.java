@@ -22,7 +22,7 @@ public class SysRole implements Serializable {
     /**
      * 角色编号
      */
-    @TableId(value = "role_id", type = IdType.INPUT)
+    @TableId(value = "role_id", type = IdType.ASSIGN_ID)
     private Long roleId;
 
     /**

@@ -2,7 +2,7 @@ package com.opera.file.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.opera.api.activity.RemoteActivityService;
-import com.opera.api.opera.RemoteOperaService;
+import com.opera.api.file.RemoteOperaService;
 import com.opera.api.system.RemoteSystemService;
 import com.opera.file.service.OssService;
 import com.opera.file.util.AliOssUtil;
@@ -32,9 +32,11 @@ public class OssServiceImpl implements OssService {
     private String audioBucket;
     @Value("${alioss.video-bucket}")
     private String videoBucket;
+    @Value("${alioss.advert-bucket}")
+    private String advertBucket;
 
     @Override
-    public Boolean upload(MultipartFile file, Integer fileType, Long operaType, String textarea) {
+    public String upload(MultipartFile file, Integer fileType, Long operaType, String textarea) {
         try {
             //获取原始的文件名
             String originalFilename = file.getOriginalFilename();
@@ -70,10 +72,14 @@ public class OssServiceImpl implements OssService {
                     //调用远程接口，将视频信息存入数据库
                     result = remoteOperaService.videoInsert(accountId, filename, textarea, fileUrl, operaType).getData();
                     break;
+                case 3:
+                    //获取图片Url
+                    fileUrl = aliOssUtil.upload(file.getBytes(), advertBucket + objectName);
+                    return fileUrl;
                 default:
                     break;
             }
-            return result;
+            return String.valueOf(result);
 //            return aliOssUtil.upload(file.getBytes(), objectName);
         } catch (Exception e) {
             throw new RuntimeException(e);

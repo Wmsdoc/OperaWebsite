@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableDiscoveryClient
 @EnableFeignClients({"com.opera.api.*"})
-@ComponentScan({"com.opera.*"})
 public class FileApplication {
 
     public static void main(String[] args) {

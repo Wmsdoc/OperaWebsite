@@ -44,6 +44,15 @@ public class OperaAudioController {
         return SaResult.data(operaAudioService.selectByPageAndParams(pageNum, pageSize, typeId, timeFlag, filename));
     }
 
+    @GetMapping("getByPageAndParamsByUser")
+    public SaResult getByPageAndParamsByUser(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                       @RequestParam(value = "typeId", defaultValue = "0", required = false) Integer typeId,
+                                       @RequestParam(value = "timeFlag", defaultValue = "0", required = false) Integer timeFlag,
+                                       @RequestParam(value = "filename", required = false) String filename) throws ParseException {
+        return SaResult.data(operaAudioService.getByPageAndParamsByUser(pageNum, pageSize, typeId, timeFlag, filename));
+    }
+
     /**
      * 获取音频下载排行
      */

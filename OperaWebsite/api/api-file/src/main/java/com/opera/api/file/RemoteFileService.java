@@ -1,21 +1,19 @@
-package com.opera.api.opera;
+package com.opera.api.file;
 
-
-import com.opera.api.opera.factory.RemoteFileFallbackFactory;
+import cn.dev33.satoken.util.SaResult;
+import com.opera.api.file.factory.RemoteFileFallbackFactory;
 import com.opera.common.core.constant.ServiceNameConstants;
-import com.opera.common.core.domain.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
-@FeignClient(contextId = "remoteOperaService", name = ServiceNameConstants.FILE_SERVICE,
+@FeignClient(contextId = "remoteFileService", name = ServiceNameConstants.FILE_SERVICE,
         fallbackFactory = RemoteFileFallbackFactory.class)
 public interface RemoteFileService {
-
-    @PostMapping("/audio/insert")
-    public R<Boolean> audioInsert(@RequestParam("accountId") Long accountId, @RequestParam("filename") String filename,
-                                  @RequestParam("audioInfo") String audioInfo, @RequestParam("audioUrl") String audioUrl,
-                                  @RequestParam("typeId") Long typeId);
+    @PostMapping("/upload")
+    //请求中要携带上需要上传的文件
+    public SaResult upload(@RequestParam("file") MultipartFile file, @RequestParam("fileType") Integer fileType);
 }

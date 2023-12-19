@@ -25,7 +25,7 @@ public class SysMenuItem implements Serializable {
     /**
      * 权限编号
      */
-    @TableId(value = "item_id", type = IdType.INPUT)
+    @TableId(value = "item_id", type = IdType.ASSIGN_ID)
     private Long itemId;
 
     /**

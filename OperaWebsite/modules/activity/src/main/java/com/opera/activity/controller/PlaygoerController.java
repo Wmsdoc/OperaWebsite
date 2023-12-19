@@ -46,6 +46,14 @@ public class PlaygoerController {
     }
 
     /**
+     * 远程调用新增用户信息
+     */
+    @GetMapping("/insert")
+    public R<Playgoer> insert(){
+        return R.ok(playgoerService.insert());
+    }
+
+    /**
      * 根据Id查询用户信息
      */
     @PostMapping("/getById/{playgoerId}")

@@ -37,6 +37,15 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
     }
 
     @Override
+    public Page<OperaAudio> getByPageAndParamsByUser(Integer pageNum, Integer pageSize, Integer typeId, Integer timeFlag, String filename) throws ParseException {
+        QueryWrapper<OperaAudio> queryWrapper = new QueryOpera<OperaAudio>().structure(typeId, timeFlag, filename);
+        queryWrapper.select("audio_id", "filename", "download_url", "is_examine");
+        queryWrapper.eq("is_examine", 1);
+        Page<OperaAudio> page = new Page<>(pageNum, pageSize);
+        return baseMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
     public OperaAudioVO selectVOById(Long audioId) {
         return operaAudioMapper.selectVOById(audioId);
     }
@@ -76,7 +85,7 @@ public class OperaAudioServiceImpl extends ServiceImpl<OperaAudioMapper, OperaAu
     }
 
     @Override
-    public Boolean update(Long audioId, String filename, String audioInfo,Long typeId, Integer isExamine) {
+    public Boolean update(Long audioId, String filename, String audioInfo, Long typeId, Integer isExamine) {
         OperaAudio operaAudio = new OperaAudio();
         operaAudio.setAudioId(audioId);
         operaAudio.setFilename(filename);

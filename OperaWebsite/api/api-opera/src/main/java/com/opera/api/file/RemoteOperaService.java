@@ -1,7 +1,7 @@
-package com.opera.api.opera;
+package com.opera.api.file;
 
 
-import com.opera.api.opera.factory.RemoteOperaFallbackFactory;
+import com.opera.api.file.factory.RemoteOperaFallbackFactory;
 import com.opera.common.core.constant.ServiceNameConstants;
 import com.opera.common.core.domain.R;
 import org.springframework.cloud.openfeign.FeignClient;

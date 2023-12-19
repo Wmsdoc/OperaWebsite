@@ -16,6 +16,7 @@
         <module>api-system</module>
         <module>api-opera</module>
         <module>api-activity</module>
+        <module>api-file</module>
     </modules>
 
     <properties>

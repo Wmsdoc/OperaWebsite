@@ -33,6 +33,15 @@ public class OperaVideoServiceImpl extends ServiceImpl<OperaVideoMapper, OperaVi
     }
 
     @Override
+    public Page<OperaVideo> getByPageAndParamsByUser(Integer pageNum, Integer pageSize, Integer typeId, Integer timeFlag, String filename) throws ParseException {
+        QueryWrapper<OperaVideo> queryWrapper = new QueryOpera<OperaVideo>().structure(typeId, timeFlag, filename);
+        queryWrapper.select("video_id", "filename", "download_url", "is_examine");
+        queryWrapper.eq("is_examine", 1);
+        Page<OperaVideo> page = new Page<>(pageNum, pageSize);
+        return baseMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
     public OperaVideoVO selectVOById(Long videoId) {
         return operaVideoMapper.selectVOById(videoId);
     }
