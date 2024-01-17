@@ -1,45 +1,58 @@
 <template>
-	<div>
-		<el-row>
-			<el-card style="width: 900px">
-				<el-carousel :interval="4000" type="card" height="200px">
+	<div class="index-container">
+		<el-row class="index-el-row">
+			<el-card
+				class="index-el-card"
+				ref="specificCard"
+				style="width: 80%; height: 50%"
+			>
+				<el-carousel
+					:interval="4000"
+					type="card"
+					style="width: 80%; height: 50%; margin: 0 auto"
+				>
 					<el-carousel-item v-for="item in advertList" :key="item.advertId">
-						<el-image style="width: 100%; height: 100%" :src="item.imgUrl" lazy @click="handleLink(item.linkUrl)"/>
-						<span style="position: absolute; bottom: 0; left: 0"
-							>{{ item.advertContent }}</span
-						>
+						<div class="image-container">
+							<el-image
+								style="width: 100%; height: 100%"
+								:src="item.imgUrl"
+								@click="handleLink(item.linkUrl)"
+							/>
+							<div class="overlay"></div>
+							<span class="index-img-span">{{ item.advertContent }}</span>
+						</div>
 					</el-carousel-item>
 				</el-carousel>
-				<div class="card-header">
-					<h5>网站公告</h5>
-					<br />
-					<el-row class="mt-4" v-for="item in noticeList">
-						<el-tag class="ml-2" type="success">
-							{{ item.noticeContent }} -- {{ item.noticeCreatedAt }}<br />
+				<div class="notice-container">
+					<h3 class="notice-title">网站公告</h3>
+					<el-row class="notice-item" v-for="item in noticeList">
+						<el-tag class="notice-content" type="success">
+							<span class="notice-item-content">{{ item.noticeContent }}</span>
+							<span class="notice-item-time">--{{ item.noticeCreatedAt }}</span>
 						</el-tag>
 					</el-row>
 				</div>
 			</el-card>
 		</el-row>
 		<el-divider />
-		<el-row :gutter="100">
+		<el-row :gutter="120" class="index-el-row">
 			<el-col :span="500">
 				<el-card
 					class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
+					style="width: 100%"
 				>
 					<template #header>
-						<div class="card-header">
+						<div>
 							<span>戏曲视频</span>
 						</div>
 					</template>
 					<!-- <el-empty description="暂无数据" /> -->
 					<el-table
-						ref="multipleTableRef"
 						:data="operaVideoList"
 						style="width: 100%"
 					>
 						<!-- <el-table-column type="selection" width="55" /> -->
-						<el-table-column property="filename" label="文件名" width="120" />
+						<el-table-column property="filename" label="文件名" width="300" />
 						<el-table-column fixed="right" label="操作" width="120">
 							<template #default="scope">
 								<!-- <el-button link type="primary" size="small" @click="handleClickVideo"
@@ -128,7 +141,7 @@
 						</el-table-column>
 					</el-table>
 					<el-divider />
-					<div class="demo-pagination-block">
+					<div>
 						<el-pagination
 							v-model:current-page="currentPageVideo"
 							v-model:page-size="pageSizeVideo"
@@ -146,6 +159,7 @@
 			<el-col :span="500">
 				<el-card
 					class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
+					style="width: 100%"
 				>
 					<template #header>
 						<div class="card-header">
@@ -155,7 +169,6 @@
 					</template>
 					<!-- <el-empty description="暂无数据" v-if="operaAudioList == null" /> -->
 					<el-table
-						ref="multipleTableRef"
 						:data="operaAudioList"
 						style="width: 100%"
 					>
@@ -163,7 +176,7 @@
 						<!-- <el-table-column label="Date" width="120">
 							<template #default="scope">{{ scope.row.date }}</template>
 						</el-table-column> -->
-						<el-table-column property="filename" label="文件名" width="120" />
+						<el-table-column property="filename" label="文件名" width="300" />
 						<el-table-column fixed="right" label="操作" width="120">
 							<template #default="scope">
 								<el-popover
@@ -269,12 +282,9 @@
 <script setup lang="ts">
 import { OperaAudio, OperaAudioVO } from '~/api/types/audio'
 import { OperaVideo, OperaVideoVO } from '~/api/types/video'
-import { Notice,Advert } from '~/api/types/website'
+import { Notice, Advert } from '~/api/types/website'
 import router from '~/plugins/router'
 // import { getAudio } from '~/api/index'
-
-const url =
-	'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const loading = ref(false)
 
 //分页
@@ -434,29 +444,105 @@ function getAdvert() {
 		advertList.value = res.data.records
 	})
 }
-const handleLink = (linkUrl:string) => {
-	window.open(linkUrl, '_blank');
+const handleLink = (linkUrl: string) => {
+	window.open(linkUrl, '_blank')
 }
 
 getNotice()
 getAdvert()
 getOpera(queryParams)
+
 </script>
 
-<style>
-.el-carousel__item h3 {
-	color: #475669;
-	opacity: 0.75;
-	line-height: 200px;
-	margin: 0;
-	text-align: center;
+<style scoped>
+.index-container::after {
+	content: '';
+	background: url('~/assets/images/index-bg.jpg') no-repeat center center fixed;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.index-container {
+	width: 100vw;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+}
+.index-el-row {
+	display: flex;
+	align-items: stretch;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
 }
 
-.el-carousel__item:nth-child(2n) {
-	background-color: #99a9bf;
+.index-el-card {
+	width: 80%;
+	height: 50%;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	padding: 20px;
+	background-color: rgba(255, 255, 255, 0.5);
+	/* background-color: #fff; */
+	display: grid;
+	align-items: center;
+}
+.image-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+}
+.index-img-span {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	color: #fff;
+}
+.notice-container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(255, 255, 255, 0.5);
+	/* background-color: #f9f9f9; */
+	padding: 20px;
+	border-radius: 5px;
+}
+.notice-title {
+	color: #333;
+	font-weight: bold;
+}
+.notice-item {
+	margin-top: 10px;
+}
+.notice-content {
+	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+.notice-item-content {
+	font-weight: bold;
+	font-size: 16px;
 }
 
-.el-carousel__item:nth-child(2n + 1) {
-	background-color: #d3dce6;
+.notice-item-time {
+	font-size: 12px;
+	margin-left: 30px;
 }
 </style>

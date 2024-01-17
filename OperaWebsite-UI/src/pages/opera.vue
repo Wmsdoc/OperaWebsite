@@ -1,5 +1,8 @@
 <template>
 	<div>
+		<div v-if="flag === 'audio'"><audio :src="audioDetails.downloadUrl" controls></audio></div>
+		<div v-else-if="flag === 'video'" ref="playerElement"></div>
+
 		<el-descriptions
 			v-if="flag === 'audio'"
 			title="戏曲音频详情"
@@ -27,7 +30,6 @@
 					@click="downloadAudio(audioDetails.audioId, audioDetails.downloadUrl)"
 					>下载</el-button
 				>
-				<br />
 			</template>
 			<el-descriptions-item>
 				<template #label>
@@ -199,7 +201,7 @@
 			<li v-for="item in operaComments" class="infinite-list-item">
 				<el-avatar
 					@click="commentClick(item.playgoerId)"
-					:src="item.playgoerAvatar as string"
+					:src="item.playgoerAvatar"
 				/>
 				{{ item.playgoerName }}:
 				{{ item.commentInfo }}
@@ -214,6 +216,9 @@ import { OperaAudioVO } from '~/api/types/audio'
 import { OperaVideoVO } from '~/api/types/video'
 import { OperaComment } from '~/api/types/opera'
 import router from '~/plugins/router'
+import Player from 'xgplayer'
+import 'xgplayer/dist/index.min.css'
+import 'xgplayer-music/dist/index.min.css'
 
 const size = 'large'
 
@@ -336,6 +341,8 @@ function insertCollection(flag: string, id: any) {
 	}
 }
 
+const playerInstance = ref<Player | null>(null)
+const playerElement = ref<HTMLElement | null>(null)
 function getOperaDetails(Route: any) {
 	//获取到id
 	//根据id获取到数据
@@ -345,6 +352,20 @@ function getOperaDetails(Route: any) {
 		getAudioDetails(audioId.value)
 			.then((res) => {
 				audioDetails.value = res.data
+				// if (playerElement.value) {
+				// 	const player = new Player({
+				// 		el: playerElement.value,
+				// 		video: null,
+				// 		mediaType: 'audio', // 设置媒体类型
+				// 		volume: 0.8,
+				// 		width: 900,
+				// 		height: 50, // 设置音频播放器的高度
+				// 		playsinline: true, // 在移动设备上播放时内联播放
+				// 		playbackRate: [0.5, 1, 1.5, 2], // 设置音频播放器的播放速度
+				// 		url: audioDetails.value.downloadUrl,
+				// 	})
+				// 	playerInstance.value = player
+				// }
 			})
 			.then(() => {
 				//获取收藏量
@@ -365,6 +386,22 @@ function getOperaDetails(Route: any) {
 		getVideoDetails(videoId.value)
 			.then((res) => {
 				videoDetails.value = res.data
+				if (playerElement.value) {
+					playerInstance.value = new Player({
+						el: playerElement.value,
+						volume: 0.5,
+						width: 600,
+						height: 337,
+						fluid: true,
+						screenShot: true,
+						download: true,
+						pip: true,
+						keyShortcut: true,
+						playsinline: true,
+						playbackRate: [0.5, 1, 1.5, 2],
+						url: videoDetails.value.downloadUrl,
+					})
+				}
 			})
 			.then(() => {
 				//获取收藏量
@@ -473,6 +510,14 @@ const commentClick = (playgoerId: any) => {
 	router.push({ path: '/user', query: { id: playgoerId } })
 }
 
+onMounted(() => {})
+
+onUnmounted(() => {
+	if (playerInstance.value) {
+		playerInstance.value.destroy()
+		playerInstance.value = null
+	}
+})
 
 getOperaDetails(Route)
 getComment(page.value)

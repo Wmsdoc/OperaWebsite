@@ -1,9 +1,7 @@
 <template>
 	<div class="login-container">
 		<!-- 登录表单 -->
-		<el-card
-			class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
-		>
+		<el-card class="el-card">
 			<div>
 				<el-form :model="form" label-width="120px">
 					<h3 class="title">戏曲网-登录</h3>
@@ -57,7 +55,7 @@ function handleLogin() {
 			// 登录成功后将用户信息存入localStorage
 			localStorage.setItem('token', res.data.tokenValue)
 			localStorage.setItem('playgoerId', res.data.loginId)
-			toast.success("登录成功!!!");
+			toast.success('登录成功!!!')
 			// 有上一页则返回
 			if (window.history.state.back) {
 				router.back()
@@ -76,19 +74,51 @@ function handleRegister(): void {
 onMounted(() => {})
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
-.login {
+<style scoped>
+.login-container::after {
+	content: '';
+	background: url('~/assets/images/login-bg.jpg') no-repeat center center;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.login-container {
+	width: 100vw;
+	height: calc(100vh - 80px);
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
-	background-image: url('../assets/images/login-background.jpg');
-	background-size: cover;
 }
 .title {
 	margin: 0px auto 30px auto;
 	text-align: center;
-	color: #707070;
+	color: #333333;
+}
+.el-card {
+	width: 500px;
+	height: 300px;
+	background-color: white;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	.el-input {
+		width: 80%;
+		margin: auto;
+	}
+
+	.el-form-item {
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .login-form {
@@ -96,16 +126,13 @@ onMounted(() => {})
 	background: #ffffff;
 	width: 400px;
 	padding: 25px 25px 5px 25px;
-	.el-input {
-		height: 38px;
-		input {
-			height: 38px;
-		}
-	}
-	.input-icon {
-		height: 39px;
-		width: 14px;
-		margin-left: 2px;
-	}
+	padding: 20px;
+	font-size: 16px;
+	color: #333;
+	transition: all 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 </style>

@@ -601,7 +601,7 @@
 							v-for="item in options"
 							:key="item.typeId"
 							:label="item.typeName"
-							:value="(item.typeId as string)"
+							:value="item.typeId as string"
 						/>
 					</el-select>
 				</el-form-item>

@@ -130,6 +130,8 @@
   ],
   "dependencies": {
     "element-plus": "^2.4.2",
-    "pnpm": "^8.10.5"
+    "pnpm": "^8.10.5",
+    "xgplayer": "^3.0.10",
+    "xgplayer-music": "^3.0.10"
   }
 }
