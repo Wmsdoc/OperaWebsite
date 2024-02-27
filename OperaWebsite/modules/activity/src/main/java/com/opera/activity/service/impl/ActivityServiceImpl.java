@@ -31,7 +31,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         if (activityAddress != null) {
             queryWrapper.like("activity_address", activityAddress);
         }
-        queryWrapper.select("activity_id", "activity_name", "activity_address", "start_time");
+        queryWrapper.select("activity_id", "activity_name", "activity_address", "start_time","end_time");
         Page<Activity> page = new Page<>(pageNum, pageSize);
         return baseMapper.selectPage(page, queryWrapper);
     }

@@ -211,6 +211,12 @@ const columns = [
     ellipsis: { tooltip: true },
   },
   {
+    title: '结束时间',
+    key: 'endTime',
+    width: 150,
+    ellipsis: { tooltip: true },
+  },
+  {
     title: '操作',
     key: 'actions',
     width: 240,

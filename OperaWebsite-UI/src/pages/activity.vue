@@ -1,30 +1,39 @@
 <template>
-	<div>
-		<el-input
-			v-model="queryParams.activityName"
-			style="width: 200px"
-			placeholder="请输入活动名称"
-			clearable
-			@keyup.enter="Search"
+	<div class="activity-container">
+		<div
+			style="
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 70%;
+			"
 		>
-			<template #append>
-				<button class="i-material-symbols:search" @click="Search"></button>
-			</template>
-		</el-input>
-		<el-divider direction="vertical" />
-		<el-input
-			v-model="queryParams.activityAddress"
-			style="width: 200px"
-			placeholder="请输入活动地址"
-			clearable
-			@keyup.enter="Search"
-		>
-			<template #append>
-				<button class="i-material-symbols:search" @click="Search"></button>
-			</template>
-		</el-input>
+			<el-input
+				v-model="queryParams.activityName"
+				style="flex: 1; flex-basis: 70%; height: 40px"
+				placeholder="请输入活动名称"
+				clearable
+				@keyup.enter="Search"
+			>
+				<template #append>
+					<button class="i-material-symbols:search" @click="Search"></button>
+				</template>
+			</el-input>
+			<el-divider direction="vertical" />
+			<el-input
+				v-model="queryParams.activityAddress"
+				style="flex: 1; flex-basis: 70%; height: 40px"
+				placeholder="请输入活动地址"
+				clearable
+				@keyup.enter="Search"
+			>
+				<template #append>
+					<button class="i-material-symbols:search" @click="Search"></button>
+				</template>
+			</el-input>
+		</div>
 		<el-divider />
-		<el-card>
+		<el-card style="width: 70%">
 			<template #header>
 				<div class="card-header">
 					<span>戏曲活动</span>
@@ -33,19 +42,27 @@
 			<!-- <el-empty description="暂无数据" /> -->
 			<el-table ref="multipleTableRef" :data="activityList" style="width: 100%">
 				<!-- <el-table-column type="selection" width="55" /> -->
-				<el-table-column property="activityName" label="活动名称" width="120" />
+				<el-table-column
+					property="activityName"
+					label="活动名称"
+					style="width: 20%"
+				/>
 				<el-table-column
 					property="activityAddress"
 					label="活动地址"
-					width="120"
+					style="width: 30%"
 				/>
 				<el-table-column
 					property="startTime"
 					label="活动开始时间"
-					width="150"
+					style="width: 20%"
 				/>
-
-				<el-table-column fixed="right" label="操作" width="120">
+				<el-table-column
+					property="endTime"
+					label="活动结束时间"
+					style="width: 20%"
+				/>
+				<el-table-column fixed="right" label="操作" style="width: 10%">
 					<template #default="scope">
 						<el-popover
 							:width="300"
@@ -245,3 +262,27 @@ function getActivity() {
 }
 getActivity()
 </script>
+
+<style scoped>
+.activity-container::after {
+	content: '';
+	background: url('~/assets/images/activity-bg.jpg') no-repeat center center;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.activity-container {
+	width: 100vw;
+	height: calc(100vh - 80px);
+	position: relative;
+	display: flex;
+	flex-direction: column; /* 添加这一行 */
+	justify-content: center;
+	align-items: center;
+}
+</style>

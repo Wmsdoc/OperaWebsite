@@ -6,7 +6,6 @@ import com.opera.system.domain.Notice;
 import com.opera.system.service.SystemService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class SystemController {
