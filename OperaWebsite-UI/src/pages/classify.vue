@@ -1,25 +1,49 @@
 <template>
-	<div>
+	<div class="classify-container">
 		<div>
-			<el-row :gutter="50">
-				<el-col :span="200"
-					><el-input
+			<el-row
+				:gutter="20"
+				style="width: 100%; display: flex; align-items: center"
+			>
+				<el-col
+					:span="24"
+					style="
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						padding: 0 20px;
+					"
+				>
+					<el-input
 						v-model="input"
-						class="w-50 m-2"
+						class="w-3/4 m-10"
 						placeholder="请输入文件名称"
 						@keyup.enter="Search"
 						clearable
+						style="font-size: 15px; height: 40px"
 					>
 						<template #append>
-							<button class="i-material-symbols:search" @click="Search"></button>
+							<button
+								class="i-material-symbols:search"
+								@click="Search"
+							></button>
 						</template>
 					</el-input>
+					<div>
+						<span
+							class="i-mdi:tag-search-outline cursor-pointer mr-2"
+							style="font-size: 15px"
+							@click="drawer = true"
+							>筛选</span
+						>
+						<span
+							class="cursor-pointer"
+							style="font-size: 15px"
+							@click="drawer = true"
+							>筛选</span
+						>
+					</div>
 				</el-col>
-				<el-col :span="6"
-					><span class="i-mdi:tag-search-outline" @click="drawer = true"
-						>筛选</span
-					><span @click="drawer = true">打开筛选</span></el-col
-				>
 			</el-row>
 			<!-- <el-button style="margin-left: 16px" @click="drawer = true" class="i-mdi:tag-search-outline">
 				筛选
@@ -81,7 +105,9 @@
 		<el-row :gutter="100">
 			<el-col :span="500">
 				<el-card
-					class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
+					class="z-1 !border-none w-100 bg-transparent !rounded-4% <sm:w-83"
+					style="width: 100%"
+					:style="{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }"
 				>
 					<template #header>
 						<div class="card-header">
@@ -95,8 +121,12 @@
 						style="width: 100%"
 					>
 						<!-- <el-table-column type="selection" width="55" /> -->
-						<el-table-column property="filename" label="文件名" width="120" />
-						<el-table-column fixed="right" label="操作" width="120">
+						<el-table-column
+							property="filename"
+							label="文件名"
+							width="300"
+						/>
+						<el-table-column fixed="right" label="操作" width="200">
 							<template #default="scope">
 								<!-- <el-button link type="primary" size="small" @click="handleClickVideo"
 									>详情</el-button
@@ -122,7 +152,7 @@
 										>
 											<el-avatar
 												:size="60"
-												:src=videoDetails.playgoerAvatar
+												:src="videoDetails.playgoerAvatar"
 												style="margin-bottom: 8px"
 											/>
 											<div>
@@ -171,7 +201,15 @@
 									</template>
 								</el-popover>
 
-								<el-button link type="primary" @click="downloadVideo(scope.row.videoId, scope.row.downloadUrl)" size="small">下载</el-button>
+								<el-button
+									link
+									type="primary"
+									@click="
+										downloadVideo(scope.row.videoId, scope.row.downloadUrl)
+									"
+									size="small"
+									>下载</el-button
+								>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -193,7 +231,9 @@
 			</el-col>
 			<el-col :span="500">
 				<el-card
-					class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
+					class="z-1 !border-none w-100 bg-transparent !rounded-4% <sm:w-83"
+					style="width: 100%"
+					:style="{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }"
 				>
 					<template #header>
 						<div class="card-header">
@@ -211,8 +251,8 @@
 						<!-- <el-table-column label="Date" width="120">
 							<template #default="scope">{{ scope.row.date }}</template>
 						</el-table-column> -->
-						<el-table-column property="filename" label="文件名" width="120" />
-						<el-table-column fixed="right" label="操作" width="120">
+						<el-table-column property="filename" label="文件名" width="300" />
+						<el-table-column fixed="right" label="操作" width="200">
 							<template #default="scope">
 								<el-popover
 									:width="300"
@@ -235,7 +275,7 @@
 										>
 											<el-avatar
 												:size="60"
-												:src=audioDetails.playgoerAvatar
+												:src="audioDetails.playgoerAvatar"
 												style="margin-bottom: 8px"
 											/>
 											<div>
@@ -283,7 +323,15 @@
 										</div>
 									</template>
 								</el-popover>
-								<el-button link type="primary" @click="downloadAudio(scope.row.audioId, scope.row.downloadUrl)" size="small">下载</el-button>
+								<el-button
+									link
+									type="primary"
+									@click="
+										downloadAudio(scope.row.audioId, scope.row.downloadUrl)
+									"
+									size="small"
+									>下载</el-button
+								>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -310,7 +358,7 @@
 import { OperaType } from '~/api/types/type'
 import { OperaAudio, OperaAudioVO } from '~/api/types/audio'
 import { OperaVideo, OperaVideoVO } from '~/api/types/video'
-import router from '~/plugins/router';
+import router from '~/plugins/router'
 
 const loading = ref(false)
 const drawer = ref(true)
@@ -432,7 +480,8 @@ const enterAudio = (audioId: number) => {
 
 //获取详情,页面跳转
 function handleClickVideo(videoId: number) {
-	router.push({ path: '/opera' ,
+	router.push({
+		path: '/opera',
 		query: {
 			id: videoId,
 			type: 'video',
@@ -440,7 +489,8 @@ function handleClickVideo(videoId: number) {
 	})
 }
 function handleClickAudio(audioId: number) {
-	router.push({ path: '/opera' ,
+	router.push({
+		path: '/opera',
 		query: {
 			id: audioId,
 			type: 'audio',
@@ -516,6 +566,27 @@ getOpera(queryParams)
 getAllOperaType()
 </script>
 <style scoped>
+.classify-container::after {
+	content: '';
+	background: url('~/assets/images/classify-bg.jpg') no-repeat center center;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.classify-container {
+	width: 100vw;
+	height: calc(100vh - 80px);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 .demo-pagination-block + .demo-pagination-block {
 	margin-top: 10px;
 }

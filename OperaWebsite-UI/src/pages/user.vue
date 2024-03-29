@@ -1,12 +1,12 @@
 <template>
-	<div>
-		<el-card class="box-card" style="width: 600px">
+	<div class="user-container">
+		<el-card class="box-card" style="width: 70%">
 			<template #header>
 				<div class="card-header">
 					<span>个人中心</span>
 				</div>
 			</template>
-			<el-avatar :size="100" :src="playgoer.playgoerAvatar as string" />
+			<el-avatar :size="100" :src="playgoer.playgoerAvatar as string" style="margin-left: 20px;"/>
 			<el-button v-if="flag" class="button" @click="dialogForAvatar = true" text
 				>修改头像</el-button
 			>
@@ -79,9 +79,8 @@
 										<el-table-column
 											prop="filename"
 											label="音频名称"
-											width="120"
 										/>
-										<el-table-column prop="typeName" label="类型" width="80" />
+										<el-table-column prop="typeName" label="类型" width="100" />
 										<el-table-column
 											prop="createdAt"
 											label="收藏时间"
@@ -89,7 +88,7 @@
 										/>
 										<el-table-column
 											fixed="right"
-											label="Operations"
+											label="操作"
 											width="120"
 										>
 											<template #default="scope">
@@ -123,9 +122,8 @@
 										<el-table-column
 											prop="filename"
 											label="视频名称"
-											width="120"
 										/>
-										<el-table-column prop="typeName" label="类型" width="80" />
+										<el-table-column prop="typeName" label="类型" width="100" />
 										<el-table-column
 											prop="createdAt"
 											label="收藏时间"
@@ -133,7 +131,7 @@
 										/>
 										<el-table-column
 											fixed="right"
-											label="Operations"
+											label="操作"
 											width="120"
 										>
 											<template #default="scope">
@@ -175,13 +173,13 @@
 										<el-table-column
 											prop="filename"
 											label="音频名称"
-											width="120"
 										/>
-										<el-table-column prop="typeName" label="类型" width="80" />
+										<el-table-column prop="typeName" label="类型" width="100" />
 										<el-table-column
 											prop="commentInfo"
 											label="评论内容"
-											width="200"
+											width="400"
+											show-overflow-tooltip
 										/>
 										<el-table-column
 											prop="updatedAt"
@@ -191,7 +189,7 @@
 										<el-table-column
 											v-if="flag"
 											fixed="right"
-											label="Operations"
+											label="操作"
 											width="120"
 										>
 											<template #default="scope">
@@ -238,13 +236,13 @@
 										<el-table-column
 											prop="filename"
 											label="视频名称"
-											width="120"
 										/>
-										<el-table-column prop="typeName" label="类型" width="80" />
+										<el-table-column prop="typeName" label="类型" width="100" />
 										<el-table-column
 											prop="commentInfo"
 											label="评论内容"
-											width="200"
+											width="400"
+											show-overflow-tooltip
 										/>
 										<el-table-column
 											prop="updatedAt"
@@ -254,7 +252,7 @@
 										<el-table-column
 											v-if="flag"
 											fixed="right"
-											label="Operations"
+											label="操作"
 											width="120"
 										>
 											<template #default="scope">
@@ -326,7 +324,6 @@
 										<el-table-column
 											prop="filename"
 											label="音频名称"
-											width="120"
 										/>
 										<el-table-column prop="typeName" label="类型" width="80" />
 										<el-table-column
@@ -341,7 +338,7 @@
 										/>
 										<el-table-column
 											fixed="right"
-											label="Operations"
+											label="操作"
 											width="120"
 										>
 											<template #default="scope">
@@ -400,7 +397,6 @@
 										<el-table-column
 											prop="filename"
 											label="视频名称"
-											width="120"
 										/>
 										<el-table-column prop="typeName" label="类型" width="80" />
 										<el-table-column
@@ -415,7 +411,7 @@
 										/>
 										<el-table-column
 											fixed="right"
-											label="Operations"
+											label="操作"
 											width="120"
 										>
 											<template #default="scope">
@@ -459,7 +455,6 @@
 								<el-table-column
 									prop="activityName"
 									label="活动名称"
-									width="120"
 								/>
 								<el-table-column
 									prop="startTime"
@@ -470,8 +465,9 @@
 									prop="activityAddress"
 									label="活动地址"
 									width="200"
+									show-overflow-tooltip
 								/>
-								<el-table-column fixed="right" label="Operations" width="120">
+								<el-table-column fixed="right" label="操作" width="120">
 									<template #default="scope">
 										<el-button
 											link
@@ -489,7 +485,7 @@
 								class="mt-4"
 								style="width: 100%"
 								@click="onAddActivity"
-								>Add Item</el-button
+								>更多</el-button
 							>
 						</div>
 					</el-collapse-item>
@@ -601,7 +597,7 @@
 							v-for="item in options"
 							:key="item.typeId"
 							:label="item.typeName"
-							:value="item.typeId as string"
+							:value="(item.typeId as string)"
 						/>
 					</el-select>
 				</el-form-item>
@@ -647,7 +643,7 @@
 							v-for="item in options"
 							:key="item.typeId"
 							:label="item.typeName"
-							:value="item.typeId as string"
+							:value="(item.typeId as string)"
 						/>
 					</el-select>
 				</el-form-item>
@@ -1225,3 +1221,30 @@ const handleClose = (done: () => void) => {
 
 getPlaygoerById()
 </script>
+<style scoped>
+.user-container::after {
+	content: '';
+	background: url('~/assets/images/user-bg.jpg') no-repeat center center fixed;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.user-container {
+	width: 100vw;
+	height: auto;
+	min-height: calc(100vh - 80px);
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	overflow: hidden;
+}
+.box-card{
+	margin: auto;
+}
+</style>

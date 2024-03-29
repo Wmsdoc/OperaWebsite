@@ -7,7 +7,6 @@
     <id column="activity_id" jdbcType="BIGINT" property="activityId" />
     <result column="activity_info" jdbcType="VARCHAR" property="activityInfo" />
     <result column="activity_address" jdbcType="VARCHAR" property="activityAddress" />
-    <result column="playgoer_id" jdbcType="BIGINT" property="playgoerId" />
     <result column="activity_num" jdbcType="INTEGER" property="activityNum" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
@@ -19,7 +18,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    activity_id, activity_info, activity_address, playgoer_id, activity_num, start_time, 
+    activity_id, activity_info, activity_address, activity_num, start_time,
     end_time, is_delete, created_at, updated_at, created_by, updated_by
   </sql>
 

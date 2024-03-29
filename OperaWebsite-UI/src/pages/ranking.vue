@@ -1,206 +1,219 @@
 <template>
-	<div>
-		请选择排行：
+	<div class="ranking-container">
+		<span style="font-size: 18px">请选择排行：</span>
 		<el-tree-select
 			v-model="value"
 			:data="data"
 			filterable
 			accordion
+			style="transform: scale(1.2); margin-bottom: 20px"
 			@current-change="onChange"
 		/>
-		<el-empty v-if="noDataFlag" description="暂无数据" />
-		<el-table
-			v-if="videoFlag"
-			ref="multipleTableRef"
-			:data="operaVideoList"
-			style="width: 100%"
-		>
-			<el-table-column property="filename" label="文件名" width="120" />
-			<el-table-column property="downloadNum" label="下载量" width="80" />
-			<el-table-column
-				v-if="commentFlag"
-				property="commentNum"
-				label="评论量"
-				width="120"
-			/>
-			<el-table-column property="createdAt" label="上传时间" width="180" />
-			<el-table-column fixed="right" label="操作" width="120">
-				<template #default="scope">
-					<el-popover
-						:width="300"
-						popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
-					>
-						<template #reference>
-							<el-button
-								link
-								type="primary"
-								size="small"
-								@mouseenter="enterVideo(scope.row.videoId)"
-								@click="handleClickVideo(scope.row.videoId)"
-								>详情</el-button
-							>
-						</template>
-						<template #default>
-							<div
-								class="demo-rich-conent"
-								style="display: flex; gap: 16px; flex-direction: column"
-							>
-								<el-avatar
-									:size="60"
-									:src="videoDetails.playgoerAvatar"
-									style="margin-bottom: 8px"
-								/>
-								<div>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										发布者：{{ videoDetails.playgoerName }}
-									</p>
-									<p
-										class="demo-rich-content__mention"
-										style="
-											margin: 0;
-											font-size: 14px;
-											color: var(--el-color-info);
-										"
-									>
-										签名：{{ videoDetails.playgoerInfo }}
-									</p>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										音频：{{ videoDetails.typeName }}--{{
-											videoDetails.filename
-										}}
-									</p>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										简介：{{ videoDetails.videoInfo }}
-									</p>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										下载量：{{ videoDetails.downloadNum }}
+		<el-empty
+			v-if="noDataFlag"
+			description="暂无数据"
+			style="font-size: 18px; color: #333; text-align: center"
+		/>
+		<el-card v-if="!noDataFlag" style="width: 70%">
+			<template #header>
+				<div class="card-header">
+					<span>排行</span>
+				</div>
+			</template>
+			<el-table
+				v-if="videoFlag"
+				ref="multipleTableRef"
+				:data="operaVideoList"
+				style="width: 100%"
+			>
+				<el-table-column property="filename" label="文件名" />
+				<el-table-column property="downloadNum" label="下载量" width="120" />
+				<el-table-column
+					v-if="commentFlag"
+					property="commentNum"
+					label="评论量"
+					width="100"
+				/>
+				<el-table-column property="createdAt" label="上传时间" width="400" />
+				<el-table-column fixed="right" label="操作" width="300">
+					<template #default="scope">
+						<el-popover
+							:width="300"
+							popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+						>
+							<template #reference>
+								<el-button
+									link
+									type="primary"
+									size="small"
+									@mouseenter="enterVideo(scope.row.videoId)"
+									@click="handleClickVideo(scope.row.videoId)"
+									>详情</el-button
+								>
+							</template>
+							<template #default>
+								<div
+									class="demo-rich-conent"
+									style="display: flex; gap: 16px; flex-direction: column"
+								>
+									<el-avatar
+										:size="60"
+										:src="videoDetails.playgoerAvatar"
+										style="margin-bottom: 8px"
+									/>
+									<div>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											发布者：{{ videoDetails.playgoerName }}
+										</p>
+										<p
+											class="demo-rich-content__mention"
+											style="
+												margin: 0;
+												font-size: 14px;
+												color: var(--el-color-info);
+											"
+										>
+											签名：{{ videoDetails.playgoerInfo }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											音频：{{ videoDetails.typeName }}--{{
+												videoDetails.filename
+											}}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											简介：{{ videoDetails.videoInfo }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											下载量：{{ videoDetails.downloadNum }}
+										</p>
+									</div>
+
+									<p class="demo-rich-content__desc" style="margin: 0">
+										发布时间：{{ videoDetails.createdAt }}
 									</p>
 								</div>
+							</template>
+						</el-popover>
 
-								<p class="demo-rich-content__desc" style="margin: 0">
-									发布时间：{{ videoDetails.createdAt }}
-								</p>
-							</div>
-						</template>
-					</el-popover>
+						<el-button
+							link
+							type="primary"
+							size="small"
+							@click="downloadVideo(scope.row.videoId, scope.row.downloadUrl)"
+							>下载</el-button
+						>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-table
+				v-if="audioFlag"
+				ref="multipleTableRef"
+				:data="operaAudioList"
+				style="width: 100%; box-sizing: border-box"
+			>
+				<el-table-column property="filename" label="文件名" />
+				<el-table-column property="downloadNum" label="下载量" width="100" />
+				<el-table-column
+					v-if="commentFlag"
+					property="commentNum"
+					label="评论量"
+					width="100"
+				/>
+				<el-table-column property="createdAt" label="上传时间" width="400" />
+				<el-table-column fixed="right" label="操作" width="200">
+					<template #default="scope">
+						<el-popover
+							:width="300"
+							popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+						>
+							<template #reference>
+								<el-button
+									link
+									type="primary"
+									size="small"
+									@mouseenter="enterAudio(scope.row.audioId)"
+									@click="handleClickAudio(scope.row.audioId)"
+									>详情</el-button
+								>
+							</template>
+							<template #default>
+								<div
+									class="demo-rich-conent"
+									style="display: flex; gap: 16px; flex-direction: column"
+								>
+									<el-avatar
+										:size="60"
+										:src="audioDetails.playgoerAvatar"
+										style="margin-bottom: 8px"
+									/>
+									<div>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											发布者：{{ audioDetails.playgoerName }}
+										</p>
+										<p
+											class="demo-rich-content__mention"
+											style="
+												margin: 0;
+												font-size: 14px;
+												color: var(--el-color-info);
+											"
+										>
+											签名：{{ audioDetails.playgoerInfo }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											音频：{{ audioDetails.typeName }}--{{
+												audioDetails.filename
+											}}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											简介：{{ audioDetails.audioInfo }}
+										</p>
+										<p
+											class="demo-rich-content__name"
+											style="margin: 0; font-weight: 500"
+										>
+											下载量：{{ audioDetails.downloadNum }}
+										</p>
+									</div>
 
-					<el-button
-						link
-						type="primary"
-						size="small"
-						@click="downloadVideo(scope.row.videoId, scope.row.downloadUrl)"
-						>下载</el-button
-					>
-				</template>
-			</el-table-column>
-		</el-table>
-		<el-table
-			v-if="audioFlag"
-			ref="multipleTableRef"
-			:data="operaAudioList"
-			style="width: 100%"
-		>
-			<el-table-column property="filename" label="文件名" width="120" />
-			<el-table-column property="downloadNum" label="下载量" width="120" />
-			<el-table-column
-				v-if="commentFlag"
-				property="commentNum"
-				label="评论量"
-				width="120"
-			/>
-			<el-table-column fixed="right" label="操作" width="120">
-				<template #default="scope">
-					<el-popover
-						:width="300"
-						popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
-					>
-						<template #reference>
-							<el-button
-								link
-								type="primary"
-								size="small"
-								@mouseenter="enterAudio(scope.row.audioId)"
-								@click="handleClickAudio(scope.row.audioId)"
-								>详情</el-button
-							>
-						</template>
-						<template #default>
-							<div
-								class="demo-rich-conent"
-								style="display: flex; gap: 16px; flex-direction: column"
-							>
-								<el-avatar
-									:size="60"
-									:src="audioDetails.playgoerAvatar"
-									style="margin-bottom: 8px"
-								/>
-								<div>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										发布者：{{ audioDetails.playgoerName }}
-									</p>
-									<p
-										class="demo-rich-content__mention"
-										style="
-											margin: 0;
-											font-size: 14px;
-											color: var(--el-color-info);
-										"
-									>
-										签名：{{ audioDetails.playgoerInfo }}
-									</p>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										音频：{{ audioDetails.typeName }}--{{
-											audioDetails.filename
-										}}
-									</p>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										简介：{{ audioDetails.audioInfo }}
-									</p>
-									<p
-										class="demo-rich-content__name"
-										style="margin: 0; font-weight: 500"
-									>
-										下载量：{{ audioDetails.downloadNum }}
+									<p class="demo-rich-content__desc" style="margin: 0">
+										发布时间：{{ audioDetails.createdAt }}
 									</p>
 								</div>
-
-								<p class="demo-rich-content__desc" style="margin: 0">
-									发布时间：{{ audioDetails.createdAt }}
-								</p>
-							</div>
-						</template>
-					</el-popover>
-					<el-button
-						link
-						type="primary"
-						size="small"
-						@click="downloadAudio(scope.row.audioId, scope.row.downloadUrl)"
-						>下载</el-button
-					>
-				</template>
-			</el-table-column>
-		</el-table>
+							</template>
+						</el-popover>
+						<el-button
+							link
+							type="primary"
+							size="small"
+							@click="downloadAudio(scope.row.audioId, scope.row.downloadUrl)"
+							>下载</el-button
+						>
+					</template>
+				</el-table-column>
+			</el-table>
+		</el-card>
 	</div>
 </template>
 <script setup lang="ts">
@@ -287,7 +300,7 @@ const data = [
 					},
 					{
 						value: 'video-download-all',
-						label: '视频-评论-总榜',
+						label: '视频-下载-总榜',
 					},
 				],
 			},
@@ -445,3 +458,26 @@ const downloadAudio = (audioId: any, downloadUrl: any) => {
 	})
 }
 </script>
+<style scoped>
+.ranking-container::after {
+	content: '';
+	background: url('~/assets/images/ranking-bg.jpg') no-repeat center center;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.ranking-container {
+	width: 100vw;
+	height: calc(100vh - 80px);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+</style>

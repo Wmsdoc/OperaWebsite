@@ -2,6 +2,8 @@ package com.opera.opera.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.opera.common.core.util.DateUtil;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +18,7 @@ public class QueryOpera<T> {
     public QueryWrapper<T> structure(int typeId, int timeFlag, String filename) throws ParseException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         //构造查询条件
-        if (filename != null) {
+        if (!ObjectUtils.isEmpty(filename)) {
             queryWrapper.like("filename", filename);
         }
         if (typeId != 0) {

@@ -68,7 +68,7 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public Page<Advert> getAdvert(Integer pageNum, Integer pageSize) {
-        //从 Redis 中获取公告信息
+        //从 Redis 中获取广告信息
         List<Advert> list = redisTemplate.opsForList().range(advertKey, (long) pageSize * (pageNum - 1),
                 (long) pageSize * (pageNum - 1) + pageSize - 1);
         //获取总条数

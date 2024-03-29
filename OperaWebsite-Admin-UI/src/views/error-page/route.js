@@ -8,6 +8,9 @@ export default {
   meta: {
     title: '错误页',
     icon: 'mdi:alert-circle-outline',
+    //设置角色，只有角色为admin的用户才能看到这个菜单
+    role: ['admin'],
+    requireAuth: true,
     order: 99,
   },
   children: [

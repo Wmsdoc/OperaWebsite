@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<div v-if="flag === 'audio'"><audio :src="audioDetails.downloadUrl" controls></audio></div>
+		<div v-if="flag === 'audio'">
+			<audio :src="audioDetails.downloadUrl" controls></audio>
+		</div>
 		<div v-else-if="flag === 'video'" ref="playerElement"></div>
 
 		<el-descriptions

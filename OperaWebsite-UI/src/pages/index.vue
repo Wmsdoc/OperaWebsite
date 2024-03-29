@@ -38,8 +38,9 @@
 		<el-row :gutter="120" class="index-el-row">
 			<el-col :span="500">
 				<el-card
-					class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
+					class="z-1 !border-none w-100 bg-transparent !rounded-4% <sm:w-83"
 					style="width: 100%"
+					:style="{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }"
 				>
 					<template #header>
 						<div>
@@ -47,10 +48,7 @@
 						</div>
 					</template>
 					<!-- <el-empty description="暂无数据" /> -->
-					<el-table
-						:data="operaVideoList"
-						style="width: 100%"
-					>
+					<el-table :data="operaVideoList" style="width: 100%">
 						<!-- <el-table-column type="selection" width="55" /> -->
 						<el-table-column property="filename" label="文件名" width="300" />
 						<el-table-column fixed="right" label="操作" width="120">
@@ -158,8 +156,9 @@
 			</el-col>
 			<el-col :span="500">
 				<el-card
-					class="z-1 !border-none w-100 !bg-transparent !rounded-4% <sm:w-83"
+					class="z-1 !border-none w-100 bg-transparent !rounded-4% <sm:w-83"
 					style="width: 100%"
+					:style="{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }"
 				>
 					<template #header>
 						<div class="card-header">
@@ -168,10 +167,7 @@
 						</div>
 					</template>
 					<!-- <el-empty description="暂无数据" v-if="operaAudioList == null" /> -->
-					<el-table
-						:data="operaAudioList"
-						style="width: 100%"
-					>
+					<el-table :data="operaAudioList" style="width: 100%">
 						<!-- <el-table-column type="selection" width="55" /> -->
 						<!-- <el-table-column label="Date" width="120">
 							<template #default="scope">{{ scope.row.date }}</template>
@@ -451,7 +447,6 @@ const handleLink = (linkUrl: string) => {
 getNotice()
 getAdvert()
 getOpera(queryParams)
-
 </script>
 
 <style scoped>
@@ -469,6 +464,7 @@ getOpera(queryParams)
 }
 .index-container {
 	width: 100vw;
+	min-height: 100vh;
 	position: relative;
 	justify-content: center;
 	align-items: center;

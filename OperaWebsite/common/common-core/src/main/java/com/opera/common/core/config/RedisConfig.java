@@ -20,7 +20,7 @@ import org.springframework.scripting.support.ResourceScriptSource;
 @Configuration
 public class RedisConfig {
 
-    @Autowired
+     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
     @Autowired
