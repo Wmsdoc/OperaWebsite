@@ -1,215 +1,222 @@
 <template>
-	<div>
-		<div v-if="flag === 'audio'">
-			<audio :src="audioDetails.downloadUrl" controls></audio>
+	<div class="opera-container">
+		<div style="max-width: 60%; margin: auto">
+			<div v-if="flag === 'audio'">
+				<audio :src="audioDetails.downloadUrl" controls></audio>
+			</div>
+			<div v-else-if="flag === 'video'" ref="playerElement"></div>
+
+			<el-descriptions
+				v-if="flag === 'audio'"
+				title="戏曲音频详情"
+				class="margin-top"
+				:column="3"
+				:size="size"
+				direction="vertical"
+				border
+			>
+				<template #extra>
+					<el-button
+						v-if="collectionFlag"
+						@click="deleteCollection(flag, audioDetails.audioId)"
+						type="primary"
+						>已收藏</el-button
+					>
+					<el-button
+						v-else="collectionFlag"
+						@click="insertCollection(flag, audioDetails.audioId)"
+						type="primary"
+						>收藏</el-button
+					>
+					<el-button
+						type="primary"
+						@click="
+							downloadAudio(audioDetails.audioId, audioDetails.downloadUrl)
+						"
+						>下载</el-button
+					>
+				</template>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">音频名称</div>
+					</template>
+					{{ audioDetails.filename }}
+				</el-descriptions-item>
+
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">类别</div>
+					</template>
+					<el-tag size="small">{{ audioDetails.typeName }}</el-tag>
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">戏曲简介</div>
+					</template>
+					{{ audioDetails.audioInfo }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">下载量</div>
+					</template>
+					{{ audioDetails.downloadNum }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">收藏量</div>
+					</template>
+					{{ collectionNum }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">上传者</div>
+					</template>
+					{{ audioDetails.playgoerName }}
+				</el-descriptions-item>
+
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">上传时间</div>
+					</template>
+					{{ audioDetails.createdAt }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">上传者签名</div>
+					</template>
+					{{ audioDetails.playgoerInfo }}
+				</el-descriptions-item>
+			</el-descriptions>
+			<el-descriptions
+				v-else-if="flag === 'video'"
+				class="margin-top"
+				title="戏曲视频详情"
+				:column="3"
+				:size="size"
+				direction="vertical"
+				border
+			>
+				<template #extra>
+					<el-button
+						v-if="collectionFlag"
+						@click="deleteCollection(flag, videoDetails.videoId)"
+						type="primary"
+						>已收藏</el-button
+					>
+					<el-button
+						v-else="collectionFlag"
+						@click="insertCollection(flag, videoDetails.videoId)"
+						type="primary"
+						>收藏</el-button
+					>
+					<el-button
+						type="primary"
+						@click="
+							downloadVideo(videoDetails.videoId, videoDetails.downloadUrl)
+						"
+						>下载</el-button
+					>
+				</template>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">视频名称</div>
+					</template>
+					{{ videoDetails.filename }}
+				</el-descriptions-item>
+
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">类别</div>
+					</template>
+					<el-tag size="small">{{ videoDetails.typeName }}</el-tag>
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">戏曲简介</div>
+					</template>
+					{{ videoDetails.videoInfo }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">下载量</div>
+					</template>
+					{{ videoDetails.downloadNum }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">收藏量</div>
+					</template>
+					{{ collectionNum }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">上传者</div>
+					</template>
+					{{ videoDetails.playgoerName }}
+				</el-descriptions-item>
+
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">上传时间</div>
+					</template>
+					{{ videoDetails.createdAt }}
+				</el-descriptions-item>
+				<el-descriptions-item>
+					<template #label>
+						<div class="cell-item">上传者签名</div>
+					</template>
+					{{ videoDetails.playgoerInfo }}
+				</el-descriptions-item>
+			</el-descriptions>
+			<el-divider></el-divider>
+			<!-- 评论 -->
+			<p class="comment-section-title">评论区</p>
+			<el-row v-if="loginFlag">
+				<el-col :span="16">
+					<el-input
+						v-model="textarea"
+						:rows="2"
+						autosize
+						maxlength="200"
+						show-word-limit
+						type="textarea"
+						placeholder="请留下你的评论"
+					/>
+				</el-col>
+				<el-col :span="7" style="text-align: right">
+					<el-button @click="insertComment">发布</el-button>
+				</el-col>
+			</el-row>
+			<el-row v-else>
+				<el-col :span="16">
+					<el-input
+						v-model="textarea"
+						:rows="2"
+						autosize
+						maxlength="200"
+						show-word-limit
+						disabled
+						type="textarea"
+						placeholder="请登录后再评论"
+					/>
+				</el-col>
+				<el-col :span="7" style="text-align: right">
+					<el-button @click="tologin">去登录</el-button>
+				</el-col>
+			</el-row>
+
+			<ul v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
+				<li v-for="item in operaComments" class="infinite-list-item">
+					<el-avatar
+						@click="commentClick(item.playgoerId)"
+						:src="item.playgoerAvatar"
+					/>
+					{{ item.playgoerName }}:
+					{{ item.commentInfo }}
+					{{ item.updatedAt }}
+				</li>
+			</ul>
 		</div>
-		<div v-else-if="flag === 'video'" ref="playerElement"></div>
-
-		<el-descriptions
-			v-if="flag === 'audio'"
-			title="戏曲音频详情"
-			class="margin-top"
-			:column="3"
-			:size="size"
-			direction="vertical"
-			border
-		>
-			<template #extra>
-				<el-button
-					v-if="collectionFlag"
-					@click="deleteCollection(flag, audioDetails.audioId)"
-					type="primary"
-					>已收藏</el-button
-				>
-				<el-button
-					v-else="collectionFlag"
-					@click="insertCollection(flag, audioDetails.audioId)"
-					type="primary"
-					>收藏</el-button
-				>
-				<el-button
-					type="primary"
-					@click="downloadAudio(audioDetails.audioId, audioDetails.downloadUrl)"
-					>下载</el-button
-				>
-			</template>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">音频名称</div>
-				</template>
-				{{ audioDetails.filename }}
-			</el-descriptions-item>
-
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">类别</div>
-				</template>
-				<el-tag size="small">{{ audioDetails.typeName }}</el-tag>
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">戏曲简介</div>
-				</template>
-				{{ audioDetails.audioInfo }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">下载量</div>
-				</template>
-				{{ audioDetails.downloadNum }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">收藏量</div>
-				</template>
-				{{ collectionNum }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">上传者</div>
-				</template>
-				{{ audioDetails.playgoerName }}
-			</el-descriptions-item>
-
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">上传时间</div>
-				</template>
-				{{ audioDetails.createdAt }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">上传者签名</div>
-				</template>
-				{{ audioDetails.playgoerInfo }}
-			</el-descriptions-item>
-		</el-descriptions>
-		<el-descriptions
-			v-else-if="flag === 'video'"
-			class="margin-top"
-			title="戏曲视频详情"
-			:column="3"
-			:size="size"
-			direction="vertical"
-			border
-		>
-			<template #extra>
-				<el-button
-					v-if="collectionFlag"
-					@click="deleteCollection(flag, videoDetails.videoId)"
-					type="primary"
-					>已收藏</el-button
-				>
-				<el-button
-					v-else="collectionFlag"
-					@click="insertCollection(flag, videoDetails.videoId)"
-					type="primary"
-					>收藏</el-button
-				>
-				<el-button
-					type="primary"
-					@click="downloadVideo(videoDetails.videoId, videoDetails.downloadUrl)"
-					>下载</el-button
-				>
-			</template>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">视频名称</div>
-				</template>
-				{{ videoDetails.filename }}
-			</el-descriptions-item>
-
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">类别</div>
-				</template>
-				<el-tag size="small">{{ videoDetails.typeName }}</el-tag>
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">戏曲简介</div>
-				</template>
-				{{ videoDetails.videoInfo }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">下载量</div>
-				</template>
-				{{ videoDetails.downloadNum }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">收藏量</div>
-				</template>
-				{{ collectionNum }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">上传者</div>
-				</template>
-				{{ videoDetails.playgoerName }}
-			</el-descriptions-item>
-
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">上传时间</div>
-				</template>
-				{{ videoDetails.createdAt }}
-			</el-descriptions-item>
-			<el-descriptions-item>
-				<template #label>
-					<div class="cell-item">上传者签名</div>
-				</template>
-				{{ videoDetails.playgoerInfo }}
-			</el-descriptions-item>
-		</el-descriptions>
-		<!-- 评论 -->
-		<p>评论区</p>
-		<el-row v-if="loginFlag">
-			<el-col :span="16">
-				<el-input
-					v-model="textarea"
-					:rows="2"
-					autosize
-					maxlength="200"
-					show-word-limit
-					type="textarea"
-					placeholder="请留下你的评论"
-				/>
-			</el-col>
-			<el-col :span="7" style="text-align: right">
-				<el-button @click="insertComment">发布</el-button>
-			</el-col>
-		</el-row>
-		<el-row v-else>
-			<el-col :span="16">
-				<el-input
-					v-model="textarea"
-					:rows="2"
-					autosize
-					maxlength="200"
-					show-word-limit
-					disabled
-					type="textarea"
-					placeholder="请登录后再评论"
-				/>
-			</el-col>
-			<el-col :span="7" style="text-align: right">
-				<el-button @click="tologin">去登录</el-button>
-			</el-col>
-		</el-row>
-
-		<ul v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
-			<li v-for="item in operaComments" class="infinite-list-item">
-				<el-avatar
-					@click="commentClick(item.playgoerId)"
-					:src="item.playgoerAvatar"
-				/>
-				{{ item.playgoerName }}:
-				{{ item.commentInfo }}
-				{{ item.updatedAt }}
-			</li>
-		</ul>
 	</div>
 </template>
 
@@ -528,6 +535,32 @@ checkLogin()
 </script>
 
 <style scoped>
+.opera-container::after {
+	content: '';
+	background: url('~/assets/images/opera-bg.jpg') no-repeat center center fixed;
+	background-size: cover;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+}
+.opera-container {
+	width: 100vw;
+	min-height: 100vh;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+}
+.comment-section-title {
+	font-size: 24px; /* 设置字体大小 */
+	color: #333; /* 设置字体颜色 */
+	text-align: center; /* 设置文本居中 */
+	padding: 20px 0; /* 设置上下边距 */
+	border-bottom: 1px solid #ddd; /* 添加下边框 */
+}
 .el-descriptions {
 	margin-top: 20px;
 }
