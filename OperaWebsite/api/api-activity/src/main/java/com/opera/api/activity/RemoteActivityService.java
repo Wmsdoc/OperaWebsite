@@ -1,6 +1,5 @@
 package com.opera.api.activity;
 
-
 import com.opera.activity.domain.Playgoer;
 import com.opera.api.activity.factory.RemoteAvtivityFallbackFactory;
 import com.opera.common.core.constant.ServiceNameConstants;
@@ -8,6 +7,8 @@ import com.opera.common.core.domain.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Component
@@ -27,4 +28,10 @@ public interface RemoteActivityService {
      */
     @GetMapping("/playgoer/insert")
     public R<Playgoer> insert();
+
+    /**
+     * 根据Id查询用户信息
+     */
+    @PostMapping("/playgoer/remoteGetById/{playgoerId}")
+    public R<Playgoer> remoteGetById(@PathVariable(value = "playgoerId") Long playgoerId);
 }

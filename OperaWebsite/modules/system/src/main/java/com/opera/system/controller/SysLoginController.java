@@ -41,7 +41,12 @@ public class SysLoginController {
     @RequestMapping("/isLogin")
     public SaResult isLogin() {
         // 获取当前会话是否已经登录，返回true=已登录，false=未登录
-        return SaResult.data(StpUtil.isLogin());
+        boolean isLogin = StpUtil.isLogin();
+        if (isLogin) {
+            SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+            return SaResult.data(tokenInfo);
+        }
+        return SaResult.data(false);
     }
 
     //注册

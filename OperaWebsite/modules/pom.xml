@@ -18,6 +18,7 @@
         <module>opera</module>
         <module>file</module>
         <module>activity</module>
+        <module>im</module>
     </modules>
 
     <properties>

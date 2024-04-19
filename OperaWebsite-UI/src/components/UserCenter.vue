@@ -22,6 +22,10 @@ function getIsLogin() {
 			if (!res.data) {
 				localStorage.removeItem('token')
 				localStorage.removeItem('playgoerId')
+			} else {
+				// 登录成功后将用户信息存入localStorage
+				localStorage.setItem('token', res.data.tokenValue)
+				localStorage.setItem('playgoerId', res.data.loginId)
 			}
 		})
 	}

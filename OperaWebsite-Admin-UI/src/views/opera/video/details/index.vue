@@ -58,6 +58,9 @@
       />
       <!-- 详情 -->
       <n-modal v-model:show="showModal" preset="dialog" title="详情">
+        <div style="display: flex; justify-content: center; align-items: center">
+          <video :src="details.downloadUrl" controls style="max-width: 80%; height: auto"></video>
+        </div>
         <n-avatar round size="large" :src="details.playgoerAvatar" />
         <div>
           <p class="demo-rich-content__name" style="margin: 0; font-weight: 500">

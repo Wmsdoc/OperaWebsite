@@ -110,6 +110,7 @@ onMounted(() => {})
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+
 	.el-input {
 		width: 80%;
 		margin: auto;

@@ -62,6 +62,14 @@ public class PlaygoerController {
     }
 
     /**
+     * 远程调用根据Id查询用户信息
+     */
+    @PostMapping("/remoteGetById/{playgoerId}")
+    public R<Playgoer> remoteGetById(@PathVariable Long playgoerId) {
+        return R.ok(playgoerService.selectById(playgoerId));
+    }
+
+    /**
      * 根据Id修改用户信息
      */
     @PutMapping("/updateById")
