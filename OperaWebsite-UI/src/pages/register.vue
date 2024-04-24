@@ -5,13 +5,17 @@
 			<div>
 				<el-form :model="form" label-width="120px">
 					<h3 class="title">戏曲网-注册</h3>
-					<el-form-item label="用户名">
+					<el-form-item label="用&ensp;户&ensp;名">
 						<!-- <el-icon><User /></el-icon> -->
 						<el-input v-model="form.username" type="text" />
 					</el-form-item>
-					<el-form-item label="密&emsp;码">
+					<el-form-item label="密&emsp;&emsp;码">
 						<!-- <el-icon><Unlock /></el-icon> -->
 						<el-input v-model="form.password" type="password" />
+					</el-form-item>
+					<el-form-item label="确认密码">
+						<!-- <el-icon><Unlock /></el-icon> -->
+						<el-input v-model="confirmPassword" type="password" />
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="handleRegister()">{{
@@ -35,6 +39,7 @@ const form = ref({
 	username: '',
 	password: '',
 })
+const confirmPassword = ref('')
 
 function handleLogin() {
 	router.replace({ path: '/login' })
@@ -46,6 +51,12 @@ function handleRegister() {
 		return
 	} else if (form.value.password == '') {
 		toast.warning('请输入密码')
+		return
+	} else if (confirmPassword.value == '') {
+		toast.warning('请确认密码')
+		return
+	} else if (form.value.password != confirmPassword.value) {
+		toast.warning('两次密码输入不一致')
 		return
 	}
 	let data = JSON.stringify(form.value)

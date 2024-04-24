@@ -7,7 +7,7 @@ export default {
   redirect: '/website',
   meta: {
     title: '网站管理',
-    icon: 'ic:baseline-menu',
+    icon: 'material-symbols-light:web-traffic-rounded',
     // role: ['admin'],
     // requireAuth: true,
     order: 5,
@@ -19,7 +19,7 @@ export default {
       component: () => import('./notice/index.vue'),
       meta: {
         title: '公告管理',
-        icon: 'ic:baseline-menu',
+        icon: 'material-symbols-light:notifications-active-outline-sharp',
         keepAlive: true,
         // role: ['admin'],
         // requireAuth: true,
@@ -31,7 +31,7 @@ export default {
       component: () => import('./advert/index.vue'),
       meta: {
         title: '广告管理',
-        icon: 'ic:baseline-menu',
+        icon: 'material-symbols-light:adf-scanner-outline-sharp',
         keepAlive: true,
         // role: ['admin'],
         // requireAuth: true,

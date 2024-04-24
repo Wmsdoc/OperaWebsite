@@ -19,7 +19,7 @@ export default {
       component: () => import('./index.vue'),
       meta: {
         title: '用户管理',
-        icon: 'material-symbols:fitbit-hourly-activity-rounded',
+        icon: 'material-symbols-light:account-child',
         order: 4,
       },
     },

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+  <object-set>
+    <table path="opera.collection_audio">
+      <table path="opera.opera_audio" name="虚拟外键_name_2" from="audio_id" to="audio_id"/>
+      <table path="opera.playgoer" name="虚拟外键_name" from="playgoer_id" to="playgoer_id"/>
+    </table>
+    <table path="opera.collection_video">
+      <table path="opera.opera_video" name="虚拟外键_name_2" from="video_id" to="video_id"/>
+      <table path="opera.playgoer" name="虚拟外键_name" from="playgoer_id" to="playgoer_id"/>
+    </table>
+    <table path="opera.opera_audio">
+      <table path="opera.opera_type" name="虚拟外键_name" from="type_id" to="type_id"/>
+    </table>
+    <table path="opera.opera_audio_comment">
+      <table path="opera.opera_audio" name="虚拟外键_name" from="audio_id" to="audio_id"/>
+    </table>
+    <table path="opera.opera_video">
+      <table path="opera.opera_type" name="虚拟外键_name" from="type_id" to="type_id"/>
+    </table>
+    <table path="opera.opera_video_comment">
+      <table path="opera.opera_video" name="虚拟外键_name" from="video_id" to="video_id"/>
+    </table>
+    <table path="opera.playgoer_activity">
+      <table path="opera.activity" name="虚拟外键_name_2" from="activity_id" to="activity_id"/>
+      <table path="opera.playgoer" name="虚拟外键_name" from="playgoer_id" to="playgoer_id"/>
+    </table>
+    <table path="opera.sys_account">
+      <table path="opera.playgoer" name="虚拟外键_name" from="playgoer_id" to="playgoer_id"/>
+    </table>
+    <table path="opera.sys_account_role">
+      <table path="opera.sys_account" name="虚拟外键_name" from="account_id" to="account_id"/>
+      <table path="opera.sys_role" name="虚拟外键_name_2" from="role_id" to="role_id"/>
+    </table>
+    <table path="opera.sys_role_menu">
+      <table path="opera.sys_menu_item" name="虚拟外键_name_2" from="menu_id" to="item_id"/>
+      <table path="opera.sys_role" name="虚拟外键_name" from="role_id" to="role_id"/>
+    </table>
+  </object-set>
+</data>

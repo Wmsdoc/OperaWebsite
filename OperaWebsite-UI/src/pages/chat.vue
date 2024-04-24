@@ -138,7 +138,6 @@ function init() {
 	// WebSocket关闭回调
 	websocket.value.onclose = () => {
 		setMessageInnerHTML('连接关闭<br>')
-		// reconnect()
 	}
 }
 
@@ -147,12 +146,18 @@ const send = () => {
 	const inputElement = document.getElementById(
 		'text',
 	) as HTMLInputElement | null
+	if (inputElement?.value == null || inputElement.value === '') {
+		toast.warning('请输入聊天内容')
+		return
+	}
 	if (
 		inputElement &&
 		websocket.value &&
 		websocket.value.readyState === WebSocket.OPEN
 	) {
 		const message = inputElement.value
+		console.log('message ==', message)
+
 		websocket.value.send(JSON.stringify({ msg: message }))
 		inputElement.value = ''
 		const formattedMsg = meShowMsg(playgoer.value as Playgoer, message)

@@ -1,6 +1,6 @@
 import { request } from '@/utils'
 
 export default {
-  getUser: () => request.get('/user'),
+  getUser: (playgoerId) => request.post('/activity/playgoer/getById/' + playgoerId),
   refreshToken: () => request.post('/auth/refreshToken', null, { noNeedTip: true }),
 }

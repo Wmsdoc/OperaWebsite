@@ -26,14 +26,14 @@ public class QueryOpera<T> {
         }
         if (timeFlag != 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String stateTime = "2023-01-01";
-            String endTime = "2023-01-01";
+            String stateTime = "2024-01-01";
+            String endTime = "2024-01-01";
             switch (timeFlag) {
                 case 1:
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     break;
                 case 2:
-                    endTime = "2022-01-01";
+                    endTime = "2023-01-01";
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     queryWrapper.lt("created_at", sdf.parse(stateTime));
                     break;
@@ -52,6 +52,12 @@ public class QueryOpera<T> {
                 case 5:
                     stateTime = "2020-01-01";
                     endTime = "2016-01-01";
+                    queryWrapper.ge("created_at", sdf.parse(endTime));
+                    queryWrapper.lt("created_at", sdf.parse(stateTime));
+                    break;
+                case 7:
+                    stateTime = "2023-01-01";
+                    endTime = "2022-01-01";
                     queryWrapper.ge("created_at", sdf.parse(endTime));
                     queryWrapper.lt("created_at", sdf.parse(stateTime));
                     break;

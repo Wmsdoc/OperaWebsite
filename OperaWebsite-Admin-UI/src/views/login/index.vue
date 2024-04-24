@@ -110,20 +110,25 @@ async function handleLogin() {
     let data = JSON.stringify(loginInfo.value)
     const res = await api.login(data)
     console.log(res)
-    $message.success('登录成功')
-    setToken(res.data.tokenValue)
-    if (isRemember.value) {
-      lStorage.set('loginInfo', { username, password })
+    if (res.data.isLogin == true) {
+      $message.success('登录成功')
+      setToken(res.data.tokenValue)
+      lStorage.set('playgoerId', res.data.loginId)
+      if (isRemember.value) {
+        lStorage.set('loginInfo', { username, password })
+      } else {
+        lStorage.remove('loginInfo')
+      }
+      await addDynamicRoutes()
+      if (query.redirect) {
+        const path = query.redirect
+        Reflect.deleteProperty(query, 'redirect')
+        router.push({ path, query })
+      } else {
+        router.push('/')
+      }
     } else {
-      lStorage.remove('loginInfo')
-    }
-    await addDynamicRoutes()
-    if (query.redirect) {
-      const path = query.redirect
-      Reflect.deleteProperty(query, 'redirect')
-      router.push({ path, query })
-    } else {
-      router.push('/')
+      $message.error('登录失败')
     }
   } catch (error) {
     console.error(error)

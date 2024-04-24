@@ -23,7 +23,7 @@ public class SysLoginController {
         if (account != null) {
             StpUtil.login(account.getAccountId());
             SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-            //修改登录的id为个人资料的id
+            //修改登录的id为个人资料的id,这里是playgoerId,防止前端直接使用accountId
             tokenInfo.setLoginId(account.getPlaygoerId());
             return SaResult.data(tokenInfo);
         }

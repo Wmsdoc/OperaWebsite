@@ -7,7 +7,7 @@ export default {
   redirect: '/opera',
   meta: {
     title: '戏曲管理',
-    icon: 'ic:baseline-menu',
+    icon: 'material-symbols:developer-mode-tv-outline-sharp',
     // role: ['admin'],
     // requireAuth: true,
     order: 5,
@@ -19,7 +19,7 @@ export default {
       component: () => import('./type/index.vue'),
       meta: {
         title: '类型管理',
-        icon: 'ic:baseline-menu',
+        icon: 'material-symbols:bookmarks-outline',
         keepAlive: true,
         // role: ['admin'],
         // requireAuth: true,
@@ -31,7 +31,7 @@ export default {
       component: () => import('./audio/index.vue'),
       meta: {
         title: '音频管理',
-        icon: 'ic:baseline-menu',
+        icon: 'material-symbols:audio-file-outline',
         keepAlive: true,
         // role: ['admin'],
         // requireAuth: true,
@@ -52,7 +52,7 @@ export default {
           component: () => import('./audio/comment/index.vue'),
           meta: {
             title: '音频评论',
-            icon: 'ic:baseline-menu',
+            icon: 'material-symbols:comment-outline-sharp',
           },
         },
       ],
@@ -63,7 +63,7 @@ export default {
       component: () => import('./video/index.vue'),
       meta: {
         title: '视频管理',
-        icon: 'ic:baseline-menu',
+        icon: 'material-symbols:video-camera-back-outline-rounded',
         keepAlive: true,
         // role: ['admin'],
         // requireAuth: true,
@@ -84,7 +84,7 @@ export default {
           component: () => import('./video/comment/index.vue'),
           meta: {
             title: '视频评论',
-            icon: 'ic:baseline-menu',
+            icon: 'material-symbols:comment-outline-sharp',
           },
         },
       ],

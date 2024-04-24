@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { resetRouter } from '@/router'
 import { useTagsStore, usePermissionStore } from '@/store'
-import { removeToken, toLogin } from '@/utils'
+import { lStorage, removeToken, toLogin } from '@/utils'
 import api from '@/api'
 
 export const useUserStore = defineStore('user', {
@@ -12,13 +12,13 @@ export const useUserStore = defineStore('user', {
   },
   getters: {
     userId() {
-      return this.userInfo?.id
+      return this.userInfo?.playgoerId
     },
     name() {
-      return this.userInfo?.name
+      return this.userInfo?.playgoerName
     },
     avatar() {
-      return this.userInfo?.avatar
+      return this.userInfo?.playgoerAvatar
     },
     role() {
       return this.userInfo?.role || []
@@ -27,9 +27,13 @@ export const useUserStore = defineStore('user', {
   actions: {
     async getUserInfo() {
       try {
-        const res = await api.getUser()
-        const { id, name, avatar, role } = res.data
-        this.userInfo = { id, name, avatar, role }
+        // const res = await api.getUser()
+        const id = lStorage.get('playgoerId')
+        const res = await api.getUser(id)
+        console.log('getUserInfo', res)
+        const { playgoerId, playgoerName, playgoerAvatar, role } = res.data
+        //设置权限为null
+        this.userInfo = { playgoerId, playgoerName, playgoerAvatar, role }
         return Promise.resolve(res.data)
       } catch (error) {
         return Promise.reject(error)
